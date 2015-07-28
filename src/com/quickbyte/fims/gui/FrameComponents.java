@@ -40,19 +40,20 @@ public class FrameComponents extends JFrame{
                            //titlebarIcon = new ImageIcon(getClass().getResource("/AppImages/icon.png")),
                            //iconImage = new ImageIcon(getClass().getResource("/AppImages/sideicon.png"));
     
-    public final Color themeColor1 = new Color(204, 204, 204),
-                       themeColor2 = new Color(0, 51, 102),
-                       themeColor3 = new Color(204, 204, 153),
-                       themeColor4 = new Color(255, 255, 255);
+    public final Color themeColor1 = new Color(204, 204, 204, 65),
+                       themeColor2 = new Color(0, 51, 102, 65),
+                       themeColor3 = new Color(204, 204, 153, 65),
+                       themeColor4 = new Color(255, 255, 255, 65);
     
     public void FrameComponents(){
         
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             setTitle("QuickByte Software - Student Management System");
+                setExtendedState(JFrame.MAXIMIZED_BOTH);
                 //setIconImage(titlebarIcon.getImage());
                     getContentPane().setBackground(Color.WHITE);
                         setLocationRelativeTo(null);
-                            setResizable(false);
+                            //setResizable(false);
                                 setVisible(true); 
                                 
                                 

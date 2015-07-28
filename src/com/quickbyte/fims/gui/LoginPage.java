@@ -21,6 +21,8 @@ Edited by:
 
 package com.quickbyte.fims.gui;
 
+import aurelienribon.slidinglayout.SLAnimator;
+import aurelienribon.tweenengine.Tween;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.logging.*;
@@ -88,6 +90,9 @@ public class LoginPage extends FrameComponents{
                         JOptionPane.showMessageDialog(null, "Login Success!");
                         dispose();
                         //setVisible(false);
+                        Tween.registerAccessor(PanelComponents.class, new PanelComponents.Accessor());
+                        SLAnimator.start();
+
                         SystemFrame runSystem = new SystemFrame();
                         
                     
