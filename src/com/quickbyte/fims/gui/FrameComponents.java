@@ -36,7 +36,7 @@ public class FrameComponents extends JFrame{
     public final Font headerFont = new Font("Consolas", Font.PLAIN, 30),
                       componentFont = new Font("Consolas", Font.PLAIN, 15);
     
-    public final ImageIcon logoImage = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/qblogo.png"));
+    public final ImageIcon logoImage = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/test.png"));
                            //titlebarIcon = new ImageIcon(getClass().getResource("/AppImages/icon.png")),
                            //iconImage = new ImageIcon(getClass().getResource("/AppImages/sideicon.png"));
     
@@ -49,7 +49,7 @@ public class FrameComponents extends JFrame{
         
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             setTitle("QuickByte Software - Student Management System");
-                setExtendedState(JFrame.MAXIMIZED_BOTH);
+                setExtendedState(super.MAXIMIZED_BOTH);
                 //setIconImage(titlebarIcon.getImage());
                     getContentPane().setBackground(Color.WHITE);
                         setLocationRelativeTo(null);

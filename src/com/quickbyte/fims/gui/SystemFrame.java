@@ -25,6 +25,7 @@ import aurelienribon.slidinglayout.SLConfig;
 import aurelienribon.slidinglayout.SLKeyframe;
 import aurelienribon.slidinglayout.SLPanel;
 import aurelienribon.slidinglayout.SLSide;
+import aurelienribon.tweenengine.Tween;
 import java.awt.*;
 import javax.swing.*;
 
@@ -32,20 +33,22 @@ import javax.swing.*;
 
 public class SystemFrame extends FrameComponents{
 	private final SLPanel panel = new SLPanel();
-	private final PanelComponents p1 = new PanelComponents("1", "data/img1.jpg");
-	private final PanelComponents p2 = new PanelComponents("2", "data/img2.jpg");
-	private final PanelComponents p3 = new PanelComponents("3", "data/img3.jpg");
-	private final PanelComponents p4 = new PanelComponents("4", "data/img4.jpg");
-	private final PanelComponents p5 = new PanelComponents("5", "data/img5.jpg");
+	private final PanelComponents p1 = new PanelComponents();
+	private final PanelComponents p2 = new PanelComponents();
+	private final PanelComponents p3 = new PanelComponents();
+	private final PanelComponents p4 = new PanelComponents();
+	private final PanelComponents p5 = new PanelComponents();
 	private final SLConfig mainCfg, p1Cfg, p2Cfg, p3Cfg, p4Cfg, p5Cfg;
 
 	public SystemFrame() {
-		
+                
             FrameComponents();
+                add(new JLabel("Header"), BorderLayout.NORTH);
 		add(panel, BorderLayout.CENTER);
+                add(new JLabel("Footer"), BorderLayout.SOUTH);
                 
 
-		p1.setAction(p1Action);
+		
 		p2.setAction(p2Action);
 		p3.setAction(p3Action);
 		p4.setAction(p4Action);
@@ -130,7 +133,7 @@ public class SystemFrame extends FrameComponents{
 		p5.enableAction();
 	}
 
-	private final Runnable p1Action = new Runnable() {@Override public void run() {
+	/*private final Runnable p1Action = new Runnable() {@Override public void run() {
 		disableActions();
 
 		panel.createTransition()
@@ -154,7 +157,7 @@ public class SystemFrame extends FrameComponents{
 					enableActions();
 				}}))
 			.play();
-	}};
+	}};*/
 
 	private final Runnable p2Action = new Runnable() {@Override public void run() {
 		disableActions();
@@ -162,7 +165,7 @@ public class SystemFrame extends FrameComponents{
 		panel.createTransition()
 			.push(new SLKeyframe(p2Cfg, 0.6f)
 				.setEndSide(SLSide.BOTTOM, p4)
-				.setDelay(0.6f, p2)
+				.setDelay(0.1f, p2)
 				.setCallback(new SLKeyframe.Callback() {@Override public void done() {
 					p2.setAction(p2BackAction);
 					p2.enableAction();
@@ -176,7 +179,7 @@ public class SystemFrame extends FrameComponents{
 		panel.createTransition()
 			.push(new SLKeyframe(mainCfg, 0.6f)
 				.setStartSide(SLSide.BOTTOM, p4)
-				.setDelay(0.6f, p4)
+				.setDelay(0.1f, p4)
 				.setCallback(new SLKeyframe.Callback() {@Override public void done() {
 					p2.setAction(p2Action);
 					enableActions();

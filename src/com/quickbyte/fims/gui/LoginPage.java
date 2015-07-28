@@ -62,6 +62,7 @@ public class LoginPage extends FrameComponents{
     private void initComponents(){
         
         usernameLabel = new JLabel("Username: ");
+        usernameLabel.setIcon(logoImage);
         LabelProperties(usernameLabel);
         
         passwordLabel = new JLabel("Password");

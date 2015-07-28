@@ -7,6 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -14,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.border.EmptyBorder;
 
 
 /**
@@ -28,25 +31,24 @@ public class PanelComponents extends JPanel {
 	private Runnable action;
 	private boolean actionEnabled = true;
 	private boolean hover = false;
-	private int borderThickness = 2;
-
-	public PanelComponents(String name, String imgPath) {
+	private int borderThickness = 1;
+        private FrameComponents guiComponent = new FrameComponents();
+	public PanelComponents() {
 		//setBackground(BG_COLOR);
 		setLayout(new BorderLayout());
+                setBackground(guiComponent.themeColor4);
+                //setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		//label.setForeground(FG_COLOR);
+		label.setForeground(guiComponent.themeColor4);
 		label.setFont(new Font("Sans", Font.BOLD, 90));
 		label.setVerticalAlignment(SwingConstants.CENTER);
 		label.setHorizontalAlignment(SwingConstants.CENTER);
-		label.setText(name);
+		//label.setText(panelName);
+                
 
-		try {
-			bgImg = ImageIO.read(new File(imgPath));
-		} catch (IOException ex) {
-			System.err.println("[error] cannot read image path '" + imgPath + "'");
-			//add(label, BorderLayout.CENTER);
-                        add(new JLabel("Test"), BorderLayout.CENTER);
-		}
+		
+                        //add(label, BorderLayout.CENTER);
+		
 
 		addMouseListener(new MouseAdapter() {
 			@Override
@@ -84,11 +86,11 @@ public class PanelComponents extends JPanel {
 
 	private void hideBorder() {
 		tweenManager.killTarget(borderThickness);
-		Tween.to(PanelComponents.this, Accessor.BORDER_THICKNESS, 0.4f)
+		Tween.to(PanelComponents.this, Accessor.BORDER_THICKNESS, 0f)
 			.target(2)
 			.start(tweenManager);
 	}
-        /*
+        
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -121,7 +123,7 @@ public class PanelComponents extends JPanel {
 		gg.fillRect(w-1-t, 0, t, h-1);
 	}
 
-        */
+        
 	public static class Accessor extends SLAnimator.ComponentAccessor {
 		public static final int BORDER_THICKNESS = 100;
 
