@@ -10,41 +10,35 @@ import javax.swing.*;
 
 public class PanelComponents extends JPanel{
 
-        private JLabel label = new JLabel();
 	private static final TweenManager tweenManager = SLAnimator.createTweenManager();
-        private FrameComponents guiComp = new FrameComponents();
+        private final FrameComponents guiComp = new FrameComponents();
 	private Runnable action;
 	private boolean actionEnabled = true;
-        private boolean panelVisibility;
-        FrameComponents x = new FrameComponents();
-        private JButton searchButton,
+
+        private JButton logoutButton,
                         addButton,
                         optionsButton,
                         helpButton,
                         qbAdminButton;
 
-        
-	public PanelComponents(String labelText){
-        
-                panelVisibility = false;
-                //setVisible(panelVisibility);
-                //setMinimumSize(getSize());
-                //setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
-                label.setText(labelText);
 
-		add(label, BorderLayout.CENTER);
+	public PanelComponents(JPanel panel){
+            
+                setLayout(new GridLayout(1,1));
+                panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+		add(panel);
 
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				if (actionEnabled) setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.black));//showBorder();
+				if (actionEnabled) setBorder(BorderFactory.createLineBorder(Color.black));//showBorder();
                                 
                            
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.black));//hideBorder();
+				setBorder(null);//hideBorder();
                                 
 			}
 
@@ -59,10 +53,10 @@ public class PanelComponents extends JPanel{
 
         
             
-                searchButton = new JButton();
-                searchButton.setIcon(x.searchIcon);
-                guiComp.ButtonProperties(searchButton, "Search");
-                searchButton.addActionListener(new ActionListener(){
+                logoutButton = new JButton();
+                logoutButton.setIcon(guiComp.logoutIcon);
+                guiComp.ButtonProperties(logoutButton, "Logout");
+                logoutButton.addActionListener(new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent e){
                         
@@ -72,26 +66,36 @@ public class PanelComponents extends JPanel{
                 });
                 
                 addButton = new JButton();
-                addButton.setIcon(x.addUserIcon);
+                addButton.setIcon(guiComp.addUserIcon);
                 guiComp.ButtonProperties(addButton, "Add Student");
+                addButton.addActionListener(new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent e){
+                        
+
+                        
+                        
+                    }
+                    
+                });
                 
                 optionsButton = new JButton();
-                optionsButton.setIcon(x.optionsIcon);
+                optionsButton.setIcon(guiComp.optionsIcon);
                 guiComp.ButtonProperties(optionsButton, "Options");
                 
                 helpButton = new JButton();
-                helpButton.setIcon(x.helpIcon);
+                helpButton.setIcon(guiComp.helpIcon);
                 guiComp.ButtonProperties(helpButton, "Help");
                 
                 qbAdminButton = new JButton();
-                qbAdminButton.setIcon(x.qbAdminIcon);
+                qbAdminButton.setIcon(guiComp.qbAdminIcon);
                 guiComp.ButtonProperties(qbAdminButton, "QB Admin");
                 
                 setLayout(new GridLayout(5, 1 ,5, 5));
                 setOpaque(false);
                 //setBorder(BorderFactory.createMatteBorder(0, 5, 5, 5, Color.black));
                 
-                add(searchButton);
+                add(logoutButton);
                 add(addButton);
                 add(optionsButton);
                 add(helpButton);

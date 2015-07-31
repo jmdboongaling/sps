@@ -27,25 +27,34 @@ import aurelienribon.slidinglayout.SLConfig;
 import aurelienribon.slidinglayout.SLKeyframe;
 import aurelienribon.slidinglayout.SLPanel;
 import aurelienribon.slidinglayout.SLSide;
-import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.*;
 import javax.swing.*;
 
 
 public class SystemFrame extends FrameComponents{
     
-
+        private final SearchPanel sPanel = new SearchPanel();
 	private final SLPanel panel = new SLPanel();
 	private final PanelComponents controlPanel = new PanelComponents();
-	private final PanelComponents searchPanel = new PanelComponents("Search Panel");
-	private final PanelComponents displayPanel = new PanelComponents("Display Panel");
+	private final PanelComponents searchPanel = new PanelComponents(sPanel.containerPanel);
+	private final PanelComponents displayPanel = new PanelComponents(new JPanel());
 	private final SLConfig mainCfg, controlPanelCfg, searchPanelCfg, displayPanelCfg;
-        
+        private JLabel timeLabel;
 
 	public SystemFrame() {
   
             FrameComponents();
-
+            timeLabel = new JLabel();
+            LabelProperties(timeLabel);
+            timeLabel.setVerticalTextPosition(SwingConstants.CENTER);
+            DateTimeProperties(timeLabel);
+            
+            JPanel b = new JPanel(new GridBagLayout());
+            b.setOpaque(false);
+            b.add(timeLabel);
+            
+            
+            add(b, BorderLayout.NORTH);
             add(panel, BorderLayout.CENTER);
   
 

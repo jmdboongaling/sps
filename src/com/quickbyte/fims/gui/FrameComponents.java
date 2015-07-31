@@ -36,6 +36,7 @@ public class FrameComponents extends JFrame{
                       componentFont = new Font("Verdana", Font.PLAIN, 15);
     
     public final ImageIcon searchIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/search_icon.png")),
+                           logoutIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/logout_icon.png")),
                            addUserIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/add_icon.png")),
                            optionsIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/settings_icon.png")),
                            helpIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/help_icon.png")),
@@ -43,7 +44,7 @@ public class FrameComponents extends JFrame{
     
     public final Color themeColor1 = new Color(51, 102, 153),
                        themeColor2 = new Color(255, 153, 0),
-                       themeColor3 = new Color(182, 192, 210),
+                       themeColor3 = new Color(235, 244, 250),
                        themeColor4 = new Color(255, 255, 255);
     
     public void FrameComponents(){
@@ -127,7 +128,7 @@ public class FrameComponents extends JFrame{
         return button;
     }
     
-    public JLabel DateTimeProperties(final JLabel timeLabel){
+    public JLabel DateTimeProperties(JLabel timeLabel){
         
         final DateFormat timeFormat = new SimpleDateFormat("hh:mm:ssa MM-dd-yyyy");
         ActionListener timerListener = new ActionListener(){
