@@ -22,8 +22,7 @@ Edited by: Joshua Myron Deidre D. Boongaling
 package com.quickbyte.fims.gui;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,26 +33,27 @@ import javax.swing.*;
 public class FrameComponents extends JFrame{
     
     public final Font headerFont = new Font("Consolas", Font.PLAIN, 30),
-                      componentFont = new Font("Consolas", Font.PLAIN, 15);
+                      componentFont = new Font("Verdana", Font.PLAIN, 15);
     
-    public final ImageIcon logoImage = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/test.png"));
-                           //titlebarIcon = new ImageIcon(getClass().getResource("/AppImages/icon.png")),
-                           //iconImage = new ImageIcon(getClass().getResource("/AppImages/sideicon.png"));
+    public final ImageIcon searchIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/search_icon.png")),
+                           addUserIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/add_icon.png")),
+                           optionsIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/settings_icon.png")),
+                           helpIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/help_icon.png")),
+                           qbAdminIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/admin_icon.png"));
     
-    public final Color themeColor1 = new Color(204, 204, 204, 65),
-                       themeColor2 = new Color(0, 51, 102, 65),
-                       themeColor3 = new Color(204, 204, 153, 65),
-                       themeColor4 = new Color(255, 255, 255, 65);
+    public final Color themeColor1 = new Color(51, 102, 153),
+                       themeColor2 = new Color(255, 153, 0),
+                       themeColor3 = new Color(182, 192, 210),
+                       themeColor4 = new Color(255, 255, 255);
     
     public void FrameComponents(){
         
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            setTitle("QuickByte Software - Student Management System");
-                setExtendedState(super.MAXIMIZED_BOTH);
-                //setIconImage(titlebarIcon.getImage());
-                    getContentPane().setBackground(Color.WHITE);
+            setTitle("QuickByte Software - Student Profiling System");
+                setSize(getMaximumSize());
+                    getContentPane().setBackground(themeColor4);
                         setLocationRelativeTo(null);
-                            //setResizable(false);
+                            setResizable(false);
                                 setVisible(true); 
                                 
                                 
@@ -71,10 +71,59 @@ public class FrameComponents extends JFrame{
         
         
         button.setFont(componentFont);
-        button.setBorderPainted(true);
+        button.setBorderPainted(false);
         button.setFocusPainted(false);
-        button.setBackground(themeColor2);
+        button.setBackground(themeColor1);
         button.setForeground(themeColor4);
+        button.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent e){
+				
+                button.setBackground(themeColor2);
+                button.setForeground(Color.BLACK);
+                           
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                
+                button.setBackground(themeColor1); 
+                button.setForeground(themeColor4);
+                            
+            }
+        });
+        return button;
+    }
+    
+    public JButton ButtonProperties(JButton button, String buttonText){
+        
+        
+        button.setFont(componentFont);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+        button.setBackground(themeColor1);
+        button.setForeground(themeColor4);
+        button.setVerticalTextPosition(SwingConstants.BOTTOM);
+        button.setHorizontalTextPosition(SwingConstants.CENTER);
+        button.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseEntered(MouseEvent e){
+				
+                button.setBackground(themeColor2);
+                button.setForeground(Color.BLACK);
+                button.setText(buttonText);
+                           
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                
+                button.setBackground(themeColor1); 
+                button.setForeground(themeColor4);
+                button.setText("");
+                            
+            }
+        });
         return button;
     }
     

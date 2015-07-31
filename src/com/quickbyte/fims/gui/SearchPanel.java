@@ -9,6 +9,6 @@ package com.quickbyte.fims.gui;
  *
  * @author DELL-PC
  */
-public class TimePanel {
+public class SearchPanel {
     
 }

@@ -62,7 +62,7 @@ public class LoginPage extends FrameComponents{
     private void initComponents(){
         
         usernameLabel = new JLabel("Username: ");
-        usernameLabel.setIcon(logoImage);
+        //usernameLabel.setIcon(logoImage);
         LabelProperties(usernameLabel);
         
         passwordLabel = new JLabel("Password");
@@ -71,6 +71,45 @@ public class LoginPage extends FrameComponents{
         usernameField = new JTextField(22);
         
         passwordField = new JPasswordField(22);
+        passwordField.addActionListener(new ActionListener(){
+ 
+            public void actionPerformed(ActionEvent e){
+                
+                String getUsername = usernameField.getText(),
+                       getPassword = passwordField.getText();
+                
+                
+   
+                try {
+                    LoginAuthentication run = new LoginAuthentication(getUsername, getPassword);
+                    
+                    if(run.loginSuccess == true){
+                    
+                        JOptionPane.showMessageDialog(null, "Login Success!");
+                        dispose();
+                        //setVisible(false);
+                        Tween.registerAccessor(PanelComponents.class, new PanelComponents.Accessor());
+                        SLAnimator.start();
+
+                        SystemFrame runSystem = new SystemFrame();
+                        
+                    
+                    }
+                    
+                    else{
+                    
+                        JOptionPane.showMessageDialog(null, "Invalid Login Information!");
+                    
+                    }
+                    
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                    
+
+            }
+            
+        });
         
         loginButton = new JButton("Login");
         ButtonProperties(loginButton);
@@ -154,7 +193,7 @@ public class LoginPage extends FrameComponents{
         FrameComponents();
         
         setSize(400, 400);
-        //setResizable(false);
+        setLocationRelativeTo(null);
         //getContentPane().setBackground(themeColor2);
         setLayout(new FlowLayout());
         
