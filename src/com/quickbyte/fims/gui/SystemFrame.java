@@ -39,24 +39,21 @@ public class SystemFrame extends FrameComponents{
 	private final PanelComponents searchPanel = new PanelComponents(sPanel.containerPanel);
 	private final PanelComponents displayPanel = new PanelComponents(new JPanel());
 	private final SLConfig mainCfg, controlPanelCfg, searchPanelCfg, displayPanelCfg;
-        private JLabel timeLabel;
+  
 
 	public SystemFrame() {
   
             FrameComponents();
-            timeLabel = new JLabel();
-            LabelProperties(timeLabel);
-            timeLabel.setVerticalTextPosition(SwingConstants.CENTER);
-            DateTimeProperties(timeLabel);
-            
-            JPanel b = new JPanel(new GridBagLayout());
-            b.setOpaque(false);
-            b.add(timeLabel);
-            
-            
-            add(b, BorderLayout.NORTH);
+ 
+            //panel.add(loginPageBackground);
+            //setContentPane(loginPageBackground);
+            //setLayout(new GridBagLayout());
             add(panel, BorderLayout.CENTER);
-  
+            
+            //setSize(getMaximumSize());
+            //FrameComponents();
+             //setContentPane(systemPageBackground);
+            //pack();
 
 		searchPanel.setAction(searchPanelAction);
 

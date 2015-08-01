@@ -47,10 +47,6 @@ public class LoginPage extends FrameComponents{
     private JPanel loginFieldsPanel,
                    loginButtonsPanel,
                    loginForm,
-                   fillerPanel1,
-                   fillerPanel2,
-                   fillerPanel3,
-                   fillerPanel4,
                    framePanel;
     
     public void LoginPage(){
@@ -172,7 +168,7 @@ public class LoginPage extends FrameComponents{
         
         loginForm = new JPanel();
         loginForm.setOpaque(true);
-        loginForm.setBackground(new Color(255, 255, 255, 70));
+        loginForm.setBackground(new Color(255, 255, 255, 90));
         loginForm.setBorder(new EmptyBorder(15, 15, 15, 15));
         loginForm.setLayout(new BorderLayout(5, 5));  
         loginForm.add(loginFieldsPanel, BorderLayout.CENTER);
@@ -186,19 +182,17 @@ public class LoginPage extends FrameComponents{
         framePanel.setBackground(themeColor2);
 
         framePanel.add(loginForm, BorderLayout.CENTER);
-
-
         
+
         //logoLabel = new JLabel(logoImage);
         FrameComponents();
         
-        setSize(400, 400);
-        setLocationRelativeTo(null);
-        //getContentPane().setBackground(themeColor2);
-        setLayout(new FlowLayout());
+
+        setContentPane(loginPageBackground);
+        setLayout(new GridBagLayout());
         
         add(framePanel);
-        //pack();
+        pack();
         
 
         

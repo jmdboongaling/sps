@@ -35,7 +35,9 @@ public class FrameComponents extends JFrame{
     public final Font headerFont = new Font("Consolas", Font.PLAIN, 30),
                       componentFont = new Font("Verdana", Font.PLAIN, 15);
     
-    public final ImageIcon searchIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/search_icon.png")),
+    public final ImageIcon loginBackground = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/login_background.jpg")),
+                           systemFrameBackground = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/systemframe_background.jpg")),
+                           searchIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/search_icon.png")),
                            logoutIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/logout_icon.png")),
                            addUserIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/add_icon.png")),
                            optionsIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/settings_icon.png")),
@@ -47,12 +49,16 @@ public class FrameComponents extends JFrame{
                        themeColor3 = new Color(235, 244, 250),
                        themeColor4 = new Color(255, 255, 255);
     
+    public final JLabel loginPageBackground = new JLabel(loginBackground),
+                        systemPageBackground = new JLabel(systemFrameBackground);
+    
     public void FrameComponents(){
         
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            setTitle("QuickByte Software - Student Profiling System");
+            setTitle("QuickByte Software - Student Management System");
                 setSize(getMaximumSize());
-                    getContentPane().setBackground(themeColor4);
+                    getContentPane();
+                    //setContentPane(systemPageBackground);
                         setLocationRelativeTo(null);
                             setResizable(false);
                                 setVisible(true); 
