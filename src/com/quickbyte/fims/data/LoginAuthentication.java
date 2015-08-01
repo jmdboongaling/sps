@@ -90,6 +90,18 @@ public class LoginAuthentication{
             
         }
     }
+    public LoginAuthentication(){
+        
+       
+                
+                    
+                
+         
+            
+            
+            
+   
+    }
     
 
     

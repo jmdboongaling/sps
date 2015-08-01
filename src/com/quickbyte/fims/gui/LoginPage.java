@@ -31,7 +31,9 @@ import javax.swing.border.*;
 import com.quickbyte.fims.data.LoginAuthentication;
 
 
-public class LoginPage extends FrameComponents{
+public class LoginPage{
+    
+    private JFrame loginFrame;
     
     private JLabel usernameLabel,
                    passwordLabel;
@@ -57,12 +59,18 @@ public class LoginPage extends FrameComponents{
     
     private void initComponents(){
         
+        FrameComponents guiComp = new FrameComponents(); 
+        loginFrame = new JFrame();
+        
+        
+        //new FrameComponents(loginFrame);
+        
         usernameLabel = new JLabel("Username: ");
         //usernameLabel.setIcon(logoImage);
-        LabelProperties(usernameLabel);
+        guiComp.LabelProperties(usernameLabel);
         
         passwordLabel = new JLabel("Password");
-        LabelProperties(passwordLabel);
+        guiComp.LabelProperties(passwordLabel);
         
         usernameField = new JTextField(22);
         
@@ -82,13 +90,13 @@ public class LoginPage extends FrameComponents{
                     if(run.loginSuccess == true){
                     
                         JOptionPane.showMessageDialog(null, "Login Success!");
-                        dispose();
+                        loginFrame.dispose();
                         //setVisible(false);
                         Tween.registerAccessor(PanelComponents.class, new PanelComponents.Accessor());
                         SLAnimator.start();
 
                         SystemFrame runSystem = new SystemFrame();
-                        
+                        runSystem.SystemFrame();
                     
                     }
                     
@@ -108,7 +116,7 @@ public class LoginPage extends FrameComponents{
         });
         
         loginButton = new JButton("Login");
-        ButtonProperties(loginButton);
+        guiComp.ButtonProperties(loginButton);
         loginButton.addActionListener(new ActionListener(){
  
             public void actionPerformed(ActionEvent loginButton){
@@ -124,12 +132,13 @@ public class LoginPage extends FrameComponents{
                     if(run.loginSuccess == true){
                     
                         JOptionPane.showMessageDialog(null, "Login Success!");
-                        dispose();
+                        loginFrame.dispose();
                         //setVisible(false);
                         Tween.registerAccessor(PanelComponents.class, new PanelComponents.Accessor());
                         SLAnimator.start();
 
                         SystemFrame runSystem = new SystemFrame();
+                        runSystem.SystemFrame();
                         
                     
                     }
@@ -150,7 +159,7 @@ public class LoginPage extends FrameComponents{
         });
         
         forgotButton = new JButton("Forgot Login?");
-        ButtonProperties(forgotButton);
+        guiComp.ButtonProperties(forgotButton);
              
         loginFieldsPanel = new JPanel();
         loginFieldsPanel.setOpaque(false);
@@ -179,20 +188,21 @@ public class LoginPage extends FrameComponents{
         framePanel = new JPanel();
         framePanel.setOpaque(true);
         framePanel.setLayout(new BorderLayout(5, 5));
-        framePanel.setBackground(themeColor2);
+        framePanel.setBackground(guiComp.themeColor2);
 
         framePanel.add(loginForm, BorderLayout.CENTER);
         
-
-        //logoLabel = new JLabel(logoImage);
-        FrameComponents();
+        loginFrame.setTitle("QuickByte Software - Student Management System");
+        loginFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        //setSize(getMaximumSize());
+        loginFrame.setResizable(false);
+        //loginFrame.getContentPane().setBackground(themeColor4);
+        loginFrame.setContentPane(guiComp.loginPageBackground);
+        loginFrame.setLayout(new GridBagLayout());
+        loginFrame.setVisible(true); 
         
-
-        setContentPane(loginPageBackground);
-        setLayout(new GridBagLayout());
-        
-        add(framePanel);
-        pack();
+        loginFrame.add(framePanel);
+        loginFrame.pack();
         
 
         

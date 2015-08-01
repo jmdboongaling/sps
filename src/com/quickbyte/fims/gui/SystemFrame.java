@@ -31,29 +31,31 @@ import java.awt.*;
 import javax.swing.*;
 
 
-public class SystemFrame extends FrameComponents{
-    
+public class SystemFrame{
+        
+        private JFrame systemFrame;
         private final SearchPanel sPanel = new SearchPanel();
 	private final SLPanel panel = new SLPanel();
 	private final PanelComponents controlPanel = new PanelComponents();
 	private final PanelComponents searchPanel = new PanelComponents(sPanel.containerPanel);
 	private final PanelComponents displayPanel = new PanelComponents(new JPanel());
-	private final SLConfig mainCfg, controlPanelCfg, searchPanelCfg, displayPanelCfg;
-  
-
-	public SystemFrame() {
-  
-            FrameComponents();
- 
-            //panel.add(loginPageBackground);
-            //setContentPane(loginPageBackground);
-            //setLayout(new GridBagLayout());
-            add(panel, BorderLayout.CENTER);
-            
-            //setSize(getMaximumSize());
-            //FrameComponents();
-             //setContentPane(systemPageBackground);
-            //pack();
+	private SLConfig mainCfg = null, controlPanelCfg = null, searchPanelCfg = null, displayPanelCfg = null;
+        
+       
+	public void SystemFrame(){
+            FrameComponents guiComp = new FrameComponents();
+            systemFrame = new JFrame();
+            //FrameComponents x = new FrameComponents(systemFrame);
+            systemFrame.setTitle("QuickByte Software - Student Management System");
+            systemFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            systemFrame.setSize(systemFrame.getMaximumSize());
+            systemFrame.setResizable(false);
+            //systemFrame.getContentPane().setBackground(themeColor4);
+            //systemFrame.setContentPane(guiComp.loginPageBackground);
+            //systemFrame.setLayout(new GridBagLayout());
+            systemFrame.setVisible(true); 
+            systemFrame.add(panel, BorderLayout.CENTER);
+            //dispose();
 
 		searchPanel.setAction(searchPanelAction);
 
@@ -96,6 +98,7 @@ public class SystemFrame extends FrameComponents{
 		panel.setTweenManager(SLAnimator.createTweenManager());
 		panel.initialize(mainCfg);
 	}
+     
 
 	private void disableActions() {
 		controlPanel.disableAction();

@@ -23,10 +23,10 @@ package com.quickbyte.fims.gui;
 
 
 
-public class Start extends FrameComponents{
+public class Start{
 
     public static void main(String[] args) {
-       LoginPage run = new LoginPage();
+       LoginPage run =new LoginPage();
        run.LoginPage();
     }
     

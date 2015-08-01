@@ -1,10 +1,13 @@
 package com.quickbyte.fims.gui;
 
+
 import aurelienribon.slidinglayout.SLAnimator;
 import aurelienribon.tweenengine.TweenManager;
+import com.quickbyte.fims.data.LoginAuthentication;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import static javax.swing.JOptionPane.YES_NO_OPTION;
 
 
 
@@ -12,9 +15,10 @@ public class PanelComponents extends JPanel{
 
 	private static final TweenManager tweenManager = SLAnimator.createTweenManager();
         private final FrameComponents guiComp = new FrameComponents();
+        //SystemFrame sF = new SystemFrame();
 	private Runnable action;
 	private boolean actionEnabled = true;
-
+        
         private JButton logoutButton,
                         addButton,
                         optionsButton,
@@ -51,7 +55,7 @@ public class PanelComponents extends JPanel{
 	}
         public PanelComponents(){
 
-        
+                //SystemFrame sF = new SystemFrame();
             
                 logoutButton = new JButton();
                 logoutButton.setIcon(guiComp.logoutIcon);
@@ -59,7 +63,17 @@ public class PanelComponents extends JPanel{
                 logoutButton.addActionListener(new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent e){
+                        LoginAuthentication x = new LoginAuthentication();
                         
+                        
+                        //new SystemFrame().disposeFrame();
+                                
+                        
+                        //SystemFrame y = new SystemFrame(1);
+                       
+                        //x.loginSuccess = false;
+                        //sF.systemFrame.hide();
+                        //new LoginPage();
                         
                     }
                     

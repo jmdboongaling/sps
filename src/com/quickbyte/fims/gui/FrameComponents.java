@@ -51,21 +51,19 @@ public class FrameComponents extends JFrame{
     
     public final JLabel loginPageBackground = new JLabel(loginBackground),
                         systemPageBackground = new JLabel(systemFrameBackground);
+                        
+                        
     
-    public void FrameComponents(){
-        
+    /*public FrameComponents(JFrame frame){
+
+        setTitle("QuickByte Software - Student Management System");
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            setTitle("QuickByte Software - Student Management System");
-                setSize(getMaximumSize());
-                    getContentPane();
-                    //setContentPane(systemPageBackground);
-                        setLocationRelativeTo(null);
-                            setResizable(false);
-                                setVisible(true); 
-                                
-                                
-        
-    }
+        //setSize(getMaximumSize());
+        setResizable(false);
+        getContentPane().setBackground(themeColor4);
+        setVisible(true); 
+                                                              
+    }*/
     
     public JLabel LabelProperties(JLabel label){
 
