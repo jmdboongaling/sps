@@ -15,7 +15,7 @@
 |_____/ \___/ \__,_|_|  \___\___|
 
 Author: Joshua Myron Deidre D. Boongaling
-Last Edit: 5-30-2015
+Last Edit: 8-02-2015
 Edited by: Joshua Myron Deidre D. Boongaling
 */
 
@@ -33,7 +33,7 @@ import javax.swing.*;
 public class FrameComponents extends JFrame{
     
     public final Font headerFont = new Font("Consolas", Font.PLAIN, 30),
-                      componentFont = new Font("Verdana", Font.PLAIN, 15);
+                      componentFont = new Font("Verdana", Font.PLAIN, 12);
     
     public final ImageIcon loginBackground = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/login_background.jpg")),
                            systemFrameBackground = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/systemframe_background.jpg")),
@@ -42,7 +42,8 @@ public class FrameComponents extends JFrame{
                            addUserIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/add_icon.png")),
                            optionsIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/settings_icon.png")),
                            helpIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/help_icon.png")),
-                           qbAdminIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/admin_icon.png"));
+                           qbAdminIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/admin_icon.png")),
+                           addPageBanner = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/add_banner.jpg"));;
     
     public final Color themeColor1 = new Color(51, 102, 153),
                        themeColor2 = new Color(255, 153, 0),
@@ -67,9 +68,16 @@ public class FrameComponents extends JFrame{
     
     public JLabel LabelProperties(JLabel label){
 
-        label.setFont(componentFont);
+        label.setFont(new Font("Verdana", Font.BOLD, 12));
         
         return label;
+    }
+    
+    public JTextField TextFieldProperties(JTextField textfield){
+
+        textfield.setFont(componentFont);
+        
+        return textfield;
     }
     
     public JButton ButtonProperties(JButton button){

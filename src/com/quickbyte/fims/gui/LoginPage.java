@@ -15,8 +15,8 @@
 |_____/ \___/ \__,_|_|  \___\___|
 
 Author: Joshua Myron Deidre D. Boongaling
-Last Edit: 
-Edited by: 
+Last Edit: 8-02-2015 
+Edited by: Joshua Myron Deidre D. Boongaling
 */
 
 package com.quickbyte.fims.gui;
@@ -62,11 +62,7 @@ public class LoginPage{
         FrameComponents guiComp = new FrameComponents(); 
         loginFrame = new JFrame();
         
-        
-        //new FrameComponents(loginFrame);
-        
         usernameLabel = new JLabel("Username: ");
-        //usernameLabel.setIcon(logoImage);
         guiComp.LabelProperties(usernameLabel);
         
         passwordLabel = new JLabel("Password");
@@ -82,8 +78,6 @@ public class LoginPage{
                 String getUsername = usernameField.getText(),
                        getPassword = passwordField.getText();
                 
-                
-   
                 try {
                     LoginAuthentication run = new LoginAuthentication(getUsername, getPassword);
                     
@@ -91,13 +85,13 @@ public class LoginPage{
                     
                         JOptionPane.showMessageDialog(null, "Login Success!");
                         loginFrame.dispose();
-                        //setVisible(false);
+                        
                         Tween.registerAccessor(PanelComponents.class, new PanelComponents.Accessor());
                         SLAnimator.start();
-
+                        
                         SystemFrame runSystem = new SystemFrame();
                         runSystem.SystemFrame();
-                    
+
                     }
                     
                     else{
@@ -119,13 +113,11 @@ public class LoginPage{
         guiComp.ButtonProperties(loginButton);
         loginButton.addActionListener(new ActionListener(){
  
-            public void actionPerformed(ActionEvent loginButton){
+            public void actionPerformed(ActionEvent e){
                 
                 String getUsername = usernameField.getText(),
                        getPassword = passwordField.getText();
                 
-                
-   
                 try {
                     LoginAuthentication run = new LoginAuthentication(getUsername, getPassword);
                     
@@ -133,14 +125,13 @@ public class LoginPage{
                     
                         JOptionPane.showMessageDialog(null, "Login Success!");
                         loginFrame.dispose();
-                        //setVisible(false);
+                        
                         Tween.registerAccessor(PanelComponents.class, new PanelComponents.Accessor());
                         SLAnimator.start();
-
+                        
                         SystemFrame runSystem = new SystemFrame();
                         runSystem.SystemFrame();
-                        
-                    
+
                     }
                     
                     else{
@@ -177,7 +168,7 @@ public class LoginPage{
         
         loginForm = new JPanel();
         loginForm.setOpaque(true);
-        loginForm.setBackground(new Color(255, 255, 255, 90));
+        loginForm.setBackground(new Color(255, 255, 255, 200));
         loginForm.setBorder(new EmptyBorder(15, 15, 15, 15));
         loginForm.setLayout(new BorderLayout(5, 5));  
         loginForm.add(loginFieldsPanel, BorderLayout.CENTER);
@@ -199,10 +190,13 @@ public class LoginPage{
         //loginFrame.getContentPane().setBackground(themeColor4);
         loginFrame.setContentPane(guiComp.loginPageBackground);
         loginFrame.setLayout(new GridBagLayout());
-        loginFrame.setVisible(true); 
+        loginFrame.setLocationRelativeTo(null);
+        
         
         loginFrame.add(framePanel);
         loginFrame.pack();
+        loginFrame.setVisible(true); 
+        //System.out.println(loginFrame.getSize());
         
 
         

@@ -15,9 +15,10 @@
 |_____/ \___/ \__,_|_|  \___\___|
 
 Author: Joshua Myron Deidre D. Boongaling
-Last Edit: 
-Edited by: 
+Last Edit: 8-02-2015 
+Edited by: Joshua Myron Deidre D. Boongaling
 */
+
 package com.quickbyte.fims.gui;
 
 
@@ -33,122 +34,92 @@ import javax.swing.*;
 
 public class SystemFrame{
         
-        private JFrame systemFrame;
-        private final SearchPanel sPanel = new SearchPanel();
+        public static JFrame systemFrame;
 	private final SLPanel panel = new SLPanel();
-	private final PanelComponents controlPanel = new PanelComponents();
-	private final PanelComponents searchPanel = new PanelComponents(sPanel.containerPanel);
-	private final PanelComponents displayPanel = new PanelComponents(new JPanel());
-	private SLConfig mainCfg = null, controlPanelCfg = null, searchPanelCfg = null, displayPanelCfg = null;
+	private final PanelComponents controlPanel = new PanelComponents(new ControlPanel().controlPanel),
+                                      searchPanel = new PanelComponents(new SearchPanel().containerPanel),
+                                      displayPanel = new PanelComponents(new JPanel());
+	private SLConfig mainCfg = null, 
+                         searchPanelCfg = null,
+                         displayPanelCfg = null;
+
+        
         
        
 	public void SystemFrame(){
-            FrameComponents guiComp = new FrameComponents();
+            
             systemFrame = new JFrame();
-            //FrameComponents x = new FrameComponents(systemFrame);
             systemFrame.setTitle("QuickByte Software - Student Management System");
             systemFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             systemFrame.setSize(systemFrame.getMaximumSize());
-            systemFrame.setResizable(false);
-            //systemFrame.getContentPane().setBackground(themeColor4);
-            //systemFrame.setContentPane(guiComp.loginPageBackground);
-            //systemFrame.setLayout(new GridBagLayout());
+            //systemFrame.setSize(systemFrame.getMaximumSize());
+            //systemFrame.setResizable(false);
+            systemFrame.getContentPane().setBackground(Color.WHITE);
+            //systemFrame.setLocatio
             systemFrame.setVisible(true); 
             systemFrame.add(panel, BorderLayout.CENTER);
-            //dispose();
 
-		searchPanel.setAction(searchPanelAction);
 
-		displayPanel.setAction(displayPanelAction);
+            searchPanel.setAction(searchPanelAction);
 
-		mainCfg = new SLConfig(panel)
-			.gap(10, 10)
-			.row(1f).col(150).col(1f).col(2f)
-			.beginGrid(0, 0)
-				.row(2f).col(1f)
-				.place(0, 0, controlPanel)
-			.endGrid()
-			.beginGrid(0, 1)
-				.row(3f).col(1f)
-				.place(0, 0, searchPanel)
-			.endGrid()
-			.place(0, 2, displayPanel);
+            displayPanel.setAction(displayPanelAction);
 
-		controlPanelCfg = new SLConfig(panel)
-			.gap(10, 10)
-			.row(1f).col(150).col(1f).col(2f)
-			.place(0, 0, controlPanel)
-			.beginGrid(0, 1)
-				.row(1f).row(2f).col(1f)
-				.place(0, 1, searchPanel)
-			.endGrid()
-			.place(0, 2, displayPanel);	
+            mainCfg = new SLConfig(panel)
+		.gap(10, 10)
+		.row(1f).col(150).col(1f).col(2f)
+		.beginGrid(0, 0)
+		.row(2f).col(1f)
+		.place(0, 0, controlPanel)
+		.endGrid()
+		.beginGrid(0, 1)
+		.row(3f).col(1f)
+		.place(0, 0, searchPanel)
+		.endGrid()
+		.place(0, 2, displayPanel);
 
-		searchPanelCfg = new SLConfig(panel)
-			.gap(10, 10)
-			.row(1f).col(2f).col(1f)
-			.place(0, 0, searchPanel)
-			.place(0, 1, displayPanel);
 
-		displayPanelCfg = new SLConfig(panel)
-			.gap(10, 10)
-			.row(1f).col(1f)
-			.place(0, 0, displayPanel);
+            searchPanelCfg = new SLConfig(panel)
+		.gap(10, 10)
+		.row(1f).col(2f).col(1f)
+		.place(0, 0, searchPanel)
+		.place(0, 1, displayPanel);
 
-		panel.setTweenManager(SLAnimator.createTweenManager());
-		panel.initialize(mainCfg);
+            displayPanelCfg = new SLConfig(panel)
+		.gap(10, 10)
+		.row(1f).col(1f)
+		.place(0, 0, displayPanel);
+
+            panel.setTweenManager(SLAnimator.createTweenManager());
+            panel.initialize(mainCfg);
 	}
-     
+        
+
 
 	private void disableActions() {
-		controlPanel.disableAction();
-		searchPanel.disableAction();
-		displayPanel.disableAction();
+
+            searchPanel.disableAction();
+            displayPanel.disableAction();
+            
 	}
 
 	private void enableActions() {
-		controlPanel.enableAction();
-		searchPanel.enableAction();
-		displayPanel.enableAction();
+
+            searchPanel.enableAction();
+            displayPanel.enableAction();
+            
 	}
 
-	private final Runnable controlPanelAction = new Runnable() {@Override public void run() {
-		disableActions();
-
-		panel.createTransition()
-			.push(new SLKeyframe(controlPanelCfg, 0.6f)
-				.setEndSide(SLSide.BOTTOM, searchPanel)
-				.setCallback(new SLKeyframe.Callback() {@Override public void done() {
-					controlPanel.setAction(controlPanelBackAction);
-					controlPanel.enableAction();
-				}}))
-			.play();
-	}};
-
-	private final Runnable controlPanelBackAction = new Runnable() {@Override public void run() {
-		disableActions();
-
-		panel.createTransition()
-			.push(new SLKeyframe(mainCfg, 0.6f)
-				.setStartSide(SLSide.BOTTOM, searchPanel)
-				.setCallback(new SLKeyframe.Callback() {@Override public void done() {
-					controlPanel.setAction(controlPanelAction);
-					enableActions();
-				}}))
-			.play();
-	}};
-        
 	private final Runnable searchPanelAction = new Runnable() {@Override public void run() {
-		disableActions();
+            disableActions();
 
-		panel.createTransition()
-			.push(new SLKeyframe(searchPanelCfg, 0.5f)
-				.setEndSide(SLSide.LEFT, controlPanel)
-				.setCallback(new SLKeyframe.Callback() {@Override public void done() {
-					searchPanel.setAction(searchPanelBackAction);
-					searchPanel.enableAction();
-				}}))
-			.play();
+            panel.createTransition()
+		.push(new SLKeyframe(searchPanelCfg, 0.5f)
+		.setEndSide(SLSide.LEFT, controlPanel)
+		.setCallback(new SLKeyframe.Callback() {@Override public void done() {
+                    searchPanel.setAction(searchPanelBackAction);
+                    searchPanel.enableAction();
+	}}))
+            .play();
 	}};
 
 	private final Runnable searchPanelBackAction = new Runnable() {@Override public void run() {
