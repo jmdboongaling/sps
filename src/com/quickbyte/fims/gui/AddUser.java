@@ -29,26 +29,26 @@ public class AddUser{
     
     public static JFrame addUserFrame = new JFrame("QuickByte Software - Add Record");
     private final CardLayout cardLayout = new CardLayout();
-    private final JPanel infoPanel1 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel2 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel3 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel4 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel5 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel6 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel7 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel8 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel9 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel10 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel11 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel12 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel13 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel14 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel15 = new JPanel(new FlowLayout(FlowLayout.LEFT)),   
-                         infoPanel16 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel17 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel18 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel19 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
-                         infoPanel20 = new JPanel(new FlowLayout(FlowLayout.LEFT)),
+    private final JPanel infoPanel1 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel2 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel3 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel4 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel5 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel6 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel7 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel8 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel9 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel10 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel11 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel12 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel13 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel14 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel15 = new JPanel(new FlowLayout(FlowLayout.LEADING)),   
+                         infoPanel16 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel17 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel18 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel19 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
+                         infoPanel20 = new JPanel(new FlowLayout(FlowLayout.LEADING)),
                          personalInfoPanel = new JPanel(new GridLayout(12, 1, 5, 5)),
                          familyBackgroundPanel = new JPanel(new GridLayout(11, 1, 5, 5)),
                          educationInfoPanel = new JPanel(new GridLayout(1, 1, 5, 5)),
@@ -477,7 +477,7 @@ public class AddUser{
         
         bottomPanel.add(formProgress);
         bottomPanel.add(controlBarPanel);
-        infoPanel1.add(nameLabel, FlowLayout.LEFT);
+        infoPanel1.add(nameLabel);
         infoPanel1.add(nameTextField1);
         infoPanel1.add(nameTextField2);
         infoPanel1.add(nameTextField3);
@@ -631,12 +631,13 @@ public class AddUser{
         addUserFrame.add(new JLabel(guiComp.addPageBanner), BorderLayout.NORTH);
         addUserFrame.add(displayPanel, BorderLayout.CENTER);
         addUserFrame.add(bottomPanel, BorderLayout.SOUTH);
-        addUserFrame.setAlwaysOnTop(true);
-        addUserFrame.setSize(1086, 600);
+        addUserFrame.pack();
+        
+        addUserFrame.setSize(989, 600);
         addUserFrame.setLocationRelativeTo(null);
         addUserFrame.setResizable(false);
         addUserFrame.setVisible(true);
-        //System.out.println(addUserFrame.getSize());
+       
         
     }
     

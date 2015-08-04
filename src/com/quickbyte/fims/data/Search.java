@@ -5,11 +5,17 @@
  */
 package com.quickbyte.fims.data;
 
+import com.quickbyte.fims.gui.FrameComponents;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.*;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+
 import javax.swing.table.DefaultTableModel;
 
 
@@ -26,10 +32,28 @@ public class Search {
         
          do{
              table = new JTable(buildTableModel(rs));
+             
+             
              //JOptionPane.showMessageDialog(null, new JScrollPane(table));
          }while(rs.next());
-         
-         rs.close();
+            FrameComponents guiComp = new FrameComponents();
+            table.setFont(guiComp.componentFont);
+            
+         /*
+         table.addMouseListener(new MouseAdapter() {
+                public void mouseReleased(MouseEvent e) {
+                try {
+                String y = (String) table.getModel().getValueAt(table.getSelectedRow(), table.getSelectedColumn());
+                
+                    DisplayValues b = new DisplayValues();
+                    new DisplayPanel().searchLabel.setText(b.DisplayValues(y));
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(Search.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                }
+            });
+         //rs.close();*/
         }catch(Exception e){
             String errorMessage = e.getMessage();
             JOptionPane.showMessageDialog(null, errorMessage);
@@ -82,9 +106,12 @@ public class Search {
         }
         data.add(vector);
     }
+    
 
     return new DefaultTableModel(data, columnNames);
 
 }
+    
+    
     
 }

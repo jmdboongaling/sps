@@ -106,6 +106,8 @@ public class SearchPanel{
         Search query = new Search(searchField.getText());
         resultsPanel.add(query.table);
         
+        
+        
     }
     
   
