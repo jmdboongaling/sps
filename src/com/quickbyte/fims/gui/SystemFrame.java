@@ -32,7 +32,7 @@ import java.awt.*;
 import javax.swing.*;
 
 
-public class SystemFrame{
+public class SystemFrame extends JFrame{
         
         public static JFrame systemFrame;
 	private final SLPanel panel = new SLPanel();
@@ -43,19 +43,14 @@ public class SystemFrame{
                          searchPanelCfg = null,
                          displayPanelCfg = null;
 
-        
-        
-       
+
 	public void SystemFrame(){
             
             systemFrame = new JFrame();
             systemFrame.setTitle("QuickByte Software - Student Management System");
             systemFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            systemFrame.setSize(systemFrame.getMaximumSize());
-            //systemFrame.setSize(systemFrame.getMaximumSize());
-            //systemFrame.setResizable(false);
+            systemFrame.setExtendedState(systemFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
             systemFrame.getContentPane().setBackground(Color.WHITE);
-            //systemFrame.setLocatio
             systemFrame.setVisible(true); 
             systemFrame.add(panel, BorderLayout.CENTER);
 

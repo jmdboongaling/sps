@@ -21,7 +21,7 @@ Edited by: Joshua Myron Deidre D. Boongaling
 
 package com.quickbyte.fims.gui;
 
-import com.quickbyte.fims.data.LoginAuthentication;
+import com.quickbyte.fims.data.DBConnect;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -44,11 +44,58 @@ public class ControlPanel {
         logoutButton.setIcon(guiComp.logoutIcon);
         guiComp.ButtonProperties(logoutButton, "Logout");
         logoutButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
+            public void actionPerformed(ActionEvent e){         
+                logoutButtonActionPerformed(e);     
+            }      
+        });
                 
-                //SystemFrame callSF = new SystemFrame();
-                int userChoice = JOptionPane.showConfirmDialog(null, "Are you sure you want to logout?", "QuickByte Software - Lougout", JOptionPane.YES_NO_OPTION);
+        addButton = new JButton();
+        addButton.setIcon(guiComp.addUserIcon);
+        guiComp.ButtonProperties(addButton, "Add Student");
+        addButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                addButtonActionPerformed(e);
+            }     
+        });
+                
+        optionsButton = new JButton();
+        optionsButton.setIcon(guiComp.optionsIcon);
+        guiComp.ButtonProperties(optionsButton, "Options");
+        optionsButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                optionsButtonActionPerformed(e);
+            }
+        });
+                
+        helpButton = new JButton();
+        helpButton.setIcon(guiComp.helpIcon);
+        guiComp.ButtonProperties(helpButton, "Help");
+        helpButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                helpButtonActionPerformed(e);
+            }
+        });
+                
+        qbAdminButton = new JButton();
+        qbAdminButton.setIcon(guiComp.qbAdminIcon);
+        guiComp.ButtonProperties(qbAdminButton, "QB Admin");
+        qbAdminButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                qbAdminButtonActionPerformed(e);
+            }
+        });   
+        
+        controlPanel.setOpaque(false);
+
+        controlPanel.add(logoutButton);
+        controlPanel.add(addButton);
+        controlPanel.add(optionsButton);
+        controlPanel.add(helpButton);
+        controlPanel.add(qbAdminButton);
+    }
+    
+    private void logoutButtonActionPerformed(ActionEvent e){
+        int userChoice = JOptionPane.showConfirmDialog(null, "Are you sure you want to logout?", "QuickByte Software - Lougout", JOptionPane.YES_NO_OPTION);
                 if(userChoice == JOptionPane.YES_OPTION){
                     //AddUser o = new AddUser();
                     new AddUser().addUserFrame.dispose();
@@ -57,46 +104,19 @@ public class ControlPanel {
                     Start loopApp = new Start();
                     String[] args = null;
                     loopApp.main(args);
-                }       
-            }
-                    
-        });
-                
-        addButton = new JButton();
-        addButton.setIcon(guiComp.addUserIcon);
-        guiComp.ButtonProperties(addButton, "Add Student");
-        addButton.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e){
-                        
-               new AddUser();
-                        
-                        
-            }
-                    
-        });
-                
-        optionsButton = new JButton();
-        optionsButton.setIcon(guiComp.optionsIcon);
-        guiComp.ButtonProperties(optionsButton, "Options");
-                
-        helpButton = new JButton();
-        helpButton.setIcon(guiComp.helpIcon);
-        guiComp.ButtonProperties(helpButton, "Help");
-                
-        qbAdminButton = new JButton();
-        qbAdminButton.setIcon(guiComp.qbAdminIcon);
-        guiComp.ButtonProperties(qbAdminButton, "QB Admin");
-                
-        //setLayout();
-        controlPanel.setOpaque(false);
-                //setBorder(BorderFactory.createMatteBorder(0, 5, 5, 5, Color.black));
-                
-       controlPanel.add(logoutButton);
-       controlPanel.add(addButton);
-       controlPanel.add(optionsButton);
-       controlPanel.add(helpButton);
-       controlPanel.add(qbAdminButton);
+                }
+    }
+    private void addButtonActionPerformed(ActionEvent e){
+        new AddUser();
+    }
+    private void optionsButtonActionPerformed(ActionEvent e){
+        
+    }
+    private void helpButtonActionPerformed(ActionEvent e){
+        
+    }
+    private void qbAdminButtonActionPerformed(ActionEvent e){
+        
     }
                 
 }

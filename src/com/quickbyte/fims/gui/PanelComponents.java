@@ -24,7 +24,6 @@ package com.quickbyte.fims.gui;
 
 import aurelienribon.slidinglayout.SLAnimator;
 import aurelienribon.tweenengine.TweenManager;
-import com.quickbyte.fims.data.LoginAuthentication;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -51,10 +50,10 @@ public class PanelComponents extends JPanel{
 			public void mouseEntered(MouseEvent e) {
 				if (actionEnabled){
                                     
-                                    panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-                                    setBorder(BorderFactory.createLineBorder(Color.black));
+                                    //panel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                                    //setBorder(BorderFactory.createLineBorder(Color.black, 5));
                                     
-                                }//showBorder();
+                                }
                                 
                            
 			}
@@ -62,8 +61,7 @@ public class PanelComponents extends JPanel{
 			@Override
 			public void mouseExited(MouseEvent e) {
                             
-                                panel.setBorder(null);
-				setBorder(null);//hideBorder();
+                                
                                 
 			}
 

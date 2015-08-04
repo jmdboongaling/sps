@@ -74,37 +74,7 @@ public class LoginPage{
         passwordField.addActionListener(new ActionListener(){
  
             public void actionPerformed(ActionEvent e){
-                
-                String getUsername = usernameField.getText(),
-                       getPassword = passwordField.getText();
-                
-                try {
-                    LoginAuthentication run = new LoginAuthentication(getUsername, getPassword);
-                    
-                    if(run.loginSuccess == true){
-                    
-                        JOptionPane.showMessageDialog(null, "Login Success!");
-                        loginFrame.dispose();
-                        
-                        Tween.registerAccessor(PanelComponents.class, new PanelComponents.Accessor());
-                        SLAnimator.start();
-                        
-                        SystemFrame runSystem = new SystemFrame();
-                        runSystem.SystemFrame();
-
-                    }
-                    
-                    else{
-                    
-                        JOptionPane.showMessageDialog(null, "Invalid Login Information!");
-                    
-                    }
-                    
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    
-
+               loginButtonActionPerformed(e);
             }
             
         });
@@ -112,41 +82,9 @@ public class LoginPage{
         loginButton = new JButton("Login");
         guiComp.ButtonProperties(loginButton);
         loginButton.addActionListener(new ActionListener(){
- 
-            public void actionPerformed(ActionEvent e){
-                
-                String getUsername = usernameField.getText(),
-                       getPassword = passwordField.getText();
-                
-                try {
-                    LoginAuthentication run = new LoginAuthentication(getUsername, getPassword);
-                    
-                    if(run.loginSuccess == true){
-                    
-                        JOptionPane.showMessageDialog(null, "Login Success!");
-                        loginFrame.dispose();
-                        
-                        Tween.registerAccessor(PanelComponents.class, new PanelComponents.Accessor());
-                        SLAnimator.start();
-                        
-                        SystemFrame runSystem = new SystemFrame();
-                        runSystem.SystemFrame();
-
-                    }
-                    
-                    else{
-                    
-                        JOptionPane.showMessageDialog(null, "Invalid Login Information!");
-                    
-                    }
-                    
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                    
-
+            public void actionPerformed(ActionEvent e){        
+                loginButtonActionPerformed(e);         
             }
-            
         });
         
         forgotButton = new JButton("Forgot Login?");
@@ -183,23 +121,53 @@ public class LoginPage{
 
         framePanel.add(loginForm, BorderLayout.CENTER);
         
+        
         loginFrame.setTitle("QuickByte Software - Student Management System");
         loginFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //setSize(getMaximumSize());
         loginFrame.setResizable(false);
-        //loginFrame.getContentPane().setBackground(themeColor4);
         loginFrame.setContentPane(guiComp.loginPageBackground);
         loginFrame.setLayout(new GridBagLayout());
-        loginFrame.setLocationRelativeTo(null);
-        
-        
+ 
         loginFrame.add(framePanel);
         loginFrame.pack();
+        loginFrame.setLocationRelativeTo(null);
         loginFrame.setVisible(true); 
         //System.out.println(loginFrame.getSize());
         
 
         
+    }
+    
+    private void loginButtonActionPerformed(ActionEvent e){
+        String getUsername = usernameField.getText(),
+               getPassword = passwordField.getText();
+                
+        try{
+            LoginAuthentication run = new LoginAuthentication();
+            
+            
+            if(run.LoginAuthentication(getUsername, getPassword)){
+
+                JOptionPane.showMessageDialog(null, "Login Success!");
+                loginFrame.dispose();
+
+                Tween.registerAccessor(PanelComponents.class, new PanelComponents.Accessor());
+                SLAnimator.start();
+
+                SystemFrame runSystem = new SystemFrame();
+                runSystem.SystemFrame();
+
+            }
+
+            else{
+
+                JOptionPane.showMessageDialog(null, "Invalid Login Information!");
+
+            }
+
+        }catch (ClassNotFoundException ex) {
+            Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
                        
     

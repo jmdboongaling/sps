@@ -54,7 +54,8 @@ public class AddUser{
                          educationInfoPanel = new JPanel(new GridLayout(1, 1, 5, 5)),
                          othersPanel = new JPanel(new GridLayout(1, 1, 5, 5)),
                          displayPanel = new JPanel(cardLayout),
-                         controlBarPanel = new JPanel(new GridLayout(1, 1, 5, 5));
+                         controlBarPanel = new JPanel(new GridLayout(1, 1, 5, 5)),
+                         bottomPanel = new JPanel(new GridLayout(2, 1, 5, 5));  
             
     private JLabel nameLabel,
                    courseLabel,
@@ -111,10 +112,8 @@ public class AddUser{
                        nationalityTextField,
                        ageTextField,
                        birthplaceTextField,
-                       birthrankTextField,
                        spouseTextField,
                        spouseOccupationTextField,
-                       marriageDateTextField,
                        marriagePlaceTextField,
                        spouseAgeTextField,
                        spouseEmployerAddressTextField,
@@ -148,15 +147,15 @@ public class AddUser{
     
     private JRadioButton singleButton,
                          marriedButton,
-                         fatherLivingButton,//
-                         fatherDeceasedButton,//
-                         motherLivingButton,//motherLivingButton = new JRadioButton("Living"),
-                         motherDeceasedButton,//motherDeceasedButton = new JRadioButton("Deceased"),
-                         parentsMarriedButton,//parentsMarriedButton = new JRadioButton("Married"),
-                         liveinButton,//liveinButton = new JRadioButton("Living-in"),
-                         separatedButton,//separatedButton = new JRadioButton("Separated"),
-                         annulledButton,//annulledButton = new JRadioButton("Annulled"),
-                         widowButton;//widowButton = new JRadioButton("Widower/Widow");
+                         fatherLivingButton,
+                         fatherDeceasedButton,
+                         motherLivingButton,
+                         motherDeceasedButton,
+                         parentsMarriedButton,
+                         liveinButton,
+                         separatedButton,
+                         annulledButton,
+                         widowButton;
                                  
     
     private JSpinner dayList;
@@ -165,13 +164,9 @@ public class AddUser{
                         fatherState,
                         motherState,
                         parentsStatus;
-    /*public static void main(String[]args){
     
-        AddUser x = new AddUser();
-        x.initComponents();
-        
-    }*/
-    
+    private JProgressBar formProgress;
+  
     public AddUser(){
         
         initComponents();
@@ -435,9 +430,12 @@ public class AddUser{
         guiComp.LabelProperties(parentsGrossIncomeLabel);
         parentsGrossIncomeTextField = new JTextField(12);
         parentsGrossIncomeTextField.setFont(guiComp.componentFont);
-        JProgressBar bar = new JProgressBar(0, 100);
-        bar.setValue(25);
-        bar.setBackground(Color.WHITE);
+        
+        formProgress = new JProgressBar(0, 4);
+        formProgress.setValue(1);
+        formProgress.setBackground(Color.WHITE);
+        formProgress.setForeground(Color.GRAY);
+        formProgress.setBorderPainted(false);
         //bar.setText();
         personalInfoButton = new JButton("Personal Information");
         guiComp.ButtonProperties(personalInfoButton);
@@ -446,7 +444,7 @@ public class AddUser{
             @Override
             public void actionPerformed(ActionEvent e){
                 cardLayout.show(displayPanel, "1");
-                bar.setValue(25);
+                formProgress.setValue(1);
             }
             
         });
@@ -458,7 +456,7 @@ public class AddUser{
             @Override
             public void actionPerformed(ActionEvent e){
                 cardLayout.show(displayPanel, "2");
-                bar.setValue(50);
+                formProgress.setValue(2);
             }
             
         });
@@ -476,9 +474,9 @@ public class AddUser{
         controlBarPanel.add(educationInfoButton);
         controlBarPanel.add(othersButton);
         
-        JPanel q = new JPanel(new GridLayout(2, 1, 5, 5));
-        q.add(bar);
-        q.add(controlBarPanel);
+        
+        bottomPanel.add(formProgress);
+        bottomPanel.add(controlBarPanel);
         infoPanel1.add(nameLabel, FlowLayout.LEFT);
         infoPanel1.add(nameTextField1);
         infoPanel1.add(nameTextField2);
@@ -632,7 +630,8 @@ public class AddUser{
         addUserFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addUserFrame.add(new JLabel(guiComp.addPageBanner), BorderLayout.NORTH);
         addUserFrame.add(displayPanel, BorderLayout.CENTER);
-        addUserFrame.add(q, BorderLayout.SOUTH);
+        addUserFrame.add(bottomPanel, BorderLayout.SOUTH);
+        addUserFrame.setAlwaysOnTop(true);
         addUserFrame.setSize(1086, 600);
         addUserFrame.setLocationRelativeTo(null);
         addUserFrame.setResizable(false);
@@ -640,5 +639,7 @@ public class AddUser{
         //System.out.println(addUserFrame.getSize());
         
     }
+    
+    
     
 }

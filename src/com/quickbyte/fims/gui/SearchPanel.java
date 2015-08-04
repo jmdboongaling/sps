@@ -25,6 +25,9 @@ package com.quickbyte.fims.gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import com.quickbyte.fims.data.Search;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SearchPanel{
     
@@ -60,12 +63,15 @@ public class SearchPanel{
         compGui.ButtonProperties(searchButton);
         searchButton.setVerticalTextPosition(SwingConstants.EAST);
         searchButton.addActionListener(new ActionListener(){
-            @Override
             public void actionPerformed(ActionEvent e){
                 
-   
-            }
-                    
+                try {
+                    searchButtonActionPerformed(e);
+                } catch (ClassNotFoundException ex) {
+                    //Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+            }   
         });
         
         searchEnginePanel = new JPanel(new BorderLayout(5, 5));
@@ -78,6 +84,7 @@ public class SearchPanel{
         resultsPanel = new JPanel();
         resultsPanel.setOpaque(true);
         resultsPanel.setBackground(Color.WHITE);
+        resultsPanel.setLayout(new GridLayout(1, 1, 5, 5));
         resultsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         resultsPanel.setSize(resultsPanel.getMaximumSize());
         
@@ -89,6 +96,15 @@ public class SearchPanel{
         containerPanel.add(resultsPane, BorderLayout.CENTER);
         
         
+        
+    }
+    
+    private void searchButtonActionPerformed(ActionEvent e) throws ClassNotFoundException{
+        resultsPanel.removeAll();
+        resultsPanel.repaint();
+        resultsPanel.revalidate();
+        Search query = new Search(searchField.getText());
+        resultsPanel.add(query.table);
         
     }
     
