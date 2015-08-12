@@ -24,6 +24,8 @@ package com.quickbyte.fims.gui;
 import com.quickbyte.fims.data.DBConnect;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 
@@ -45,7 +47,11 @@ public class ControlPanel {
         guiComp.ButtonProperties(logoutButton, "Logout");
         logoutButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){         
-                logoutButtonActionPerformed(e);     
+                try {     
+                    logoutButtonActionPerformed(e);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(ControlPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }      
         });
                 
@@ -94,7 +100,7 @@ public class ControlPanel {
         controlPanel.add(qbAdminButton);
     }
     
-    private void logoutButtonActionPerformed(ActionEvent e){
+    private void logoutButtonActionPerformed(ActionEvent e) throws ClassNotFoundException{
         int userChoice = JOptionPane.showConfirmDialog(null, "Are you sure you want to logout?", "QuickByte Software - Lougout", JOptionPane.YES_NO_OPTION);
                 if(userChoice == JOptionPane.YES_OPTION){
                     //AddUser o = new AddUser();
