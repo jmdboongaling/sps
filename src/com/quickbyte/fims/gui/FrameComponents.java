@@ -46,7 +46,7 @@ public class FrameComponents extends JFrame{
                            addPageBanner = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/add_banner.jpg"));;
     
     public final Color themeColor1 = new Color(51, 102, 153),
-                       themeColor2 = new Color(255, 153, 0),
+                       themeColor2 = new Color(255,99,71),
                        themeColor3 = new Color(235, 244, 250),
                        themeColor4 = new Color(255, 255, 255);
     
@@ -54,18 +54,6 @@ public class FrameComponents extends JFrame{
                         systemPageBackground = new JLabel(systemFrameBackground);
                         
                         
-    
-    /*public FrameComponents(JFrame frame){
-
-        setTitle("QuickByte Software - Student Management System");
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //setSize(getMaximumSize());
-        setResizable(false);
-        getContentPane().setBackground(themeColor4);
-        setVisible(true); 
-                                                              
-    }*/
-    
     public JLabel LabelProperties(JLabel label){
 
         label.setFont(new Font("Verdana", Font.BOLD, 12));

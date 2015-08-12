@@ -38,10 +38,14 @@ public class SystemFrame extends JFrame{
 	private final SLPanel panel = new SLPanel();
 	private final PanelComponents controlPanel = new PanelComponents(new ControlPanel().controlPanel),
                                       searchPanel = new PanelComponents(new SearchPanel().containerPanel),
-                                      displayPanel = new PanelComponents(new JPanel());
+                                      displayPanel;
 	private SLConfig mainCfg = null, 
                          searchPanelCfg = null,
                          displayPanelCfg = null;
+
+    public SystemFrame() throws ClassNotFoundException {
+        this.displayPanel = new PanelComponents(new DisplayPanel().containerPanel);
+    }
 
 
 	public void SystemFrame(){

@@ -57,6 +57,21 @@ public class SearchPanel{
         searchField = new JTextField("Search student...");
         searchField.setFont(compGui.componentFont);
         searchField.setForeground(Color.GRAY);
+        searchField.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                try {
+                    searchButtonActionPerformed(e);
+                } catch (ClassNotFoundException ex) {
+                    //Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        searchField.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseReleased(MouseEvent e){
+                 searchField.setText("");
+            }
+        });
         
         searchButton = new JButton();
         searchButton.setIcon(compGui.searchIcon);
@@ -64,13 +79,11 @@ public class SearchPanel{
         searchButton.setVerticalTextPosition(SwingConstants.EAST);
         searchButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                
                 try {
                     searchButtonActionPerformed(e);
                 } catch (ClassNotFoundException ex) {
                     //Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
             }   
         });
         

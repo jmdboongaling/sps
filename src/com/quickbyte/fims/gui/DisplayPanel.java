@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 
 public class DisplayPanel{
     
-    public JPanel containerPanel = new JPanel(new FlowLayout());
+    public static JPanel containerPanel = new JPanel(new GridLayout(5, 1, 5, 5));
                   //searchEnginePanel,
                   //resultsPanel;
     
@@ -48,11 +48,12 @@ public class DisplayPanel{
     
     public DisplayPanel() throws ClassNotFoundException{
         searchLabel = new JLabel("Hello");
-        DisplayValues o = new DisplayValues();
-        searchLabel.setText(o.DisplayValues("131148"));
+        //DisplayValues o = new DisplayValues();
+        //searchLabel.setText(o.DisplayValues());
         containerPanel.add(searchLabel);
         containerPanel.add(new JButton("a"));
-  
+        containerPanel.setFont(new FrameComponents().componentFont);
+        
     }
 
     
