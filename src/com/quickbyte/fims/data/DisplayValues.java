@@ -7,9 +7,7 @@ package com.quickbyte.fims.data;
 
 import com.quickbyte.fims.gui.DisplayPanel;
 import java.sql.*;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 
 
@@ -20,7 +18,9 @@ public class DisplayValues{
                    studentNumber, 
                    studentCourse, 
                    studentSection, 
-                   studentEmail;
+                   studentEmail,
+                   studentCellNumber,
+                   studentHomeNumber;
     public DisplayValues(String studentPull) throws ClassNotFoundException{
         Connection dbConnection = DBConnect.dbConnect();
         try{
@@ -49,11 +49,13 @@ public class DisplayValues{
             displayRecord.containerPanel.repaint();
             displayRecord.containerPanel.revalidate();
             //displayRecord.searchLabel.setText(studentName);
-            displayRecord.containerPanel.add(new JTextField(studentNumber));
-            displayRecord.containerPanel.add(new JTextField(studentFirstName));
-            displayRecord.containerPanel.add(new JTextField(studentCourse));
-            displayRecord.containerPanel.add(new JTextField(studentSection));
-            displayRecord.containerPanel.add(new JTextField(studentEmail));
+            displayRecord.containerPanel.add(new JLabel("Student Number: "+studentNumber+""));
+            displayRecord.containerPanel.add(new JLabel("Full Name: "+studentFirstName+" "+studentMiddleName+" "+studentLastName+""));
+            displayRecord.containerPanel.add(new JLabel("Course: "+studentCourse+""));
+            displayRecord.containerPanel.add(new JLabel("Section: "+studentSection+""));
+            displayRecord.containerPanel.add(new JLabel("E-Mail Address: "+studentEmail+""));
+            displayRecord.containerPanel.add(new JLabel("Cellphone Number: '"+rs.getString("CELL_NUMBER")+"'"));
+            displayRecord.containerPanel.add(new JLabel("Cellphone Number: '"+rs.getString("")+"'"));
          
         }catch(Exception e){
             String errorMessage = e.getMessage();

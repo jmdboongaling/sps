@@ -34,7 +34,7 @@ public class ControlPanel {
     public JPanel controlPanel = new JPanel(new GridLayout(5, 1 ,5, 5));
     
     private final JButton logoutButton,
-                          addButton,
+                          scheduleSession,
                           optionsButton,
                           helpButton,
                           qbAdminButton;
@@ -55,12 +55,12 @@ public class ControlPanel {
             }      
         });
                 
-        addButton = new JButton();
-        addButton.setIcon(guiComp.addUserIcon);
-        guiComp.ButtonProperties(addButton, "Add Student");
-        addButton.addActionListener(new ActionListener(){
+        scheduleSession = new JButton();
+        scheduleSession.setIcon(guiComp.addUserIcon);
+        guiComp.ButtonProperties(scheduleSession, "Add Student");
+        scheduleSession.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                addButtonActionPerformed(e);
+                scheduleSessionActionPerformed(e);
             }     
         });
                 
@@ -94,10 +94,11 @@ public class ControlPanel {
         controlPanel.setOpaque(false);
 
         controlPanel.add(logoutButton);
-        controlPanel.add(addButton);
+        controlPanel.add(scheduleSession);
         controlPanel.add(optionsButton);
-        controlPanel.add(helpButton);
         controlPanel.add(qbAdminButton);
+        controlPanel.add(helpButton);
+        
     }
     
     private void logoutButtonActionPerformed(ActionEvent e) throws ClassNotFoundException{
@@ -112,7 +113,7 @@ public class ControlPanel {
                     loopApp.main(args);
                 }
     }
-    private void addButtonActionPerformed(ActionEvent e){
+    private void scheduleSessionActionPerformed(ActionEvent e){
         new AddUser();
     }
     private void optionsButtonActionPerformed(ActionEvent e){

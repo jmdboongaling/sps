@@ -46,7 +46,7 @@ public class FrameComponents extends JFrame{
                            addPageBanner = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/add_banner.jpg"));;
     
     public final Color themeColor1 = new Color(51, 102, 153),
-                       themeColor2 = new Color(255,99,71),
+                       themeColor2 = new Color(197,0,11),
                        themeColor3 = new Color(235, 244, 250),
                        themeColor4 = new Color(255, 255, 255);
     
@@ -81,7 +81,7 @@ public class FrameComponents extends JFrame{
             public void mouseEntered(MouseEvent e){
 				
                 button.setBackground(themeColor2);
-                button.setForeground(Color.BLACK);
+                button.setForeground(themeColor4);
                            
             }
 
@@ -111,7 +111,7 @@ public class FrameComponents extends JFrame{
             public void mouseEntered(MouseEvent e){
 				
                 button.setBackground(themeColor2);
-                button.setForeground(Color.BLACK);
+                button.setForeground(themeColor4);
                 button.setText(buttonText);
                            
             }

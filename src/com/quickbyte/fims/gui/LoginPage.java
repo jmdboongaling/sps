@@ -116,7 +116,7 @@ public class LoginPage{
  
         framePanel = new JPanel();
         framePanel.setOpaque(true);
-        framePanel.setLayout(new BorderLayout(5, 5));
+        framePanel.setLayout(new BorderLayout());
         framePanel.setBackground(guiComp.themeColor2);
 
         framePanel.add(loginForm, BorderLayout.CENTER);

@@ -5,7 +5,6 @@
  */
 package com.quickbyte.fims.data;
 
-import com.quickbyte.fims.gui.DisplayPanel;
 import com.quickbyte.fims.gui.FrameComponents;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -14,24 +13,80 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.*;
 
-import javax.swing.table.DefaultTableModel;
 
-
-public class Search {
+public class Search{
     public JTable table;
-    public Search(String studentQuery) throws ClassNotFoundException{
+    private String SQL;
+    public Search(String studentQuery, String categoryQuery) throws ClassNotFoundException{
         Connection dbConnection = DBConnect.dbConnect();
+        
+        
+        if("Name".equals(categoryQuery)){
+            SQL = "SELECT * FROM APP.STUDENTS_TABLE WHERE LAST_NAME LIKE '%"+studentQuery+"%' OR FIRST_NAME LIKE '%"+studentQuery+"%' OR MIDDLE_NAME LIKE '%"+studentQuery+"%'";
+        }else{
+            switch(categoryQuery){
+                case "Student Number":
+                    categoryQuery = "STUDENT_NO";
+                    break;
+                case "Course":
+                    categoryQuery = "COURSE";
+                    break;
+                case "Section":
+                    categoryQuery = "YEAR_SECTION";
+                    break;
+                case "E-Mail":
+                    categoryQuery = "EMAIL_ADDRESS";
+                    break;
+                case "Cellphone Number":
+                    categoryQuery = "CELL_NUMBER";
+                    break;
+                case "Home Phone Number":
+                    categoryQuery = "HOME_NUMBER";
+                    break;
+                case "Permanent Address":
+                    categoryQuery = "PERM_ADDRESS";
+                    break;
+                case "Present Address":
+                    categoryQuery = "PRESENT_ADDRESS";
+                    break;
+                case "Gender":
+                    categoryQuery = "GENDER";
+                    break;
+                case "Civil Status":
+                    categoryQuery = "CIVIL_STATUS";
+                    break;
+                case "Religion":
+                    categoryQuery = "RELIGION";
+                    break;
+                case "Nationality":
+                    categoryQuery = "NATIONALITY";
+                    break;
+                case "Age":
+                    categoryQuery = "AGE";
+                    break;
+                case "Date of Birth":
+                    categoryQuery = "BIRTHDAY";
+                    break;
+                case "Place of Birth":
+                    categoryQuery = "BIRTHPLACE";
+                    break;
+                case "Birth Rank":
+                    categoryQuery = "BIRTH_RANK";
+                    break;
+            }
+            SQL = "SELECT * FROM APP.STUDENTS_TABLE WHERE "+categoryQuery+" LIKE '%"+studentQuery+"%'";
+        }
+        
         try{
             Statement queryStatement  = dbConnection.createStatement();
-            
-            
-            String SQL = "SELECT * FROM APP.STUDENTS_TABLE WHERE COURSE = '"+studentQuery+"'";
             ResultSet rs = queryStatement.executeQuery(SQL);
+            
         
          do{
+             
              table = new JTable(buildTableModel(rs));
              
              
@@ -39,12 +94,14 @@ public class Search {
          }while(rs.next());
             FrameComponents guiComp = new FrameComponents();
             table.setFont(guiComp.componentFont);
+            JTableHeader tableHeader = table.getTableHeader();
+            tableHeader.setBackground(guiComp.themeColor4);
             
          
          table.addMouseListener(new MouseAdapter() {
                 public void mouseReleased(MouseEvent e) {
                 try {
-                    String studentNumber = (String) table.getModel().getValueAt(table.getSelectedRow(), table.getSelectedColumn());
+                    String studentNumber = (String) table.getModel().getValueAt(table.getSelectedRow(), 0);
                 
 
                     new DisplayValues(studentNumber);
@@ -110,6 +167,8 @@ public class Search {
         return new DefaultTableModel(data, columnNames);
 
     }
+    
+ 
     
     
     

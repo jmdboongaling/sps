@@ -28,6 +28,7 @@ import javax.swing.*;
 import com.quickbyte.fims.data.Search;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.border.EmptyBorder;
 
 public class SearchPanel{
     
@@ -42,6 +43,8 @@ public class SearchPanel{
     public JTextField searchField;
     
     public JButton searchButton;
+    
+    public JComboBox categoryChooser;
     
      
             
@@ -87,12 +90,17 @@ public class SearchPanel{
             }   
         });
         
+        categoryChooser = new JComboBox(new String[] {"Student Number", "Name", "Course", "Section", "E-Mail", "Cellphone Number", "Home Phone Number", "Permanent Address", "Present Address", "Gender", "Civil Status", "Religion", "Nationality", "Age", "Date of Birth", "Place of Birth", "Birth Rank"});
+        categoryChooser.setFont(compGui.componentFont);
+        categoryChooser.setBackground(compGui.themeColor4);
+        
         searchEnginePanel = new JPanel(new BorderLayout(5, 5));
         searchEnginePanel.setOpaque(false);
         searchEnginePanel.setBackground(compGui.themeColor4);
         searchEnginePanel.add(searchLabel, BorderLayout.WEST);
         searchEnginePanel.add(searchField, BorderLayout.CENTER);
         searchEnginePanel.add(searchButton, BorderLayout.EAST);
+        searchEnginePanel.add(categoryChooser, BorderLayout.SOUTH);
         
         resultsPanel = new JPanel();
         resultsPanel.setOpaque(true);
@@ -101,12 +109,13 @@ public class SearchPanel{
         resultsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         resultsPanel.setSize(resultsPanel.getMaximumSize());
         
-        resultsPane = new JScrollPane(resultsPanel);
+        //resultsPane = new JScrollPane();
         
         containerPanel.setOpaque(true);
+        containerPanel.setBorder(new EmptyBorder(5, 5, 0, 5));
         containerPanel.setBackground(compGui.themeColor3);
         containerPanel.add(searchEnginePanel, BorderLayout.NORTH);
-        containerPanel.add(resultsPane, BorderLayout.CENTER);
+        containerPanel.add(resultsPanel, BorderLayout.CENTER);
         
         
         
@@ -116,8 +125,10 @@ public class SearchPanel{
         resultsPanel.removeAll();
         resultsPanel.repaint();
         resultsPanel.revalidate();
-        Search query = new Search(searchField.getText());
-        resultsPanel.add(query.table);
+        Search query = new Search(searchField.getText(), categoryChooser.getSelectedItem().toString());
+        JScrollPane resultsPane = new JScrollPane(query.table);
+        resultsPane.setOpaque(false);
+        resultsPanel.add(resultsPane);
         
         
         

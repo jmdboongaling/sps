@@ -32,8 +32,8 @@ public class LoginAuthentication {
                 
                 userName = rs.getString("USERNAME");
                 passWord = rs.getString("PASSWORD");
-                if((userName.equals(getUsername)) && (passWord.equals(getPassword))){
-                
+                if((userName.equals(getUsername.trim())) && (passWord.equals(getPassword))){
+                    
                     loginSuccess = true;
                 
                 }
