@@ -31,7 +31,7 @@ import java.util.logging.Logger;
 
 public class DisplayPanel{
     
-    public static JPanel containerPanel = new JPanel(new GridLayout(5, 1, 5, 5));
+    public static JPanel containerPanel = new JPanel(new GridLayout(16, 1, 5, 5));
                   //searchEnginePanel,
                   //resultsPanel;
     

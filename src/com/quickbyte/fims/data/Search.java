@@ -94,6 +94,8 @@ public class Search{
          }while(rs.next());
             FrameComponents guiComp = new FrameComponents();
             table.setFont(guiComp.componentFont);
+            table.setRowSelectionAllowed(true);
+            table.setCellSelectionEnabled(false);
             JTableHeader tableHeader = table.getTableHeader();
             tableHeader.setBackground(guiComp.themeColor4);
             
@@ -101,7 +103,7 @@ public class Search{
          table.addMouseListener(new MouseAdapter() {
                 public void mouseReleased(MouseEvent e) {
                 try {
-                    String studentNumber = (String) table.getModel().getValueAt(table.getSelectedRow(), 0);
+                    String studentNumber = (String) table.getValueAt(table.getSelectedRow(), 0);
                 
 
                     new DisplayValues(studentNumber);

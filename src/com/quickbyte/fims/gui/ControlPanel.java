@@ -57,7 +57,7 @@ public class ControlPanel {
                 
         scheduleSession = new JButton();
         scheduleSession.setIcon(guiComp.addUserIcon);
-        guiComp.ButtonProperties(scheduleSession, "Add Student");
+        guiComp.ButtonProperties(scheduleSession, "Schedule Session");
         scheduleSession.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 scheduleSessionActionPerformed(e);
