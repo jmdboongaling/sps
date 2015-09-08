@@ -30,11 +30,10 @@ public class DisplayValues{
     public DisplayValues(String studentPull) throws ClassNotFoundException{
         Connection dbConnection = DBConnect.dbConnect();
         try{
-            Statement queryStatement  = dbConnection.createStatement();
-            
-            
-            String SQL = "SELECT * FROM APP.STUDENTS_TABLE WHERE STUDENT_NO = '"+studentPull+"'";
-            ResultSet rs = queryStatement.executeQuery(SQL);
+            String SQL = "SELECT * FROM APP.STUDENTS_TABLE WHERE STUDENT_NO = ?";
+            PreparedStatement queryStatement  = dbConnection.prepareStatement(SQL);
+            queryStatement.setString(1, studentPull);
+            ResultSet rs = queryStatement.executeQuery();
         
          if(rs.next()){
             studentNumber = rs.getString("STUDENT_NO");
@@ -62,26 +61,27 @@ public class DisplayValues{
              //JOptionPane.showMessageDialog(null, new JScrollPane(table));
          }
          
-            DisplayPanel displayRecord = new DisplayPanel();
-            displayRecord.containerPanel.removeAll();
-            displayRecord.containerPanel.repaint();
-            displayRecord.containerPanel.revalidate();
-            displayRecord.containerPanel.add(new JLabel("Student Number: "+studentNumber+""));
-            displayRecord.containerPanel.add(new JLabel("Full Name: "+studentFirstName+" "+studentMiddleName+" "+studentLastName+""));
-            displayRecord.containerPanel.add(new JLabel("Course: "+studentCourse+""));
-            displayRecord.containerPanel.add(new JLabel("Section: "+studentSection+""));
-            displayRecord.containerPanel.add(new JLabel("E-Mail Address: "+studentEmail+""));
-            displayRecord.containerPanel.add(new JLabel("Nickname: "+studentNickname+""));
-            displayRecord.containerPanel.add(new JLabel("Permanent Address: "+studentPermAddress+""));
-            displayRecord.containerPanel.add(new JLabel("Present Address: "+studentPresentAddress+""));
-            displayRecord.containerPanel.add(new JLabel("Cellphone Number: "+studentCellNumber+""));
-            displayRecord.containerPanel.add(new JLabel("Home Phone Number: "+studentHomeNumber+""));
-            displayRecord.containerPanel.add(new JLabel("Civil Status: "+studentCivilStatus+""));
-            displayRecord.containerPanel.add(new JLabel("Religion: "+studentReligion+""));
-            displayRecord.containerPanel.add(new JLabel("Nationality: "+studentNationality+""));
-            displayRecord.containerPanel.add(new JLabel("Date of Birth: "+studentBirthday+""));
-            displayRecord.containerPanel.add(new JLabel("Place of Birth: "+studentBirthplace+""));
-            displayRecord.containerPanel.add(new JLabel("Birth Rank: "+studentBirthRank+""));
+            
+            
+            DisplayPanel.studentFirstNameField.setText(studentFirstName); 
+            DisplayPanel.studentMiddleNameField.setText(studentMiddleName);
+            DisplayPanel.studentLastNameField.setText(studentLastName);
+            DisplayPanel.studentNumberField.setText(studentNumber); 
+            DisplayPanel.studentCourseField.setText(studentCourse); 
+            DisplayPanel.studentSectionField.setText(studentSection);
+            DisplayPanel.studentGenderField.setText(studentGender);
+            DisplayPanel.studentEmailField.setText(studentEmail);
+            DisplayPanel.studentNicknameField.setText(studentNickname);
+            DisplayPanel.studentPermAddressField.setText(studentPermAddress);
+            DisplayPanel.studentPresentAddressField.setText(studentPresentAddress);
+            DisplayPanel.studentCellNumberField.setText(studentCellNumber);
+            DisplayPanel.studentHomeNumberField.setText(studentHomeNumber);
+            DisplayPanel.studentCivilStatusField.setText(studentCivilStatus);
+            DisplayPanel.studentReligionField.setText(studentReligion);
+            DisplayPanel.studentNationalityField.setText(studentNationality);
+            DisplayPanel.studentBirthdayField.setText(studentBirthday);
+            DisplayPanel.studentBirthplaceField.setText(studentBirthplace);
+            DisplayPanel.studentBirthRankField.setText(studentBirthRank);
          
         }catch(Exception e){
             String errorMessage = e.getMessage();

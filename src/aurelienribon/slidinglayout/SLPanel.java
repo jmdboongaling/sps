@@ -56,6 +56,7 @@ public class SLPanel extends JLayeredPane {
 				if (currentCfg != null) initialize(currentCfg);
 			}
 		});
+                
 	}
 
 	/**

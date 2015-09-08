@@ -6,6 +6,7 @@
 package com.quickbyte.fims.data;
 
 import com.quickbyte.fims.gui.FrameComponents;
+import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
@@ -96,8 +97,11 @@ public class Search{
             table.setFont(guiComp.componentFont);
             table.setRowSelectionAllowed(true);
             table.setCellSelectionEnabled(false);
-            JTableHeader tableHeader = table.getTableHeader();
-            tableHeader.setBackground(guiComp.themeColor4);
+            table.setShowGrid(false);table.getTableHeader().setBackground(Color.WHITE);
+            
+            
+            
+            
             
          
          table.addMouseListener(new MouseAdapter() {

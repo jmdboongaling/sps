@@ -23,27 +23,33 @@ package com.quickbyte.fims.gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 
 
 public class FrameComponents extends JFrame{
     
-    public final Font headerFont = new Font("Consolas", Font.PLAIN, 30),
-                      componentFont = new Font("Verdana", Font.PLAIN, 12);
+    public Font headerFont = new Font("Verdana", Font.PLAIN, 16),
+                componentFont = new Font("Verdana", Font.PLAIN, 12);
     
     public final ImageIcon loginBackground = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/login_background.jpg")),
                            systemFrameBackground = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/systemframe_background.jpg")),
                            searchIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/search_icon.png")),
                            logoutIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/logout_icon.png")),
-                           addUserIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/add_icon.png")),
+                           sheduleSessionIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/schedule_icon.png")),
                            optionsIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/settings_icon.png")),
                            helpIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/help_icon.png")),
                            qbAdminIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/admin_icon.png")),
-                           addPageBanner = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/add_banner.jpg"));;
+                           updateIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/update_icon.png")),
+                           printIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/print_icon.png"));
     
     public final Color themeColor1 = new Color(51, 102, 153),
                        themeColor2 = new Color(197,0,11),
@@ -53,11 +59,12 @@ public class FrameComponents extends JFrame{
     public final JLabel loginPageBackground = new JLabel(loginBackground),
                         systemPageBackground = new JLabel(systemFrameBackground);
                         
-                        
+    public FrameComponents(){
+        systemPageBackground.setPreferredSize(systemPageBackground.getMaximumSize());
+    }
     public JLabel LabelProperties(JLabel label){
-
-        label.setFont(new Font("Verdana", Font.BOLD, 12));
         
+        label.setFont(componentFont);
         return label;
     }
     

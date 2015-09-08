@@ -5,7 +5,9 @@
  */
 package com.quickbyte.fims.data;
 
+import java.awt.BorderLayout;
 import java.sql.*;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,8 +15,8 @@ import javax.swing.JOptionPane;
  * @author DELL-PC
  */
 public class LoginAuthentication {
-    private String userName,
-                   passWord;
+    public static String userName;
+    private String passWord;
     
     private boolean loginSuccess;
    
@@ -22,11 +24,12 @@ public class LoginAuthentication {
         
         Connection dbConnection = DBConnect.dbConnect();
         try{
-            Statement queryStatement  = dbConnection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String SQL = "SELECT * FROM APP.USERS_TABLE WHERE USERNAME= ?";
+            PreparedStatement queryStatement  = dbConnection.prepareStatement(SQL);
+            queryStatement.setString(1, getUsername);
             
             
-            String SQL = "SELECT * FROM APP.USERS_TABLE WHERE USERNAME='"+getUsername+"'";
-            ResultSet rs = queryStatement.executeQuery(SQL);
+            ResultSet rs = queryStatement.executeQuery();
         
          if(rs.next()){
                 
@@ -35,6 +38,7 @@ public class LoginAuthentication {
                 if((userName.equals(getUsername.trim())) && (passWord.equals(getPassword))){
                     
                     loginSuccess = true;
+                    //new com.quickbyte.fims.gui.SystemFrame().systemFrame.add(new JLabel("Welcome" + userName), BorderLayout.NORTH);
                 
                 }
                 else{

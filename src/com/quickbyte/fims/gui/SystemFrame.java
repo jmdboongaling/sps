@@ -30,11 +30,16 @@ import aurelienribon.slidinglayout.SLPanel;
 import aurelienribon.slidinglayout.SLSide;
 import java.awt.*;
 import javax.swing.*;
+import com.quickbyte.fims.data.LoginAuthentication;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 
-
-public class SystemFrame extends JFrame{
-        
+public class SystemFrame{
+        //public static JLabel header;
         public static JFrame systemFrame;
+        
+        private JLabel headerLabel,
+                       footerLabel;
 	private final SLPanel panel = new SLPanel();
 	private final PanelComponents controlPanel = new PanelComponents(new ControlPanel().controlPanel),
                                       searchPanel = new PanelComponents(new SearchPanel().containerPanel),
@@ -49,14 +54,32 @@ public class SystemFrame extends JFrame{
 
 
 	public void SystemFrame(){
+            FrameComponents compGui = new FrameComponents();
+            headerLabel = new JLabel("Welcome "+LoginAuthentication.userName+"");
+            headerLabel.setFont(compGui.headerFont);
+            headerLabel.setBackground(compGui.themeColor2);
+            headerLabel.setForeground(Color.WHITE);
+            headerLabel.setBorder(new EmptyBorder(5, 5, 0, 5));
+            headerLabel.setOpaque(true);
+            
+            footerLabel = new JLabel("   Version:                          " + "License Owner: " + "Makati Medical Center College");
+            footerLabel.setFont(compGui.componentFont);
+            footerLabel.setBackground(compGui.themeColor3);
+            footerLabel.setForeground(Color.BLACK);
+            footerLabel.setBorder(new MatteBorder(1, 0, 0, 0, Color.BLACK));
+            footerLabel.setOpaque(true);
+            
             
             systemFrame = new JFrame();
             systemFrame.setTitle("QuickByte Software - Student Management System");
             systemFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             systemFrame.setExtendedState(systemFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-            systemFrame.getContentPane().setBackground(Color.WHITE);
-            systemFrame.setVisible(true); 
+            systemFrame.getContentPane().setBackground(compGui.themeColor4);
+            systemFrame.add(headerLabel, BorderLayout.NORTH);
             systemFrame.add(panel, BorderLayout.CENTER);
+            systemFrame.add(footerLabel, BorderLayout.SOUTH);
+            systemFrame.setVisible(true); 
+            
 
 
             searchPanel.setAction(searchPanelAction);

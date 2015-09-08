@@ -30,11 +30,10 @@ import javax.swing.*;
 
 
 public class ControlPanel {
-    //SystemFrame sF = new SystemFrame();
-    public JPanel controlPanel = new JPanel(new GridLayout(5, 1 ,5, 5));
+    
+    public JPanel controlPanel = new JPanel(new GridLayout(4, 1 ,5, 5));
     
     private final JButton logoutButton,
-                          scheduleSession,
                           optionsButton,
                           helpButton,
                           qbAdminButton;
@@ -55,14 +54,7 @@ public class ControlPanel {
             }      
         });
                 
-        scheduleSession = new JButton();
-        scheduleSession.setIcon(guiComp.addUserIcon);
-        guiComp.ButtonProperties(scheduleSession, "Schedule Session");
-        scheduleSession.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                scheduleSessionActionPerformed(e);
-            }     
-        });
+        
                 
         optionsButton = new JButton();
         optionsButton.setIcon(guiComp.optionsIcon);
@@ -94,7 +86,6 @@ public class ControlPanel {
         controlPanel.setOpaque(false);
 
         controlPanel.add(logoutButton);
-        controlPanel.add(scheduleSession);
         controlPanel.add(optionsButton);
         controlPanel.add(qbAdminButton);
         controlPanel.add(helpButton);
@@ -105,7 +96,7 @@ public class ControlPanel {
         int userChoice = JOptionPane.showConfirmDialog(null, "Are you sure you want to logout?", "QuickByte Software - Lougout", JOptionPane.YES_NO_OPTION);
                 if(userChoice == JOptionPane.YES_OPTION){
                     //AddUser o = new AddUser();
-                    new AddUser().addUserFrame.dispose();
+                    
                     new SystemFrame().systemFrame.dispose();
                     
                     Start loopApp = new Start();
@@ -113,9 +104,7 @@ public class ControlPanel {
                     loopApp.main(args);
                 }
     }
-    private void scheduleSessionActionPerformed(ActionEvent e){
-        new AddUser();
-    }
+ 
     private void optionsButtonActionPerformed(ActionEvent e){
         
     }
