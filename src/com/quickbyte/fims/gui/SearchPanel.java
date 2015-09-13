@@ -25,34 +25,45 @@ package com.quickbyte.fims.gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import com.quickbyte.fims.data.Search;
+import com.quickbyte.fims.data.*;
+import java.sql.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
+import javax.swing.border.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 public class SearchPanel{
     
-    public JPanel containerPanel = new JPanel(new BorderLayout(5, 5)),
-                  searchEnginePanel,
-                  resultsPanel;
-    
-    public JScrollPane resultsPane;
-    
-    public JLabel searchLabel;
-    
-    public JTextField searchField;
-    
-    public JButton searchButton;
-    
-    public JComboBox categoryChooser;
-    
+    public JPanel containerPanel = new JPanel(new BorderLayout(5, 5));
      
-            
+    private JPanel searchEnginePanel,
+                   resultsPanel,
+                   notificationsPanel,
+                   notificationsHeaderPanel,
+                   notificationsButtonPanel;
     
+    private JScrollPane resultsPane,
+                        sessionsList;
+    
+    private JLabel searchLabel,
+                   notificationsLabel;
+    
+    private JTextField searchField;
+    
+    private JButton searchButton,
+                    refreshButton,
+                    accomplishButton;
+    
+    private JComboBox categoryChooser;
+    
+    private String listSelectedValue;
+
+            
+    private final static FrameComponents compGui = new FrameComponents();
     public SearchPanel(){
-        
-        FrameComponents compGui = new FrameComponents();
+
         searchLabel = new JLabel(" Search: ");
         compGui.LabelProperties(searchLabel);
         searchLabel.setOpaque(false);
@@ -62,17 +73,19 @@ public class SearchPanel{
         searchField.setForeground(Color.GRAY);
         searchField.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                try {
-                    searchButtonActionPerformed(e);
-                } catch (ClassNotFoundException ex) {
-                    //Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                searchStudent();
             }
         });
         searchField.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseReleased(MouseEvent e){
                  searchField.setText("");
+            }
+        });
+        searchField.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyReleased(KeyEvent e){
+                searchStudent();
             }
         });
         
@@ -82,11 +95,7 @@ public class SearchPanel{
         searchButton.setVerticalTextPosition(SwingConstants.EAST);
         searchButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                try {
-                    searchButtonActionPerformed(e);
-                } catch (ClassNotFoundException ex) {
-                    //Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                searchStudent();
             }   
         });
         
@@ -96,7 +105,6 @@ public class SearchPanel{
         
         searchEnginePanel = new JPanel(new BorderLayout(5, 5));
         searchEnginePanel.setOpaque(true);
-        //searchEnginePanel.setBackground(compGui.themeColor4);
         searchEnginePanel.add(searchLabel, BorderLayout.WEST);
         searchEnginePanel.add(searchField, BorderLayout.CENTER);
         searchEnginePanel.add(searchButton, BorderLayout.EAST);
@@ -106,33 +114,150 @@ public class SearchPanel{
         resultsPanel.setOpaque(true);
         resultsPanel.setBackground(Color.WHITE);
         resultsPanel.setLayout(new GridLayout(1, 1, 5, 5));
-        //resultsPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         resultsPanel.setSize(resultsPanel.getMaximumSize());
         
-        //resultsPane = new JScrollPane();
+        notificationsLabel = new JLabel("Counselling Notifications");
+        notificationsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        notificationsLabel.setVerticalAlignment(SwingConstants.CENTER);
+        notificationsLabel.setFont(compGui.headerFont);
+        
+        sessionsList = new JScrollPane(getSessions());
+        
+            
+        refreshButton = new JButton(compGui.refreshIcon);
+        compGui.ButtonProperties(refreshButton);
+        refreshButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                refreshButtonActionPerformed(e);
+            }
+        });
+        
+        accomplishButton = new JButton(compGui.accomplishIcon);
+        compGui.ButtonProperties(accomplishButton);
+        accomplishButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                accomplishButtonActionPerformed(e);
+                refreshButtonActionPerformed(e);
+            }
+        });
+        
+        notificationsButtonPanel = new JPanel(new GridLayout(1, 2, 5, 5));
+        notificationsButtonPanel.setOpaque(false);
+        notificationsButtonPanel.setBorder(new EmptyBorder(5, 0, 5, 5));
+        notificationsButtonPanel.add(refreshButton);
+        notificationsButtonPanel.add(accomplishButton);
+                
+        notificationsHeaderPanel = new JPanel(new BorderLayout());
+        notificationsHeaderPanel.setOpaque(false);
+        notificationsHeaderPanel.setBorder(new LineBorder(Color.BLACK));
+        notificationsHeaderPanel.add(notificationsLabel, BorderLayout.CENTER);
+        notificationsHeaderPanel.add(notificationsButtonPanel, BorderLayout.EAST);
+        
+        
+        sessionsList.setOpaque(true);
+        sessionsList.setBackground(Color.WHITE);
+        sessionsList.setBorder(new EmptyBorder(5, 5, 5, 5));
+        notificationsPanel = new JPanel(new BorderLayout());
+        notificationsPanel.setBorder(new MatteBorder(0, 0, 1, 0, Color.BLACK));
+        notificationsPanel.setMinimumSize(sessionsList.getSize());
+        notificationsPanel.add(notificationsHeaderPanel, BorderLayout.NORTH);
+        notificationsPanel.add(sessionsList, BorderLayout.CENTER);
+        
         
         containerPanel.setOpaque(true);
-        //containerPanel.setBorder(new LineBorder(Color.BLACK));
         containerPanel.setBackground(compGui.themeColor4);
         containerPanel.add(searchEnginePanel, BorderLayout.NORTH);
         containerPanel.add(resultsPanel, BorderLayout.CENTER);
+        containerPanel.add(notificationsPanel, BorderLayout.SOUTH);
         
         
         
     }
     
-    private void searchButtonActionPerformed(ActionEvent e) throws ClassNotFoundException{
-        resultsPanel.removeAll();
-        //resultsPanel.repaint();
-        resultsPanel.revalidate();
-        Search query = new Search(searchField.getText(), categoryChooser.getSelectedItem().toString());
-        JScrollPane resultsPane = new JScrollPane(query.table);
-        resultsPane.setOpaque(true);
-        resultsPane.setBorder(null);
-        resultsPane.getViewport().setBackground(Color.WHITE);
-        resultsPanel.add(resultsPane);
+ 
+    private void searchStudent(){
+        try {
+            resultsPanel.removeAll();
+            //resultsPanel.repaint();
+            resultsPanel.revalidate();
+            Search query = new Search(searchField.getText(), categoryChooser.getSelectedItem().toString());
+            JScrollPane resultsPane = new JScrollPane(query.table);
+            resultsPane.setOpaque(true);
+            resultsPane.setBorder(null);
+            resultsPane.getViewport().setBackground(Color.WHITE);
+            resultsPanel.add(resultsPane);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private JList getSessions(){
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        JList<String> sessionList = new JList<>(listModel);
+        sessionList.setFont(compGui.componentFont);
+        String SQL = "SELECT * FROM SESSIONS_TABLE ORDER BY SESSION_TIME DESC";
+        
+        try{
+            Connection dbConnect = DBConnect.dbConnect();
+            PreparedStatement queryStatement = dbConnect.prepareStatement(SQL);
+            ResultSet rs = queryStatement.executeQuery();
+            Date x = new Date();
+            while(rs.next()){
+              String scheduleAccomplished = null;
+              if(x.after((Date) Date.from(rs.getTimestamp("SESSION_TIME").toInstant()))){
+                  scheduleAccomplished = "MISSED";
+              }else if(x.before((Date) Date.from(rs.getTimestamp("SESSION_TIME").toInstant()))){
+                  scheduleAccomplished = "OPEN";
+              }
+                
+                listModel.addElement(rs.getString("STUDENT_NO") + "   " + new SimpleDateFormat("MMM dd, yyyy 'at' hh aa").format((rs.getTimestamp("SESSION_TIME"))) + "   Status: "+scheduleAccomplished+"");
+            }
+            
+            sessionList.addListSelectionListener(new ListSelectionListener() {
+
+            @Override
+            public void valueChanged(ListSelectionEvent arg0) {
+                if (!arg0.getValueIsAdjusting()) {
+                    listSelectedValue = sessionList.getSelectedValue().toString();
+                }else{
+                    listSelectedValue = sessionList.getSelectedValue().toString();
+                }
+            }
+        });
+        }catch(Exception e){
+            JOptionPane.showConfirmDialog(null, e);
+        }finally{
+            
+        }
         
         
+        return sessionList;
+    }
+    
+    private void refreshButtonActionPerformed(ActionEvent e){
+        notificationsPanel.remove(sessionsList);
+        notificationsPanel.revalidate();
+        notificationsPanel.add(notificationsHeaderPanel, BorderLayout.NORTH);
+        sessionsList = new JScrollPane(getSessions());
+        sessionsList.setOpaque(true);
+        sessionsList.setBackground(Color.WHITE);
+        sessionsList.setBorder(new EmptyBorder(5, 5, 5, 5));
+        notificationsPanel.add(sessionsList, BorderLayout.CENTER);
+    }
+    
+    private void accomplishButtonActionPerformed(ActionEvent e){
+        String SQL = "DELETE FROM SESSIONS_TABLE WHERE STUDENT_NO = ?";
+        try{
+            Connection dbConnect = DBConnect.dbConnect();
+            PreparedStatement queryStatement = dbConnect.prepareStatement(SQL);
+            queryStatement.setString(1, listSelectedValue.substring(0, 8));
+            queryStatement.executeUpdate();
+            
+            JOptionPane.showMessageDialog(null, "Session removed from database!");
+        }catch(Exception err){
+            JOptionPane.showMessageDialog(null, err);
+            err.printStackTrace();
+        }
         
     }
     

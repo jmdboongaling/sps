@@ -51,135 +51,138 @@ public class SystemFrame{
     public SystemFrame() throws ClassNotFoundException {
         this.displayPanel = new PanelComponents(new DisplayPanel().containerPanel);
     }
+    
+    public static void main(String[]args) throws ClassNotFoundException{
+        new SystemFrame().SystemFrame();
+    }
+
+    public void SystemFrame(){
+        FrameComponents compGui = new FrameComponents();
+        headerLabel = new JLabel("Welcome " + LoginAuthentication.firstName);
+        headerLabel.setFont(compGui.headerFont);
+        headerLabel.setBackground(compGui.themeColor2);
+        headerLabel.setForeground(Color.WHITE);
+        headerLabel.setBorder(new EmptyBorder(5, 5, 0, 5));
+        headerLabel.setOpaque(true);
+
+        footerLabel = new JLabel("   Version:                          " + "License Owner: " + "Makati Medical Center College");
+        footerLabel.setFont(compGui.componentFont);
+        footerLabel.setBackground(compGui.themeColor3);
+        footerLabel.setForeground(Color.BLACK);
+        footerLabel.setBorder(new MatteBorder(1, 0, 0, 0, Color.BLACK));
+        footerLabel.setOpaque(true);
 
 
-	public void SystemFrame(){
-            FrameComponents compGui = new FrameComponents();
-            headerLabel = new JLabel("Welcome "+LoginAuthentication.userName+"");
-            headerLabel.setFont(compGui.headerFont);
-            headerLabel.setBackground(compGui.themeColor2);
-            headerLabel.setForeground(Color.WHITE);
-            headerLabel.setBorder(new EmptyBorder(5, 5, 0, 5));
-            headerLabel.setOpaque(true);
-            
-            footerLabel = new JLabel("   Version:                          " + "License Owner: " + "Makati Medical Center College");
-            footerLabel.setFont(compGui.componentFont);
-            footerLabel.setBackground(compGui.themeColor3);
-            footerLabel.setForeground(Color.BLACK);
-            footerLabel.setBorder(new MatteBorder(1, 0, 0, 0, Color.BLACK));
-            footerLabel.setOpaque(true);
-            
-            
-            systemFrame = new JFrame();
-            systemFrame.setTitle("QuickByte Software - Student Management System");
-            systemFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            systemFrame.setExtendedState(systemFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-            systemFrame.getContentPane().setBackground(compGui.themeColor4);
-            systemFrame.add(headerLabel, BorderLayout.NORTH);
-            systemFrame.add(panel, BorderLayout.CENTER);
-            systemFrame.add(footerLabel, BorderLayout.SOUTH);
-            systemFrame.setVisible(true); 
-            
+        systemFrame = new JFrame();
+        systemFrame.setTitle("QuickByte Software - Student Management System");
+        systemFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        systemFrame.setExtendedState(systemFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+        systemFrame.getContentPane().setBackground(compGui.themeColor4);
+        systemFrame.add(headerLabel, BorderLayout.NORTH);
+        systemFrame.add(panel, BorderLayout.CENTER);
+        systemFrame.add(footerLabel, BorderLayout.SOUTH);
+        systemFrame.setVisible(true); 
 
 
-            searchPanel.setAction(searchPanelAction);
 
-            displayPanel.setAction(displayPanelAction);
+        searchPanel.setAction(searchPanelAction);
 
-            mainCfg = new SLConfig(panel)
-		.gap(10, 10)
-		.row(1f).col(150).col(1f).col(2f)
-		.beginGrid(0, 0)
-		.row(2f).col(1f)
-		.place(0, 0, controlPanel)
-		.endGrid()
-		.beginGrid(0, 1)
-		.row(3f).col(1f)
-		.place(0, 0, searchPanel)
-		.endGrid()
-		.place(0, 2, displayPanel);
+        displayPanel.setAction(displayPanelAction);
 
-
-            searchPanelCfg = new SLConfig(panel)
-		.gap(10, 10)
-		.row(1f).col(2f).col(1f)
-		.place(0, 0, searchPanel)
-		.place(0, 1, displayPanel);
-
-            displayPanelCfg = new SLConfig(panel)
-		.gap(10, 10)
-		.row(1f).col(1f)
-		.place(0, 0, displayPanel);
-
-            panel.setTweenManager(SLAnimator.createTweenManager());
-            panel.initialize(mainCfg);
-	}
-        
+        mainCfg = new SLConfig(panel)
+            .gap(10, 10)
+            .row(1f).col(150).col(1f).col(2f)
+            .beginGrid(0, 0)
+            .row(2f).col(1f)
+            .place(0, 0, controlPanel)
+            .endGrid()
+            .beginGrid(0, 1)
+            .row(3f).col(1f)
+            .place(0, 0, searchPanel)
+            .endGrid()
+            .place(0, 2, displayPanel);
 
 
-	private void disableActions() {
+        searchPanelCfg = new SLConfig(panel)
+            .gap(10, 10)
+            .row(1f).col(2f).col(1f)
+            .place(0, 0, searchPanel)
+            .place(0, 1, displayPanel);
 
-            searchPanel.disableAction();
-            displayPanel.disableAction();
-            
-	}
+        displayPanelCfg = new SLConfig(panel)
+            .gap(10, 10)
+            .row(1f).col(1f)
+            .place(0, 0, displayPanel);
 
-	private void enableActions() {
+        panel.setTweenManager(SLAnimator.createTweenManager());
+        panel.initialize(mainCfg);
+    }
 
-            searchPanel.enableAction();
-            displayPanel.enableAction();
-            
-	}
 
-	private final Runnable searchPanelAction = new Runnable() {@Override public void run() {
+
+    private void disableActions() {
+
+        searchPanel.disableAction();
+        displayPanel.disableAction();
+
+    }
+
+    private void enableActions() {
+
+        searchPanel.enableAction();
+        displayPanel.enableAction();
+
+    }
+
+    private final Runnable searchPanelAction = new Runnable() {@Override public void run() {
+        disableActions();
+
+        panel.createTransition()
+            .push(new SLKeyframe(searchPanelCfg, 0.5f)
+            .setEndSide(SLSide.LEFT, controlPanel)
+            .setCallback(new SLKeyframe.Callback() {@Override public void done() {
+                searchPanel.setAction(searchPanelBackAction);
+                searchPanel.enableAction();
+    }}))
+        .play();
+    }};
+
+    private final Runnable searchPanelBackAction = new Runnable() {@Override public void run() {
             disableActions();
 
             panel.createTransition()
-		.push(new SLKeyframe(searchPanelCfg, 0.5f)
-		.setEndSide(SLSide.LEFT, controlPanel)
-		.setCallback(new SLKeyframe.Callback() {@Override public void done() {
-                    searchPanel.setAction(searchPanelBackAction);
-                    searchPanel.enableAction();
-	}}))
-            .play();
-	}};
+                    .push(new SLKeyframe(mainCfg, 0.5f)
+                            .setStartSide(SLSide.LEFT, controlPanel)
+                            .setCallback(new SLKeyframe.Callback() {@Override public void done() {
+                                    searchPanel.setAction(searchPanelAction);
+                                    enableActions();
+                            }}))
+                    .play();
+    }};
 
-	private final Runnable searchPanelBackAction = new Runnable() {@Override public void run() {
-		disableActions();
+    private final Runnable displayPanelAction = new Runnable() {@Override public void run() {
+            disableActions();
 
-		panel.createTransition()
-			.push(new SLKeyframe(mainCfg, 0.5f)
-				.setStartSide(SLSide.LEFT, controlPanel)
-				.setCallback(new SLKeyframe.Callback() {@Override public void done() {
-					searchPanel.setAction(searchPanelAction);
-					enableActions();
-				}}))
-			.play();
-	}};
+            panel.createTransition()
+                    .push(new SLKeyframe(displayPanelCfg, 0.5f)
+                            .setEndSide(SLSide.LEFT, controlPanel, searchPanel)
+                            .setCallback(new SLKeyframe.Callback() {@Override public void done() {
+                                    displayPanel.setAction(displayPanelBackAction);
+                                    displayPanel.enableAction();
+                            }}))
+                    .play();
+    }};
 
-	private final Runnable displayPanelAction = new Runnable() {@Override public void run() {
-		disableActions();
+    private final Runnable displayPanelBackAction = new Runnable() {@Override public void run() {
+            disableActions();
 
-		panel.createTransition()
-			.push(new SLKeyframe(displayPanelCfg, 0.5f)
-				.setEndSide(SLSide.LEFT, controlPanel, searchPanel)
-				.setCallback(new SLKeyframe.Callback() {@Override public void done() {
-					displayPanel.setAction(displayPanelBackAction);
-					displayPanel.enableAction();
-				}}))
-			.play();
-	}};
-        
-	private final Runnable displayPanelBackAction = new Runnable() {@Override public void run() {
-		disableActions();
-
-		panel.createTransition()
-			.push(new SLKeyframe(mainCfg, 0.5f)
-				.setStartSide(SLSide.LEFT, controlPanel, searchPanel)
-				.setCallback(new SLKeyframe.Callback() {@Override public void done() {
-					displayPanel.setAction(displayPanelAction);
-					enableActions();
-				}}))
-			.play();
-	}};
+            panel.createTransition()
+                    .push(new SLKeyframe(mainCfg, 0.5f)
+                            .setStartSide(SLSide.LEFT, controlPanel, searchPanel)
+                            .setCallback(new SLKeyframe.Callback() {@Override public void done() {
+                                    displayPanel.setAction(displayPanelAction);
+                                    enableActions();
+                            }}))
+                    .play();
+    }};
 }

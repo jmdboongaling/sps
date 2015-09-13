@@ -49,7 +49,9 @@ public class FrameComponents extends JFrame{
                            helpIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/help_icon.png")),
                            qbAdminIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/admin_icon.png")),
                            updateIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/update_icon.png")),
-                           printIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/print_icon.png"));
+                           printIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/print_icon.png")),
+                           refreshIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/refresh_icon.png")),
+                           accomplishIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/accomplish_icon.png"));
     
     public final Color themeColor1 = new Color(51, 102, 153),
                        themeColor2 = new Color(197,0,11),

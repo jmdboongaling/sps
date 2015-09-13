@@ -30,7 +30,7 @@ public class DisplayValues{
     public DisplayValues(String studentPull) throws ClassNotFoundException{
         Connection dbConnection = DBConnect.dbConnect();
         try{
-            String SQL = "SELECT * FROM APP.STUDENTS_TABLE WHERE STUDENT_NO = ?";
+            String SQL = "SELECT * FROM STUDENTS_TABLE WHERE STUDENT_NO = ?";
             PreparedStatement queryStatement  = dbConnection.prepareStatement(SQL);
             queryStatement.setString(1, studentPull);
             ResultSet rs = queryStatement.executeQuery();

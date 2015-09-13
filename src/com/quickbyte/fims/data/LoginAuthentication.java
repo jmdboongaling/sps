@@ -15,7 +15,9 @@ import javax.swing.JOptionPane;
  * @author DELL-PC
  */
 public class LoginAuthentication {
-    public static String userName;
+    
+    public static String userName,
+                         firstName;
     private String passWord;
     
     private boolean loginSuccess;
@@ -24,7 +26,7 @@ public class LoginAuthentication {
         
         Connection dbConnection = DBConnect.dbConnect();
         try{
-            String SQL = "SELECT * FROM APP.USERS_TABLE WHERE USERNAME= ?";
+            String SQL = "SELECT * FROM USERS_TABLE WHERE USERNAME= ?";
             PreparedStatement queryStatement  = dbConnection.prepareStatement(SQL);
             queryStatement.setString(1, getUsername);
             
@@ -35,10 +37,11 @@ public class LoginAuthentication {
                 
                 userName = rs.getString("USERNAME");
                 passWord = rs.getString("PASSWORD");
+                firstName = rs.getString("FIRST_NAME");
                 if((userName.equals(getUsername.trim())) && (passWord.equals(getPassword))){
                     
                     loginSuccess = true;
-                    //new com.quickbyte.fims.gui.SystemFrame().systemFrame.add(new JLabel("Welcome" + userName), BorderLayout.NORTH);
+                    
                 
                 }
                 else{

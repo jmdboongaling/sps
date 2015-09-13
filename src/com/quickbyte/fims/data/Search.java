@@ -13,6 +13,7 @@ import java.sql.*;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.*;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.*;
@@ -25,8 +26,10 @@ public class Search{
         Connection dbConnection = DBConnect.dbConnect();
         
         
-        if("Name".equals(categoryQuery)){
-            SQL = "SELECT * FROM APP.STUDENTS_TABLE WHERE LAST_NAME LIKE '%"+studentQuery+"%' OR FIRST_NAME LIKE '%"+studentQuery+"%' OR MIDDLE_NAME LIKE '%"+studentQuery+"%'";
+        if(categoryQuery.equals("Name")){
+            SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(LAST_NAME) LIKE LOWER('%"+studentQuery+"%') OR LOWER(FIRST_NAME) LIKE LOWER('%"+studentQuery+"%') OR LOWER(MIDDLE_NAME) LIKE LOWER('%"+studentQuery+"%')";
+        }else if(categoryQuery.equals("Student Number")){
+            SQL = "SELECT * FROM STUDENTS_TABLE WHERE STUDENT_NO = '"+studentQuery+"'";
         }else{
             switch(categoryQuery){
                 case "Student Number":
@@ -78,11 +81,14 @@ public class Search{
                     categoryQuery = "BIRTH_RANK";
                     break;
             }
-            SQL = "SELECT * FROM APP.STUDENTS_TABLE WHERE "+categoryQuery+" LIKE '%"+studentQuery+"%'";
+            SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER("+categoryQuery+") LIKE LOWER('%"+studentQuery+"%')";
         }
-        
+            
         try{
+            
             Statement queryStatement  = dbConnection.createStatement();
+            //queryStatement.setString(1, categoryQuery);
+            //queryStatement.setString(1, studentQuery);
             ResultSet rs = queryStatement.executeQuery(SQL);
             
         
@@ -97,7 +103,9 @@ public class Search{
             table.setFont(guiComp.componentFont);
             table.setRowSelectionAllowed(true);
             table.setCellSelectionEnabled(false);
-            table.setShowGrid(false);table.getTableHeader().setBackground(Color.WHITE);
+            table.setShowGrid(false);
+            table.getTableHeader().setBackground(Color.WHITE);
+            table.getTableHeader().setOpaque(false);
             
             
             
@@ -108,7 +116,7 @@ public class Search{
                 public void mouseReleased(MouseEvent e) {
                 try {
                     String studentNumber = (String) table.getValueAt(table.getSelectedRow(), 0);
-                
+                    
 
                     new DisplayValues(studentNumber);
                     
@@ -139,7 +147,7 @@ public class Search{
         for (int column = 1; column <= columnCount; column++){
            switch(column){
                 case 1:
-                    columnNames.add("Student Number");
+                    columnNames.add("#");
                     break;
                 case 2:
                     columnNames.add("Last Name");

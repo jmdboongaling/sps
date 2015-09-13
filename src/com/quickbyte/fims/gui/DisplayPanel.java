@@ -138,43 +138,43 @@ public class DisplayPanel{
         studentBirthRank = new JLabel("Birth Rank: ");
         compGui.LabelProperties(studentBirthRank);
         
-        studentNumberField = new JTextField("Student Number: ");
+        studentNumberField = new JTextField();
         compGui.TextFieldProperties(studentNumberField);
-        studentLastNameField = new JTextField("Last Name: ");
+        studentLastNameField = new JTextField();
         compGui.TextFieldProperties(studentLastNameField);
-        studentFirstNameField = new JTextField("First Name: "); 
+        studentFirstNameField = new JTextField(); 
         compGui.TextFieldProperties(studentFirstNameField);
-        studentMiddleNameField = new JTextField("Middle Name: "); 
+        studentMiddleNameField = new JTextField(); 
         compGui.TextFieldProperties(studentMiddleNameField);
-        studentCourseField = new JTextField("Course: "); 
+        studentCourseField = new JTextField(); 
         compGui.TextFieldProperties(studentCourseField);
-        studentSectionField = new JTextField("Section: ");
+        studentSectionField = new JTextField();
         compGui.TextFieldProperties(studentSectionField);
-        studentGenderField = new JTextField("Gender: ");
+        studentGenderField = new JTextField();
         compGui.TextFieldProperties(studentGenderField);
-        studentEmailField = new JTextField("Email: ");
+        studentEmailField = new JTextField();
         compGui.TextFieldProperties(studentEmailField);
-        studentNicknameField = new JTextField("Nickname: ");
+        studentNicknameField = new JTextField();
         compGui.TextFieldProperties(studentNicknameField);
-        studentPermAddressField = new JTextField("Permanent Address: ");
+        studentPermAddressField = new JTextField();
         compGui.TextFieldProperties(studentPermAddressField);
-        studentPresentAddressField = new JTextField("Present Address: ");
+        studentPresentAddressField = new JTextField();
         compGui.TextFieldProperties(studentPresentAddressField);
-        studentCellNumberField = new JTextField("Cellphone Number: ");
+        studentCellNumberField = new JTextField();
         compGui.TextFieldProperties(studentCellNumberField);
-        studentHomeNumberField = new JTextField("Home Number: ");
+        studentHomeNumberField = new JTextField();
         compGui.TextFieldProperties(studentHomeNumberField);
-        studentCivilStatusField = new JTextField("Civil Status: ");
+        studentCivilStatusField = new JTextField();
         compGui.TextFieldProperties(studentCivilStatusField);
-        studentReligionField = new JTextField("Religion: ");
+        studentReligionField = new JTextField();
         compGui.TextFieldProperties(studentReligionField);
-        studentNationalityField = new JTextField("Nationality: ");
+        studentNationalityField = new JTextField();
         compGui.TextFieldProperties(studentNationalityField);
-        studentBirthdayField = new JTextField("Date of Birth: ");
+        studentBirthdayField = new JTextField();
         compGui.TextFieldProperties(studentBirthdayField);
-        studentBirthplaceField = new JTextField("Place of Birth: ");
+        studentBirthplaceField = new JTextField();
         compGui.TextFieldProperties(studentBirthplaceField);
-        studentBirthRankField = new JTextField("Birth Rank: ");
+        studentBirthRankField = new JTextField();
         compGui.TextFieldProperties(studentBirthRankField);
         
         studentFirstNameField.setEditable(false); 
@@ -270,7 +270,7 @@ public class DisplayPanel{
         printButton.setHorizontalTextPosition(SwingConstants.CENTER);
         printButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                
+                printButtonActionPerformed(e);
             }
         });
         
@@ -292,6 +292,7 @@ public class DisplayPanel{
         
         containerPanel.add(headerLabel, BorderLayout.NORTH);
         containerPanel.add(recordPane, BorderLayout.CENTER);
+        //containerPanel.add(new JButton("Sessions"), BorderLayout.EAST);
         containerPanel.add(buttonPanel, BorderLayout.SOUTH);
        
     }
@@ -343,6 +344,10 @@ public class DisplayPanel{
     
     private void scheduleButtonActionPerformed(ActionEvent e){
         new ScheduleSession().scheduleSession(studentNumberField.getText(), studentLastNameField.getText() + ", " + studentFirstNameField.getText() + " " + studentMiddleNameField.getText());
+    }
+    
+    private void printButtonActionPerformed(ActionEvent e){
+        new Print(studentNumberField.getText());
     }
 
     

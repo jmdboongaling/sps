@@ -20,29 +20,58 @@ Edited by:
 */
 package com.quickbyte.fims.data;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.*;
 import javax.swing.JOptionPane;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 
 public class DBConnect{
     
-   
-    
     public boolean loginSuccess;
+    
+    public static String dbURL,
+                   dbUsername,
+                   dbPassword;
     
     public static Connection dbConnect() throws ClassNotFoundException{
         
-        try{
+        try {	
+            File inputFile = new File("dbsettings.xml");
+            DocumentBuilderFactory dbFactory 
+               = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(inputFile);
+            doc.getDocumentElement().normalize();
+
+            NodeList nList = doc.getElementsByTagName("SYSTEM_CONFIG");
+
+            for (int temp = 0; temp < nList.getLength(); temp++) {
+                Node nNode = nList.item(temp);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    dbURL = "jdbc:postgresql:" + (eElement.getElementsByTagName("DB_URL").item(0).getTextContent());
+                    dbUsername = (eElement.getElementsByTagName("DB_USERNAME").item(0).getTextContent());
+                    dbPassword = (eElement.getElementsByTagName("DB_PASSWORD").item(0).getTextContent());
+                }
+            }
+        }catch (ParserConfigurationException | SAXException | IOException | DOMException e){
             
-            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-            final String dbURL = "jdbc:derby:IMS_DB",
-                         dbUsername = "dbadmin",
-                         dbPassword = "1311448.14";
-            
+        }
+        
+        try{     
+            Class.forName("org.postgresql.Driver");        
             Connection dbConnection = DriverManager.getConnection(dbURL, dbUsername, dbPassword);
-            
-            
-           return dbConnection; 
+            return dbConnection; 
         }
         catch(SQLException e){
             

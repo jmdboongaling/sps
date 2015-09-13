@@ -37,13 +37,13 @@ public class ControlPanel {
                           optionsButton,
                           helpButton,
                           qbAdminButton;
-    
+    private final FrameComponents compGui = new FrameComponents();
     public ControlPanel(){
         
-        FrameComponents guiComp = new FrameComponents();
+        
         logoutButton = new JButton();
-        logoutButton.setIcon(guiComp.logoutIcon);
-        guiComp.ButtonProperties(logoutButton, "Logout");
+        logoutButton.setIcon(compGui.logoutIcon);
+        compGui.ButtonProperties(logoutButton, "Logout");
         logoutButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){         
                 try {     
@@ -57,8 +57,8 @@ public class ControlPanel {
         
                 
         optionsButton = new JButton();
-        optionsButton.setIcon(guiComp.optionsIcon);
-        guiComp.ButtonProperties(optionsButton, "Options");
+        optionsButton.setIcon(compGui.optionsIcon);
+        compGui.ButtonProperties(optionsButton, "Options");
         optionsButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 optionsButtonActionPerformed(e);
@@ -66,8 +66,8 @@ public class ControlPanel {
         });
                 
         helpButton = new JButton();
-        helpButton.setIcon(guiComp.helpIcon);
-        guiComp.ButtonProperties(helpButton, "Help");
+        helpButton.setIcon(compGui.helpIcon);
+        compGui.ButtonProperties(helpButton, "Help");
         helpButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 helpButtonActionPerformed(e);
@@ -75,8 +75,8 @@ public class ControlPanel {
         });
                 
         qbAdminButton = new JButton();
-        qbAdminButton.setIcon(guiComp.qbAdminIcon);
-        guiComp.ButtonProperties(qbAdminButton, "QB Admin");
+        qbAdminButton.setIcon(compGui.qbAdminIcon);
+        compGui.ButtonProperties(qbAdminButton, "QB Admin");
         qbAdminButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 qbAdminButtonActionPerformed(e);
@@ -93,20 +93,15 @@ public class ControlPanel {
     }
     
     private void logoutButtonActionPerformed(ActionEvent e) throws ClassNotFoundException{
-        int userChoice = JOptionPane.showConfirmDialog(null, "Are you sure you want to logout?", "QuickByte Software - Lougout", JOptionPane.YES_NO_OPTION);
+        int userChoice = JOptionPane.showConfirmDialog(null, "Are you sure you want to logout?", "QuickByte Software - Lougout", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION, compGui.logoutIcon);
                 if(userChoice == JOptionPane.YES_OPTION){
-                    //AddUser o = new AddUser();
-                    
-                    new SystemFrame().systemFrame.dispose();
-                    
-                    Start loopApp = new Start();
-                    String[] args = null;
-                    loopApp.main(args);
+                    System.exit(0);
                 }
     }
  
     private void optionsButtonActionPerformed(ActionEvent e){
-        
+        Options options = new Options();
+        options.Go();
     }
     private void helpButtonActionPerformed(ActionEvent e){
         
