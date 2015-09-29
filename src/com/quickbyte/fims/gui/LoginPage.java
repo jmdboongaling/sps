@@ -150,7 +150,7 @@ public class LoginPage{
 
                 JOptionPane.showMessageDialog(null, "Login Success!");
                 loginFrame.dispose();
-
+                    
                 Tween.registerAccessor(PanelComponents.class, new PanelComponents.Accessor());
                 SLAnimator.start();
 

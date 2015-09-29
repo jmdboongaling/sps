@@ -21,7 +21,7 @@ Edited by: Joshua Myron Deidre D. Boongaling
 
 package com.quickbyte.fims.gui;
 
-import com.quickbyte.fims.data.DBConnect;
+import com.quickbyte.fims.data.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.logging.Level;
@@ -59,11 +59,20 @@ public class ControlPanel {
         optionsButton = new JButton();
         optionsButton.setIcon(compGui.optionsIcon);
         compGui.ButtonProperties(optionsButton, "Options");
-        optionsButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                optionsButtonActionPerformed(e);
-            }
-        });
+        if(LoginAuthentication.userLevel.equals("Admin")){
+            optionsButton.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    optionsButtonActionPerformed(e);
+                }
+            });
+        }else{
+            optionsButton.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    JOptionPane.showMessageDialog(null, "You do not have the authorization to access this feature!");
+                }
+            });
+        }
+        
                 
         helpButton = new JButton();
         helpButton.setIcon(compGui.helpIcon);
@@ -77,11 +86,19 @@ public class ControlPanel {
         qbAdminButton = new JButton();
         qbAdminButton.setIcon(compGui.qbAdminIcon);
         compGui.ButtonProperties(qbAdminButton, "QB Admin");
-        qbAdminButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                qbAdminButtonActionPerformed(e);
-            }
-        });   
+        if(LoginAuthentication.userLevel.equals("Admin")){
+            qbAdminButton.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    qbAdminButtonActionPerformed(e);
+                }
+            });
+        }else{
+            qbAdminButton.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    JOptionPane.showMessageDialog(null, "You do not have the authorization to access this feature!");
+                }
+            });
+        }
         
         controlPanel.setOpaque(false);
 
@@ -100,8 +117,7 @@ public class ControlPanel {
     }
  
     private void optionsButtonActionPerformed(ActionEvent e){
-        Options options = new Options();
-        options.Go();
+        new Options();
     }
     private void helpButtonActionPerformed(ActionEvent e){
         

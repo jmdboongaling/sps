@@ -26,8 +26,10 @@ package com.quickbyte.fims.gui;
 public class Start{
 
     public static void main(String[] args) {
-       LoginPage run =new LoginPage();
-       run.LoginPage();
+       
+        LoginPage run =new LoginPage();
+        run.LoginPage();
+
     }
     
 }

@@ -12,6 +12,22 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import java.io.File;
+import java.io.IOException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class Options extends JFrame{
     
@@ -25,19 +41,21 @@ public class Options extends JFrame{
     private JPasswordField dbPasswordField;
     
     private JButton applyButton,
-                    cancelButton;
+                    closeButton;
     
     private JList menuBar;
     
     private JPanel dbSettingsPanel,
                    dbLabelsPanel,
                    dbFieldsPanel,
-                   showPanel;
+                   showPanel,
+                   buttonPanel;
     
     private final FrameComponents compGui = new FrameComponents();
     
-    public static void main(String[]args){
-        new Options().initComponents();
+    public Options(){
+        
+        initComponents();
     }
     
     private void initComponents(){
@@ -46,12 +64,12 @@ public class Options extends JFrame{
         compGui.LabelProperties(dbURLLabel);
         dbUsernameLabel = new JLabel("Database Username: ");
         compGui.LabelProperties(dbUsernameLabel);
-        dbPasswordLabel = new JLabel("Database Password");
+        dbPasswordLabel = new JLabel("Database Password: ");
         compGui.LabelProperties(dbPasswordLabel);
         
         dbURLField = new JTextField(35);
         compGui.TextFieldProperties(dbURLField);
-        dbURLField.setText("jdbc:postgresql//" + DBConnect.dbURL);
+        dbURLField.setText(DBConnect.dbURL);
         dbUsernameField = new JTextField(15);
         compGui.TextFieldProperties(dbUsernameField);
         dbUsernameField.setText(DBConnect.dbUsername);
@@ -100,12 +118,115 @@ public class Options extends JFrame{
             }
         });
         
+        applyButton = new JButton("Apply");
+        compGui.ButtonProperties(applyButton);
+        applyButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                applyButtonActionPerformed(e);
+            }
+        });
+        
+        closeButton = new JButton("Close");
+        compGui.ButtonProperties(closeButton);
+        closeButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                dispose();
+            }
+        });
+        
+        buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        buttonPanel.setOpaque(false);
+        buttonPanel.add(applyButton);
+        buttonPanel.add(closeButton);
+        //super.addW
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
         add(menuBar, BorderLayout.WEST);
         add(showPanel, BorderLayout.CENTER);
+        add(buttonPanel, BorderLayout.SOUTH);
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+    
+    private void applyButtonActionPerformed(ActionEvent e){
+        try {
+            String filepath = "dbsettings.xml";
+            DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse(filepath);
+
+            // Get the root element
+            Node userSettings = doc.getFirstChild();
+
+            // Get the systemConfig element , it may not working if tag has spaces, or
+            // whatever weird characters in front...it's better to use
+            // getElementsByTagName() to get it directly.
+            // Node systemConfig = company.getFirstChild();
+
+            // Get the systemConfig element by tag name directly
+            Node systemConfig = doc.getElementsByTagName("SYSTEM_CONFIG").item(0);
+
+            // update systemConfig attribute
+            NamedNodeMap attr = systemConfig.getAttributes();
+            Node nodeAttr = attr.getNamedItem("config_type");
+            nodeAttr.setTextContent("DATABASE");
+            NodeList list = systemConfig.getChildNodes();
+           
+            for (int i = 0; i < list.getLength(); i++) {
+                 Node node = list.item(i);
+                if ("DB_URL".equals(node.getNodeName())) {
+                        node.setTextContent(dbURLField.getText());
+                }
+
+                if ("DB_USERNAME".equals(node.getNodeName())) {
+                        node.setTextContent(dbUsernameField.getText());
+                }
+
+                if ("DB_PASSWORD".equals(node.getNodeName())) {
+                        node.setTextContent(dbPasswordField.getText());
+                }
+            
+            }
+            // append a new node to systemConfig
+          
+
+            // loop the systemConfig child node
+            //NodeList list = systemConfig.getChildNodes();
+            /*
+            for (int i = 0; i < list.getLength(); i++) {
+
+               Node node = list.item(i);
+
+               // get the salary element, and update the value
+               if ("salary".equals(node.getNodeName())) {
+                    node.setTextContent("2000000");
+               }
+
+               //remove firstname
+               if ("firstname".equals(node.getNodeName())) {
+                    systemConfig.removeChild(node);
+               }
+
+            }*/
+
+            // write the content into xml file
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(new File(filepath));
+            transformer.transform(source, result);
+
+            System.out.println("Done");
+
+        } catch (ParserConfigurationException pce) {
+             pce.printStackTrace();
+        } catch (TransformerException tfe) {
+             tfe.printStackTrace();
+        } catch (IOException ioe) {
+             ioe.printStackTrace();
+        } catch (SAXException sae) {
+             sae.printStackTrace();
+        }
     }
 }

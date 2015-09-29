@@ -27,6 +27,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import com.quickbyte.fims.data.*;
 import java.sql.*;
+import java.text.ParseException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
@@ -73,7 +74,13 @@ public class SearchPanel{
         searchField.setForeground(Color.GRAY);
         searchField.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                searchStudent();
+                try {
+                    searchStudent();
+                } catch (SQLException ex) {
+                    Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         searchField.addMouseListener(new MouseAdapter(){
@@ -85,7 +92,13 @@ public class SearchPanel{
         searchField.addKeyListener(new KeyAdapter(){
             @Override
             public void keyReleased(KeyEvent e){
-                searchStudent();
+                try {
+                    searchStudent();
+                } catch (SQLException ex) {
+                    Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         
@@ -95,11 +108,17 @@ public class SearchPanel{
         searchButton.setVerticalTextPosition(SwingConstants.EAST);
         searchButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
-                searchStudent();
+                try {
+                    searchStudent();
+                } catch (SQLException ex) {
+                    Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
+                    Logger.getLogger(SearchPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }   
         });
         
-        categoryChooser = new JComboBox(new String[] {"Student Number", "Name", "Course", "Section", "E-Mail", "Cellphone Number", "Home Phone Number", "Permanent Address", "Present Address", "Gender", "Civil Status", "Religion", "Nationality", "Age", "Date of Birth", "Place of Birth", "Birth Rank"});
+        categoryChooser = new JComboBox(new String[] {"Student Number", "Name", "Course", "Section", "E-Mail", "Cellphone Number", "Home Phone Number", "Permanent Address", "Present Address", "Gender", "Civil Status", "Religion", "Nationality", "Age", /*"Date of Birth",*/ "Place of Birth", "Birth Rank", "Parent's Status", "Parent's Annual Income", "Primary School", "Secondary School", "Tertiary School", "Year of Entry", "General Percentile Average"});
         categoryChooser.setFont(compGui.componentFont);
         categoryChooser.setBackground(compGui.themeColor4);
         
@@ -159,7 +178,6 @@ public class SearchPanel{
         sessionsList.setBorder(new EmptyBorder(5, 5, 5, 5));
         notificationsPanel = new JPanel(new BorderLayout());
         notificationsPanel.setBorder(new MatteBorder(0, 0, 1, 0, Color.BLACK));
-        notificationsPanel.setMinimumSize(sessionsList.getSize());
         notificationsPanel.add(notificationsHeaderPanel, BorderLayout.NORTH);
         notificationsPanel.add(sessionsList, BorderLayout.CENTER);
         
@@ -172,15 +190,16 @@ public class SearchPanel{
         
         
         
+        
     }
     
  
-    private void searchStudent(){
+    private void searchStudent() throws SQLException, ParseException{
         try {
-            resultsPanel.removeAll();
-            //resultsPanel.repaint();
-            resultsPanel.revalidate();
             Search query = new Search(searchField.getText(), categoryChooser.getSelectedItem().toString());
+            resultsPanel.removeAll();
+            resultsPanel.repaint();
+            resultsPanel.revalidate();
             JScrollPane resultsPane = new JScrollPane(query.table);
             resultsPane.setOpaque(true);
             resultsPane.setBorder(null);
@@ -226,22 +245,25 @@ public class SearchPanel{
         });
         }catch(Exception e){
             JOptionPane.showConfirmDialog(null, e);
-        }finally{
-            
         }
+            
         
         
+        //sessionList.setFixedCellHeight(1);
         return sessionList;
     }
     
     private void refreshButtonActionPerformed(ActionEvent e){
-        notificationsPanel.remove(sessionsList);
+        notificationsPanel.removeAll();
+        notificationsPanel.repaint();
         notificationsPanel.revalidate();
-        notificationsPanel.add(notificationsHeaderPanel, BorderLayout.NORTH);
+        
         sessionsList = new JScrollPane(getSessions());
         sessionsList.setOpaque(true);
         sessionsList.setBackground(Color.WHITE);
         sessionsList.setBorder(new EmptyBorder(5, 5, 5, 5));
+        notificationsPanel.setBorder(new MatteBorder(0, 0, 1, 0, Color.BLACK));
+        notificationsPanel.add(notificationsHeaderPanel, BorderLayout.NORTH);
         notificationsPanel.add(sessionsList, BorderLayout.CENTER);
     }
     

@@ -26,8 +26,35 @@ public class DisplayValues{
                    studentNationality,
                    studentBirthday,
                    studentBirthplace,
-                   studentBirthRank;
-    public DisplayValues(String studentPull) throws ClassNotFoundException{
+                   studentBirthRank,
+                   studentSpouse,
+                   studentSpouseOccupation,
+                   studentSpouseMarriageDate,
+                   studentSpouseMarriagePlace,
+                   studentSpouseAge,
+                   studentSpouseEmployerAddress,
+                   studentNoOfChildren,
+                   familyBackground,
+                   fatherName,
+                   fatherStatus,
+                   fatherAddress,
+                   fatherAge,
+                   fatherEducation,
+                   fatherCellNumber,
+                   fatherOccupation,
+                   fatherEmployerAddress,
+                   motherName,
+                   motherStatus,
+                   motherAddress,
+                   motherAge,
+                   motherEducation,                   
+                   motherCellNumber,
+                   motherOccupation,
+                   motherEmployerAddress,
+                   parentsStatus,
+                   parentsEconomicStatus;
+    
+    public DisplayValues(String studentPull) throws ClassNotFoundException,  NullPointerException{
         Connection dbConnection = DBConnect.dbConnect();
         try{
             String SQL = "SELECT * FROM STUDENTS_TABLE WHERE STUDENT_NO = ?";
@@ -56,6 +83,30 @@ public class DisplayValues{
             studentBirthday = rs.getString("BIRTHDAY");
             studentBirthplace = rs.getString("BIRTHPLACE");
             studentBirthRank = rs.getString("BIRTH_RANK");
+            studentSpouse = rs.getString("SPOUSE_NAME");
+            studentSpouseOccupation = rs.getString("SPOUSE_OCCUPATION");
+            studentSpouseMarriageDate = rs.getString("SPOUSE_MARRIAGEDATE");
+            studentSpouseMarriagePlace = rs.getString("SPOUSE_MARRIAGEPLACE");
+            studentSpouseEmployerAddress = rs.getString("SPOUSE_EMPADDRESS");
+            studentNoOfChildren = rs.getString("SPOUSE_NUMCHILDREN");
+            
+            fatherName = rs.getString("FATHER_NAME");
+            fatherStatus = rs.getString("FATHER_STATUS");
+            fatherAddress = rs.getString("FATHER_ADDRESS");
+            fatherAge = rs.getString("FATHER_AGE");
+            fatherEducation = rs.getString("FATHER_EDUCATION");
+            fatherOccupation = rs.getString("FATHER_OCCUPATION");
+            fatherEmployerAddress = rs.getString("FATHER_EMPADDRESS");
+            motherName = rs.getString("MOTHER_NAME");
+            motherStatus = rs.getString("MOTHER_STATUS");
+            motherAddress = rs.getString("MOTHER_ADDRESS");
+            motherAge = rs.getString("MOTHER_AGE");
+            motherEducation = rs.getString("MOTHER_EDUCATION");
+            motherCellNumber = rs.getString("MOTHER_CELLNUMBER");
+            motherOccupation = rs.getString("MOTHER_OCCUPATION");
+            motherEmployerAddress = rs.getString("MOTHER_EMPADDRESS");
+            parentsStatus = rs.getString("PARENTS_STATUS");
+            parentsEconomicStatus = Integer.toString(rs.getInt("PARENTS_INCOME"));
 
              
              //JOptionPane.showMessageDialog(null, new JScrollPane(table));
@@ -82,6 +133,32 @@ public class DisplayValues{
             DisplayPanel.studentBirthdayField.setText(studentBirthday);
             DisplayPanel.studentBirthplaceField.setText(studentBirthplace);
             DisplayPanel.studentBirthRankField.setText(studentBirthRank);
+            
+            DisplayPanel.studentSpouseField.setText(studentSpouse);
+            DisplayPanel.studentSpouseOccupationField.setText(studentSpouseOccupation);
+            DisplayPanel.studentSpouseMarriageDateField.setText(studentSpouseMarriageDate);
+            DisplayPanel.studentSpouseMarriagePlaceField.setText(studentSpouseMarriagePlace);
+            DisplayPanel.studentSpouseAgeField.setText(studentSpouseAge);
+            DisplayPanel.studentSpouseEmployerAddressField.setText(studentSpouseEmployerAddress);
+            DisplayPanel.studentNoOfChildrenField.setText(studentNoOfChildren);
+            DisplayPanel.fatherNameField.setText(fatherName);
+            DisplayPanel.fatherStatusField.setText(fatherStatus);
+            DisplayPanel.fatherAddressField.setText(fatherAddress);
+            DisplayPanel.fatherAgeField.setText(fatherAge);
+            DisplayPanel.fatherEducationField.setText(fatherEducation);
+            DisplayPanel.fatherCellNumberField.setText(fatherCellNumber);
+            DisplayPanel.fatherOccupationField.setText(fatherOccupation);
+            DisplayPanel.fatherEmployerAddressField.setText(fatherEmployerAddress);
+            DisplayPanel.motherNameField.setText(motherName);
+            DisplayPanel.motherStatusField.setText(motherStatus);
+            DisplayPanel.motherAddressField.setText(motherAddress);
+            DisplayPanel.motherAgeField.setText(motherAge);
+            DisplayPanel.motherEducationField.setText(motherEducation);
+            DisplayPanel.motherCellNumberField.setText(motherCellNumber);
+            DisplayPanel.motherOccupationField.setText(motherOccupation);
+            DisplayPanel.motherEmployerAddressField.setText(motherEmployerAddress);
+            DisplayPanel.parentsStatusField.setText(parentsStatus);
+            DisplayPanel.parentsEconomicStatusField.setText(parentsEconomicStatus);
          
         }catch(Exception e){
             String errorMessage = e.getMessage();

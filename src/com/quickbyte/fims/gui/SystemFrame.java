@@ -31,6 +31,8 @@ import aurelienribon.slidinglayout.SLSide;
 import java.awt.*;
 import javax.swing.*;
 import com.quickbyte.fims.data.LoginAuthentication;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
@@ -41,22 +43,20 @@ public class SystemFrame{
         private JLabel headerLabel,
                        footerLabel;
 	private final SLPanel panel = new SLPanel();
-	private final PanelComponents controlPanel = new PanelComponents(new ControlPanel().controlPanel),
+	private PanelComponents controlPanel = new PanelComponents(new ControlPanel().controlPanel),
                                       searchPanel = new PanelComponents(new SearchPanel().containerPanel),
                                       displayPanel;
 	private SLConfig mainCfg = null, 
                          searchPanelCfg = null,
                          displayPanelCfg = null;
-
-    public SystemFrame() throws ClassNotFoundException {
-        this.displayPanel = new PanelComponents(new DisplayPanel().containerPanel);
-    }
+        
+   
     
-    public static void main(String[]args) throws ClassNotFoundException{
-        new SystemFrame().SystemFrame();
-    }
+    
 
-    public void SystemFrame(){
+    public void SystemFrame() throws ClassNotFoundException{
+        
+        displayPanel = new PanelComponents(new DisplayPanel().containerPanel);
         FrameComponents compGui = new FrameComponents();
         headerLabel = new JLabel("Welcome " + LoginAuthentication.firstName);
         headerLabel.setFont(compGui.headerFont);

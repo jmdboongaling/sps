@@ -32,6 +32,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 
 
 
@@ -73,6 +74,7 @@ public class FrameComponents extends JFrame{
     public JTextField TextFieldProperties(JTextField textfield){
 
         textfield.setFont(componentFont);
+        textfield.setMinimumSize(textfield.getMaximumSize());
         
         return textfield;
     }
@@ -81,7 +83,7 @@ public class FrameComponents extends JFrame{
         
         
         button.setFont(componentFont);
-        button.setBorderPainted(false);
+        button.setBorderPainted(false);button.setBorder(new LineBorder(Color.BLACK, 1, true));
         button.setFocusPainted(false);
         button.setBackground(themeColor1);
         button.setForeground(themeColor4);
@@ -110,6 +112,7 @@ public class FrameComponents extends JFrame{
         
         button.setFont(componentFont);
         button.setBorderPainted(false);
+        
         button.setFocusPainted(false);
         button.setBackground(themeColor1);
         button.setForeground(themeColor4);

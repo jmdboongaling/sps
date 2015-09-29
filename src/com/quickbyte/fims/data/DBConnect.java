@@ -40,8 +40,8 @@ public class DBConnect{
     public boolean loginSuccess;
     
     public static String dbURL,
-                   dbUsername,
-                   dbPassword;
+                         dbUsername,
+                         dbPassword;
     
     public static Connection dbConnect() throws ClassNotFoundException{
         
@@ -55,17 +55,17 @@ public class DBConnect{
 
             NodeList nList = doc.getElementsByTagName("SYSTEM_CONFIG");
 
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-                Node nNode = nList.item(temp);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    dbURL = "jdbc:postgresql:" + (eElement.getElementsByTagName("DB_URL").item(0).getTextContent());
-                    dbUsername = (eElement.getElementsByTagName("DB_USERNAME").item(0).getTextContent());
-                    dbPassword = (eElement.getElementsByTagName("DB_PASSWORD").item(0).getTextContent());
-                }
-            }
-        }catch (ParserConfigurationException | SAXException | IOException | DOMException e){
             
+            Node nNode = nList.item(0);
+            if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                Element eElement = (Element) nNode;
+                dbURL = "jdbc:postgresql:" + (eElement.getElementsByTagName("DB_URL").item(0).getTextContent());
+                dbUsername = (eElement.getElementsByTagName("DB_USERNAME").item(0).getTextContent());
+                dbPassword = (eElement.getElementsByTagName("DB_PASSWORD").item(0).getTextContent());
+            }
+            
+        }catch (ParserConfigurationException | SAXException | IOException | DOMException e){
+            e.printStackTrace();
         }
         
         try{     
@@ -75,9 +75,7 @@ public class DBConnect{
         }
         catch(SQLException e){
             
-            String errorMessage = e.getMessage();
-            JOptionPane.showMessageDialog(null, errorMessage);
-            //System.out.println(errorMessage);
+            e.printStackTrace();
             return null;
             
         }

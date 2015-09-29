@@ -6,6 +6,7 @@
 package com.quickbyte.fims.data;
 
 import java.awt.BorderLayout;
+import java.awt.HeadlessException;
 import java.sql.*;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,7 +18,8 @@ import javax.swing.JOptionPane;
 public class LoginAuthentication {
     
     public static String userName,
-                         firstName;
+                         firstName,
+                         userLevel;
     private String passWord;
     
     private boolean loginSuccess;
@@ -38,6 +40,7 @@ public class LoginAuthentication {
                 userName = rs.getString("USERNAME");
                 passWord = rs.getString("PASSWORD");
                 firstName = rs.getString("FIRST_NAME");
+                userLevel = rs.getString("USER_LEVEL");
                 if((userName.equals(getUsername.trim())) && (passWord.equals(getPassword))){
                     
                     loginSuccess = true;
@@ -55,7 +58,7 @@ public class LoginAuthentication {
          }
             
             
-        }catch(Exception e){
+        }catch(SQLException | HeadlessException e){
             String errorMessage = e.getMessage();
             JOptionPane.showMessageDialog(null, errorMessage);
             //System.out.println(errorMessage);

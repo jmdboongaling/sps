@@ -10,6 +10,9 @@ import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,75 +25,141 @@ import javax.swing.table.*;
 public class Search{
     public JTable table;
     private String SQL;
-    public Search(String studentQuery, String categoryQuery) throws ClassNotFoundException{
+    public Search(String studentQuery, String categoryQuery) throws ClassNotFoundException, SQLException, ParseException{
         Connection dbConnection = DBConnect.dbConnect();
         
-        
-        if(categoryQuery.equals("Name")){
-            SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(LAST_NAME) LIKE LOWER('%"+studentQuery+"%') OR LOWER(FIRST_NAME) LIKE LOWER('%"+studentQuery+"%') OR LOWER(MIDDLE_NAME) LIKE LOWER('%"+studentQuery+"%')";
-        }else if(categoryQuery.equals("Student Number")){
-            SQL = "SELECT * FROM STUDENTS_TABLE WHERE STUDENT_NO = '"+studentQuery+"'";
-        }else{
+        try{
+            PreparedStatement queryStatement = null;
+            ResultSet rs;
+            
             switch(categoryQuery){
                 case "Student Number":
-                    categoryQuery = "STUDENT_NO";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE STUDENT_NO = ?";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, studentQuery);
+                    
+                    break;
+                case "Name":
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(LAST_NAME) LIKE LOWER(?) OR LOWER(FIRST_NAME) LIKE LOWER(?) OR LOWER(MIDDLE_NAME) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
+                    queryStatement.setString(2, "%" + studentQuery + "%");
+                    queryStatement.setString(3, "%" + studentQuery + "%");
                     break;
                 case "Course":
-                    categoryQuery = "COURSE";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(COURSE) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
                     break;
                 case "Section":
-                    categoryQuery = "YEAR_SECTION";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(YEAR_SECTION) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
                     break;
                 case "E-Mail":
-                    categoryQuery = "EMAIL_ADDRESS";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(EMAIL_ADDRESS) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
                     break;
                 case "Cellphone Number":
-                    categoryQuery = "CELL_NUMBER";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE CELL_NUMBER = ?";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
                     break;
                 case "Home Phone Number":
-                    categoryQuery = "HOME_NUMBER";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE HOME_NUMBER = ?";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
                     break;
                 case "Permanent Address":
-                    categoryQuery = "PERM_ADDRESS";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(PERM_ADDRESS) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
                     break;
                 case "Present Address":
-                    categoryQuery = "PRESENT_ADDRESS";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(PRESENT_ADDRESS) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
                     break;
                 case "Gender":
-                    categoryQuery = "GENDER";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(GENDER) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
                     break;
                 case "Civil Status":
-                    categoryQuery = "CIVIL_STATUS";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(CIVIL_STATUS) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
                     break;
                 case "Religion":
-                    categoryQuery = "RELIGION";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(RELIGION) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
                     break;
                 case "Nationality":
-                    categoryQuery = "NATIONALITY";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(NATIONALITY) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
                     break;
-                case "Age":
-                    categoryQuery = "AGE";
-                    break;
-                case "Date of Birth":
-                    categoryQuery = "BIRTHDAY";
-                    break;
+                /*case "Date of Birth":
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE BIRTHDAY = ?";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-dd-mm");
+                    java.util.Date date = format.parse(studentQuery);
+                    queryStatement.setDate(1, new java.sql.Date(date.getTime()));
+                    break;*/
                 case "Place of Birth":
-                    categoryQuery = "BIRTHPLACE";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(BIRTHPLACE) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
                     break;
                 case "Birth Rank":
-                    categoryQuery = "BIRTH_RANK";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(BIRTH_RANK) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
+                    break;
+                case "Parent's Status":
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(PARENTS_STATUS) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
+                    break;
+                case "Parent's Annual Income":
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE PARENTS_INCOME = ?";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setInt(1, Integer.parseInt(studentQuery));
+                    break;
+                case "Primary School":
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(PRIMARY_SCHOOL) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
+                    break;
+                case "Secondary School":
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(SECONDARY_SCHOOL) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
+                    break;
+                case "Tertiary School":
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(TERTIARY_SCHOOL) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
+                    break;
+                case "Year of Entry":
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER(PRIMARY_SCHOOL) LIKE LOWER(?)";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setString(1, "%" + studentQuery + "%");
+                    break;
+                case "General Percentile Average":
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE PARENTS_INCOME = ?";
+                    queryStatement = dbConnection.prepareStatement(SQL);
+                    queryStatement.setFloat(1, Float.parseFloat(studentQuery));
                     break;
             }
-            SQL = "SELECT * FROM STUDENTS_TABLE WHERE LOWER("+categoryQuery+") LIKE LOWER('%"+studentQuery+"%')";
-        }
             
-        try{
             
-            Statement queryStatement  = dbConnection.createStatement();
             //queryStatement.setString(1, categoryQuery);
             //queryStatement.setString(1, studentQuery);
-            ResultSet rs = queryStatement.executeQuery(SQL);
             
+            rs = queryStatement.executeQuery();
         
          do{
              
@@ -102,7 +171,7 @@ public class Search{
             FrameComponents guiComp = new FrameComponents();
             table.setFont(guiComp.componentFont);
             table.setRowSelectionAllowed(true);
-            table.setCellSelectionEnabled(false);
+            //table.setCellSelectionEnabled(false);
             table.setShowGrid(false);
             table.getTableHeader().setBackground(Color.WHITE);
             table.getTableHeader().setOpaque(false);
@@ -128,9 +197,8 @@ public class Search{
             });
          //rs.close();*/
         }catch(Exception e){
-            String errorMessage = e.getMessage();
-            JOptionPane.showMessageDialog(null, errorMessage);
-            //System.out.println(errorMessage);
+            
+            e.printStackTrace();
             
         }
         
@@ -147,7 +215,7 @@ public class Search{
         for (int column = 1; column <= columnCount; column++){
            switch(column){
                 case 1:
-                    columnNames.add("#");
+                    columnNames.add("Student #");
                     break;
                 case 2:
                     columnNames.add("Last Name");

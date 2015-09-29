@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<USER_SETTINGS>
-	<SYSTEM_CONFIG config_type = "DATABASE">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><USER_SETTINGS>
+	<SYSTEM_CONFIG config_type="DATABASE">
         <DB_URL>//192.168.1.10:5432/SPS_TESTDB</DB_URL>
         <DB_USERNAME>qbadmin</DB_USERNAME>
         <DB_PASSWORD>123</DB_PASSWORD>
