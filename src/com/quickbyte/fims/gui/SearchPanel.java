@@ -253,7 +253,7 @@ public class SearchPanel{
         return sessionList;
     }
     
-    private void refreshButtonActionPerformed(ActionEvent e){
+    public void refreshButtonActionPerformed(ActionEvent e){
         notificationsPanel.removeAll();
         notificationsPanel.repaint();
         notificationsPanel.revalidate();

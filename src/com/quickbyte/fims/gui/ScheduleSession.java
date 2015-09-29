@@ -207,6 +207,7 @@ public class ScheduleSession extends JFrame{
         selectedSchedule[3] = timePicker.getValue();
         
         new Schedule(studentNumberSelected, sessionScheduler, selectedSchedule);
+        new SearchPanel().refreshButtonActionPerformed(e);
         dispose();
     }
   

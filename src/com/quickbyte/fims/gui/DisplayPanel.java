@@ -47,7 +47,7 @@ public class DisplayPanel{
     
     public JScrollPane resultsPane;
     
-    private static JLabel headerLabel,
+    private static JLabel headerLabel,                        
                           personalLabel,
                           studentFirstName, 
                           studentMiddleName,
@@ -96,7 +96,7 @@ public class DisplayPanel{
                           parentsStatus,
                           parentsEconomicStatus;
                           
-                          
+    public static JLabel studentImageLabel;
                           
     public static JTextField studentFirstNameField, 
                              studentMiddleNameField,
@@ -162,6 +162,9 @@ public class DisplayPanel{
         
         personalLabel = new JLabel("Personal Information");
         personalLabel.setFont(new Font("Verdana", Font.BOLD, 25));
+        studentImageLabel = new JLabel();
+        studentImageLabel.setFont(new Font("Verdana", Font.PLAIN, 18));
+        studentImageLabel.setHorizontalAlignment(JLabel.CENTER);
         studentNumber = new JLabel("Student Number: ");
         compGui.LabelProperties(studentNumber);
         studentLastName = new JLabel("Last Name: ");
@@ -401,8 +404,12 @@ public class DisplayPanel{
         
         DesignGridLayout formLayout = new DesignGridLayout(recordPanel);
         formLayout.disableSmartVerticalResize();
-        formLayout.labelAlignment(LabelAlignment.RIGHT);
-        formLayout.row().grid().add(personalLabel);
+        formLayout.labelAlignment(LabelAlignment.LEFT);
+        
+       
+        
+        formLayout.row().center().add(studentImageLabel);
+        formLayout.row().center().add(personalLabel);
         formLayout.row().grid(studentNumber).add(studentNumberField);
         formLayout.row().grid(studentCourse).add(studentCourseField);
         formLayout.row().grid(studentSection).add(studentSectionField);
@@ -424,7 +431,7 @@ public class DisplayPanel{
         formLayout.row().grid(studentBirthplace).add(studentBirthplaceField);
         formLayout.row().grid(studentBirthRank).add(studentBirthRankField);
         formLayout.emptyRow();
-        formLayout.row().grid().add(marriedLabel);
+        formLayout.row().center().add(marriedLabel);
         formLayout.row().grid(studentSpouse).add(studentSpouseField);
         formLayout.row().grid(studentSpouseAge).add(studentSpouseAgeField);
         formLayout.row().grid(studentSpouseOccupation).add(studentSpouseOccupationField);
@@ -433,7 +440,7 @@ public class DisplayPanel{
         formLayout.row().grid(studentNoOfChildren).add(studentNoOfChildrenField);
         formLayout.row().grid(studentSpouseEmployerAddress).add(studentSpouseEmployerAddressField);
         formLayout.emptyRow();
-        formLayout.row().grid().add(familyBackground);
+        formLayout.row().center().add(familyBackground);
         formLayout.row().grid(fatherName).add(fatherNameField);
         formLayout.row().grid(fatherStatus).add(fatherStatusField);
         formLayout.row().grid(fatherAddress).add(fatherAddressField);
@@ -442,7 +449,7 @@ public class DisplayPanel{
         formLayout.row().grid(fatherCellNumber).add(fatherCellNumberField);
         formLayout.emptyRow();
         formLayout.emptyRow();
-        formLayout.row().center().add(new JSeparator());
+        formLayout.row().grid().add(new JSeparator());
         formLayout.row().grid(motherName).add(motherNameField);
         formLayout.row().grid(motherStatus).add(motherStatusField);
         formLayout.row().grid(motherAddress).add(motherAddressField);

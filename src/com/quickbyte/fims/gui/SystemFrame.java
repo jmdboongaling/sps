@@ -28,9 +28,13 @@ import aurelienribon.slidinglayout.SLConfig;
 import aurelienribon.slidinglayout.SLKeyframe;
 import aurelienribon.slidinglayout.SLPanel;
 import aurelienribon.slidinglayout.SLSide;
+import com.quickbyte.fims.data.DBConnect;
 import java.awt.*;
 import javax.swing.*;
 import com.quickbyte.fims.data.LoginAuthentication;
+import com.quickbyte.fims.data.Logout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.border.EmptyBorder;
@@ -75,9 +79,18 @@ public class SystemFrame{
 
         systemFrame = new JFrame();
         systemFrame.setTitle("QuickByte Software - Student Management System");
-        systemFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        systemFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         systemFrame.setExtendedState(systemFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         systemFrame.getContentPane().setBackground(compGui.themeColor4);
+        systemFrame.addWindowListener(new WindowAdapter(){
+            public void windowClosing(WindowEvent e) {
+                int userChoice = JOptionPane.showConfirmDialog(null, "Are you sure you want to logout?", "QuickByte Software - Lougout", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION, compGui.logoutIcon);
+                if(userChoice == JOptionPane.YES_OPTION){
+                    Logout userLogout = new Logout(LoginAuthentication.userName);
+                    System.exit(0);
+                }
+            }
+        });
         systemFrame.add(headerLabel, BorderLayout.NORTH);
         systemFrame.add(panel, BorderLayout.CENTER);
         systemFrame.add(footerLabel, BorderLayout.SOUTH);
@@ -185,4 +198,6 @@ public class SystemFrame{
                             }}))
                     .play();
     }};
+    
+    
 }

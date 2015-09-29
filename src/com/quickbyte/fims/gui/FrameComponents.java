@@ -41,7 +41,7 @@ public class FrameComponents extends JFrame{
     public Font headerFont = new Font("Verdana", Font.PLAIN, 16),
                 componentFont = new Font("Verdana", Font.PLAIN, 12);
     
-    public final ImageIcon loginBackground = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/login_background.jpg")),
+    public final ImageIcon loginBackground = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/login_background.png")),
                            systemFrameBackground = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/systemframe_background.jpg")),
                            searchIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/search_icon.png")),
                            logoutIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/logout_icon.png")),
@@ -52,8 +52,9 @@ public class FrameComponents extends JFrame{
                            updateIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/update_icon.png")),
                            printIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/print_icon.png")),
                            refreshIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/refresh_icon.png")),
-                           accomplishIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/accomplish_icon.png"));
-    
+                           accomplishIcon = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/accomplish_icon.png")),
+                           optionsSidebar = new ImageIcon(getClass().getResource("/com/quickbyte/fims/resources/options_sidebar.png"));
+
     public final Color themeColor1 = new Color(51, 102, 153),
                        themeColor2 = new Color(197,0,11),
                        themeColor3 = new Color(235, 244, 250),
@@ -74,7 +75,7 @@ public class FrameComponents extends JFrame{
     public JTextField TextFieldProperties(JTextField textfield){
 
         textfield.setFont(componentFont);
-        textfield.setMinimumSize(textfield.getMaximumSize());
+        //textfield.setMinimumSize(textfield.getMaximumSize());
         
         return textfield;
     }
@@ -83,7 +84,7 @@ public class FrameComponents extends JFrame{
         
         
         button.setFont(componentFont);
-        button.setBorderPainted(false);button.setBorder(new LineBorder(Color.BLACK, 1, true));
+        button.setBorderPainted(false);
         button.setFocusPainted(false);
         button.setBackground(themeColor1);
         button.setForeground(themeColor4);

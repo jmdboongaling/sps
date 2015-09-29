@@ -46,11 +46,9 @@ public class ControlPanel {
         compGui.ButtonProperties(logoutButton, "Logout");
         logoutButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){         
-                try {     
-                    logoutButtonActionPerformed(e);
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(ControlPanel.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                   
+                logoutButtonActionPerformed(e);
+                
             }      
         });
                 
@@ -109,9 +107,10 @@ public class ControlPanel {
         
     }
     
-    private void logoutButtonActionPerformed(ActionEvent e) throws ClassNotFoundException{
+    private void logoutButtonActionPerformed(ActionEvent e){
         int userChoice = JOptionPane.showConfirmDialog(null, "Are you sure you want to logout?", "QuickByte Software - Lougout", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION, compGui.logoutIcon);
                 if(userChoice == JOptionPane.YES_OPTION){
+                    Logout userLogout = new Logout(LoginAuthentication.userName);
                     System.exit(0);
                 }
     }

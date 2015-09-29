@@ -149,25 +149,24 @@ public class Search{
                     queryStatement.setString(1, "%" + studentQuery + "%");
                     break;
                 case "General Percentile Average":
-                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE PARENTS_INCOME = ?";
+                    SQL = "SELECT * FROM STUDENTS_TABLE WHERE STUDENT_GPA = ?";
                     queryStatement = dbConnection.prepareStatement(SQL);
                     queryStatement.setFloat(1, Float.parseFloat(studentQuery));
                     break;
             }
             
             
-            //queryStatement.setString(1, categoryQuery);
-            //queryStatement.setString(1, studentQuery);
+            
             
             rs = queryStatement.executeQuery();
         
-         do{
-             
-             table = new JTable(buildTableModel(rs));
-             
-             
-             //JOptionPane.showMessageDialog(null, new JScrollPane(table));
-         }while(rs.next());
+            do{
+
+                table = new JTable(buildTableModel(rs));
+
+
+                //JOptionPane.showMessageDialog(null, new JScrollPane(table));
+            }while(rs.next());
             FrameComponents guiComp = new FrameComponents();
             table.setFont(guiComp.componentFont);
             table.setRowSelectionAllowed(true);
@@ -176,12 +175,7 @@ public class Search{
             table.getTableHeader().setBackground(Color.WHITE);
             table.getTableHeader().setOpaque(false);
             
-            
-            
-            
-            
-         
-         table.addMouseListener(new MouseAdapter() {
+            table.addMouseListener(new MouseAdapter() {
                 public void mouseReleased(MouseEvent e) {
                 try {
                     String studentNumber = (String) table.getValueAt(table.getSelectedRow(), 0);
@@ -195,7 +189,7 @@ public class Search{
                 
                 }
             });
-         //rs.close();*/
+            rs.close();
         }catch(Exception e){
             
             e.printStackTrace();

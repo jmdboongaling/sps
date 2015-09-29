@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.quickbyte.fims.gui;
 
 import com.quickbyte.fims.data.DBConnect;
@@ -22,8 +18,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import net.java.dev.designgridlayout.DesignGridLayout;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -33,10 +29,12 @@ public class Options extends JFrame{
     
     private JLabel dbURLLabel,
                    dbUsernameLabel,
-                   dbPasswordLabel;
+                   dbPasswordLabel,
+                   imageDirectoryLabel;
     
     private JTextField dbURLField,
-                       dbUsernameField;
+                       dbUsernameField,
+                       imageDirectoryField;
     
     private JPasswordField dbPasswordField;
     
@@ -46,8 +44,7 @@ public class Options extends JFrame{
     private JList menuBar;
     
     private JPanel dbSettingsPanel,
-                   dbLabelsPanel,
-                   dbFieldsPanel,
+                   imageDirectoryPanel,
                    showPanel,
                    buttonPanel;
     
@@ -56,6 +53,7 @@ public class Options extends JFrame{
     public Options(){
         
         initComponents();
+        
     }
     
     private void initComponents(){
@@ -67,43 +65,51 @@ public class Options extends JFrame{
         dbPasswordLabel = new JLabel("Database Password: ");
         compGui.LabelProperties(dbPasswordLabel);
         
-        dbURLField = new JTextField(35);
+        dbURLField = new JTextField();
         compGui.TextFieldProperties(dbURLField);
         dbURLField.setText(DBConnect.dbURL);
-        dbUsernameField = new JTextField(15);
+        dbUsernameField = new JTextField();
         compGui.TextFieldProperties(dbUsernameField);
         dbUsernameField.setText(DBConnect.dbUsername);
-        dbPasswordField = new JPasswordField(15);
+        dbPasswordField = new JPasswordField();
         dbPasswordField.setText("*************");
         compGui.TextFieldProperties(dbPasswordField);
         
-        dbLabelsPanel = new JPanel(new GridLayout(15, 1, 5, 5));
-        dbLabelsPanel.setOpaque(false);
-        dbLabelsPanel.add(dbURLLabel);
-        dbLabelsPanel.add(dbUsernameLabel);
-        dbLabelsPanel.add(dbPasswordLabel);
-        
-        dbFieldsPanel = new JPanel(new GridLayout(15, 1, 5, 5));
-        dbFieldsPanel.setOpaque(false);
-        dbFieldsPanel.add(dbURLField);
-        dbFieldsPanel.add(dbUsernameField);
-        dbFieldsPanel.add(dbPasswordField);
-        
-        dbSettingsPanel = new JPanel(new BorderLayout());
+
+        dbSettingsPanel = new JPanel();
+        DesignGridLayout formLayout = new DesignGridLayout(dbSettingsPanel);
         dbSettingsPanel.setOpaque(false);
-        dbSettingsPanel.add(dbLabelsPanel, BorderLayout.WEST);
-        dbSettingsPanel.add(dbFieldsPanel, BorderLayout.CENTER);
+        formLayout.row().grid(dbURLLabel).add(dbURLField);
+        formLayout.row().grid(dbUsernameLabel).add(dbUsernameField);
+        formLayout.row().grid(dbPasswordLabel).add(dbPasswordField);
+        
+        imageDirectoryLabel = new JLabel("Image Directory: ");
+        compGui.LabelProperties(imageDirectoryLabel);
+        
+        imageDirectoryField = new JTextField(DBConnect.imageDir);
+        compGui.TextFieldProperties(imageDirectoryField);
+        
+        
+        
+        imageDirectoryPanel = new JPanel();
+        imageDirectoryPanel.setOpaque(false);
+        DesignGridLayout formLayout2 = new DesignGridLayout(imageDirectoryPanel);
+        formLayout2.row().grid(imageDirectoryLabel).add(imageDirectoryField);
         
         CardLayout switchPanel = new CardLayout();
         showPanel = new JPanel();
         showPanel.setLayout(switchPanel);
         showPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         showPanel.add(dbSettingsPanel, "1");
-        showPanel.add(new JLabel("Images"), "2");
+        showPanel.add(imageDirectoryPanel, "2");
         DefaultListModel listModel = new DefaultListModel();
         menuBar = new JList(listModel);
+        menuBar.setOpaque(false);
         listModel.addElement("Database Settings");
         listModel.addElement("Images Directory");
+        JLabel sideBar = new JLabel(compGui.optionsSidebar);
+        sideBar.setLayout(new BorderLayout());
+        sideBar.add(menuBar, BorderLayout.CENTER);
         menuBar.setBorder(new EmptyBorder(15, 0, 15, 15));
         menuBar.setFont(compGui.componentFont);
         menuBar.addListSelectionListener(new ListSelectionListener() {
@@ -135,13 +141,16 @@ public class Options extends JFrame{
         });
         
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        buttonPanel.setOpaque(false);
+        buttonPanel.setOpaque(true);
         buttonPanel.add(applyButton);
         buttonPanel.add(closeButton);
-        //super.addW
+        
+        setTitle("Student Profiling System - Options");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        getContentPane().setBackground(Color.WHITE);
         setLayout(new BorderLayout());
-        add(menuBar, BorderLayout.WEST);
+        setResizable(false);
+        add(sideBar, BorderLayout.WEST);
         add(showPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
         pack();
@@ -156,18 +165,13 @@ public class Options extends JFrame{
             DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
             Document doc = docBuilder.parse(filepath);
 
-            // Get the root element
+           
             Node userSettings = doc.getFirstChild();
 
-            // Get the systemConfig element , it may not working if tag has spaces, or
-            // whatever weird characters in front...it's better to use
-            // getElementsByTagName() to get it directly.
-            // Node systemConfig = company.getFirstChild();
-
-            // Get the systemConfig element by tag name directly
+            
             Node systemConfig = doc.getElementsByTagName("SYSTEM_CONFIG").item(0);
 
-            // update systemConfig attribute
+            
             NamedNodeMap attr = systemConfig.getAttributes();
             Node nodeAttr = attr.getNamedItem("config_type");
             nodeAttr.setTextContent("DATABASE");
@@ -186,38 +190,20 @@ public class Options extends JFrame{
                 if ("DB_PASSWORD".equals(node.getNodeName())) {
                         node.setTextContent(dbPasswordField.getText());
                 }
+                
+                if ("IMAGE_DIR".equals(node.getNodeName())) {
+                        node.setTextContent(imageDirectoryField.getText());
+                }
             
             }
-            // append a new node to systemConfig
-          
-
-            // loop the systemConfig child node
-            //NodeList list = systemConfig.getChildNodes();
-            /*
-            for (int i = 0; i < list.getLength(); i++) {
-
-               Node node = list.item(i);
-
-               // get the salary element, and update the value
-               if ("salary".equals(node.getNodeName())) {
-                    node.setTextContent("2000000");
-               }
-
-               //remove firstname
-               if ("firstname".equals(node.getNodeName())) {
-                    systemConfig.removeChild(node);
-               }
-
-            }*/
-
-            // write the content into xml file
+            
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource source = new DOMSource(doc);
             StreamResult result = new StreamResult(new File(filepath));
             transformer.transform(source, result);
 
-            System.out.println("Done");
+            JOptionPane.showMessageDialog(null, "Settings Updated!");
 
         } catch (ParserConfigurationException pce) {
              pce.printStackTrace();

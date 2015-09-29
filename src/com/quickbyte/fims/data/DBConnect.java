@@ -23,7 +23,6 @@ package com.quickbyte.fims.data;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
-import javax.swing.JOptionPane;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -41,7 +40,9 @@ public class DBConnect{
     
     public static String dbURL,
                          dbUsername,
-                         dbPassword;
+                         imageDir;
+                         
+    private static String dbPassword;
     
     public static Connection dbConnect() throws ClassNotFoundException{
         
@@ -62,6 +63,7 @@ public class DBConnect{
                 dbURL = "jdbc:postgresql:" + (eElement.getElementsByTagName("DB_URL").item(0).getTextContent());
                 dbUsername = (eElement.getElementsByTagName("DB_USERNAME").item(0).getTextContent());
                 dbPassword = (eElement.getElementsByTagName("DB_PASSWORD").item(0).getTextContent());
+                imageDir = (eElement.getElementsByTagName("IMAGE_DIR").item(0).getTextContent());
             }
             
         }catch (ParserConfigurationException | SAXException | IOException | DOMException e){

@@ -1,4 +1,6 @@
 
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import org.apache.pdfbox.exceptions.COSVisitorException;
 import org.apache.pdfbox.pdmodel.*;
@@ -18,7 +20,7 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
  */
 public class NewClass {
     public static void main(String[]args) throws IOException, COSVisitorException{
-        PDDocument document = new PDDocument();
+        /*PDDocument document = new PDDocument();
         PDPage page = new PDPage();
         document.addPage(page);
         
@@ -32,6 +34,14 @@ public class NewClass {
         
         contentStream.close();
         document.save("Test.pdf");
-        document.close();
+        document.close();*/
+        
+        Desktop desktop = Desktop.getDesktop();
+    try {
+    //desktop.print(new File("DocXfile.docx"));
+        desktop.print(new File("Test.pdf"));
+    } catch (IOException e) {      
+        e.printStackTrace();
+    }
     }
 }

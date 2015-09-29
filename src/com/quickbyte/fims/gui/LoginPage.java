@@ -35,10 +35,6 @@ public class LoginPage{
     
     private JFrame loginFrame;
     
-    private JLabel usernameLabel,
-                   passwordLabel;
-
-    
     private JTextField usernameField;
     
     private JPasswordField passwordField;
@@ -59,18 +55,76 @@ public class LoginPage{
     
     private void initComponents(){
         
-        FrameComponents guiComp = new FrameComponents(); 
+        FrameComponents compGui = new FrameComponents(); 
         loginFrame = new JFrame();
         
-        usernameLabel = new JLabel("Username: ");
-        guiComp.LabelProperties(usernameLabel);
+       
         
-        passwordLabel = new JLabel("Password");
-        guiComp.LabelProperties(passwordLabel);
+        usernameField = new JTextField("Username");
+        compGui.TextFieldProperties(usernameField);
+        usernameField.setBorder(new MatteBorder(0, 0, 1, 0, Color.BLACK));
+        usernameField.addMouseListener(new MouseAdapter(){
+            public void mouseEntered(MouseEvent e){
+                if(usernameField.getText().equals("Username")){
+                    usernameField.setText("");
+                }
+                
+            }
+            public void mouseReleased(MouseEvent e){
+                usernameField.setText("");
+            }
+            public void mouseExited(MouseEvent e){
+                if(usernameField.getText().equals("")){
+                    usernameField.setText("Username");
+                }
+                
+            }
+        });
         
-        usernameField = new JTextField(22);
+        usernameField.addKeyListener(new KeyAdapter(){
+            public void keyPressed(KeyEvent e){
+                while(usernameField.getText().equals("Username")){
+                    usernameField.setText("");
+                    
+                }
+                
+            }
+        });
         
-        passwordField = new JPasswordField(22);
+        passwordField = new JPasswordField("Password");
+        compGui.TextFieldProperties(passwordField);
+        passwordField.setBorder(new MatteBorder(0, 0, 1, 0, Color.BLACK));
+        passwordField.setEchoChar((char) 0);
+        passwordField.addMouseListener(new MouseAdapter(){
+            public void mouseEntered(MouseEvent e){
+                if(passwordField.getText().equals("Password")){
+                    passwordField.setText("");
+                    passwordField.setEchoChar((char) 0);
+                }
+                
+            }
+            public void mouseReleased(MouseEvent e){
+                passwordField.setText("");
+                passwordField.setEchoChar('•');
+            }
+            public void mouseExited(MouseEvent e){
+                if(passwordField.getText().equals("")){
+                    passwordField.setText("Password");
+                    passwordField.setEchoChar((char) 0);
+                }
+                
+            }
+        });
+        
+        passwordField.addKeyListener(new KeyAdapter(){
+            public void keyPressed(KeyEvent e){
+                while(passwordField.getText().equals("Password")){
+                    passwordField.setText("");
+                    passwordField.setEchoChar('•');
+                }
+                passwordField.setEchoChar('•');
+            }
+        });
         passwordField.addActionListener(new ActionListener(){
  
             public void actionPerformed(ActionEvent e){
@@ -80,7 +134,7 @@ public class LoginPage{
         });
         
         loginButton = new JButton("Login");
-        guiComp.ButtonProperties(loginButton);
+        compGui.ButtonProperties(loginButton);
         loginButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){        
                 loginButtonActionPerformed(e);         
@@ -88,14 +142,12 @@ public class LoginPage{
         });
         
         forgotButton = new JButton("Forgot Login?");
-        guiComp.ButtonProperties(forgotButton);
+        compGui.ButtonProperties(forgotButton);
              
         loginFieldsPanel = new JPanel();
         loginFieldsPanel.setOpaque(false);
-        loginFieldsPanel.setLayout(new GridLayout(4, 1, 5, 5));
-        loginFieldsPanel.add(usernameLabel);
+        loginFieldsPanel.setLayout(new GridLayout(2, 1, 0, 20));
         loginFieldsPanel.add(usernameField);
-        loginFieldsPanel.add(passwordLabel);
         loginFieldsPanel.add(passwordField);       
         
         loginButtonsPanel = new JPanel();
@@ -105,8 +157,8 @@ public class LoginPage{
         loginButtonsPanel.add(forgotButton);
         
         loginForm = new JPanel();
-        loginForm.setOpaque(true);
-        loginForm.setBackground(new Color(255, 255, 255, 200));
+        loginForm.setOpaque(false);
+        //loginForm.setBackground(new Color(255, 255, 255, 200));
         loginForm.setBorder(new EmptyBorder(15, 15, 15, 15));
         loginForm.setLayout(new BorderLayout(5, 5));  
         loginForm.add(loginFieldsPanel, BorderLayout.CENTER);
@@ -115,9 +167,9 @@ public class LoginPage{
 
  
         framePanel = new JPanel();
-        framePanel.setOpaque(true);
+        framePanel.setOpaque(false);
         framePanel.setLayout(new BorderLayout());
-        framePanel.setBackground(guiComp.themeColor2);
+        //framePanel.setBackground(compGui.themeColor2);
 
         framePanel.add(loginForm, BorderLayout.CENTER);
         
@@ -125,7 +177,7 @@ public class LoginPage{
         loginFrame.setTitle("QuickByte Software - Student Management System");
         loginFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         loginFrame.setResizable(false);
-        loginFrame.setContentPane(guiComp.loginPageBackground);
+        loginFrame.setContentPane(compGui.loginPageBackground);
         loginFrame.setLayout(new GridBagLayout());
  
         loginFrame.add(framePanel);
@@ -135,7 +187,7 @@ public class LoginPage{
         //System.out.println(loginFrame.getSize());
         
 
-        
+        System.out.println(loginFrame.getSize());
     }
     
     private void loginButtonActionPerformed(ActionEvent e){

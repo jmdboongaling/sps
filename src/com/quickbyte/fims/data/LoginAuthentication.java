@@ -41,17 +41,29 @@ public class LoginAuthentication {
                 passWord = rs.getString("PASSWORD");
                 firstName = rs.getString("FIRST_NAME");
                 userLevel = rs.getString("USER_LEVEL");
-                if((userName.equals(getUsername.trim())) && (passWord.equals(getPassword))){
+                if(rs.getString("ONLINE").equals("True")){
+                    JOptionPane.showMessageDialog(null, "The account that you are trying to access is currently online. There can only be 1 session per account.");
+                }else{
+                    if((userName.equals(getUsername.trim())) && (passWord.equals(getPassword))){
                     
                     loginSuccess = true;
+                    try{
+                        String SQL2 = "UPDATE USERS_TABLE SET ONLINE = 'True' WHERE USERNAME = ?";
+                        PreparedStatement pst = dbConnection.prepareStatement(SQL2);
+                        pst.setString(1, userName);
+                        pst.executeUpdate();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                     
                 
+                    }else{
+
+                        loginSuccess = false;
+
+                    }
                 }
-                else{
                 
-                    loginSuccess = false;
-                
-                }
          }
          else{
              JOptionPane.showMessageDialog(null, "Username does not exist");
@@ -64,6 +76,8 @@ public class LoginAuthentication {
             //System.out.println(errorMessage);
             
         }
+        
+        
         return loginSuccess;
     }
     

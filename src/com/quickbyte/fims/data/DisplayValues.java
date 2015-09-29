@@ -34,7 +34,6 @@ public class DisplayValues{
                    studentSpouseAge,
                    studentSpouseEmployerAddress,
                    studentNoOfChildren,
-                   familyBackground,
                    fatherName,
                    fatherStatus,
                    fatherAddress,
@@ -112,7 +111,15 @@ public class DisplayValues{
              //JOptionPane.showMessageDialog(null, new JScrollPane(table));
          }
          
+            String imageDir = DBConnect.imageDir.replace("\"", "\\\"");
             
+            if(!DisplayPanel.studentNumberField.equals("")){
+                DisplayPanel.studentImageLabel.setIcon(new ImageIcon(imageDir + studentNumber + ".jpg"));
+                //DisplayPanel.studentImageLabel.setText("");
+            }else{
+                
+                DisplayPanel.studentImageLabel.setText("No Image Available!");
+            }
             
             DisplayPanel.studentFirstNameField.setText(studentFirstName); 
             DisplayPanel.studentMiddleNameField.setText(studentMiddleName);
