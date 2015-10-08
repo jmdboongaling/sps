@@ -82,6 +82,7 @@ public class SystemFrame{
         systemFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         systemFrame.setExtendedState(systemFrame.getExtendedState() | JFrame.MAXIMIZED_BOTH);
         systemFrame.getContentPane().setBackground(compGui.themeColor4);
+        systemFrame.setIconImage(compGui.frameIcon.getImage());
         systemFrame.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e) {
                 int userChoice = JOptionPane.showConfirmDialog(null, "Are you sure you want to logout?", "QuickByte Software - Lougout", JOptionPane.WARNING_MESSAGE, JOptionPane.OK_CANCEL_OPTION, compGui.logoutIcon);

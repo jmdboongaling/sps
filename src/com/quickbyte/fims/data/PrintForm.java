@@ -7,6 +7,8 @@ import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
 import java.sql.*;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import javax.print.PrintService;
 import javax.print.PrintServiceLookup;
 import org.apache.pdfbox.pdmodel.*;
@@ -16,6 +18,10 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
 
 public class PrintForm {
+
+   
+
+    
         private String studentFirstName, 
                        studentMiddleName,
                        studentLastName,
@@ -32,6 +38,7 @@ public class PrintForm {
                        studentCivilStatus,
                        studentReligion,
                        studentNationality,
+                       studentAge,
                        studentBirthday,
                        studentBirthplace,
                        studentBirthRank,
@@ -60,10 +67,10 @@ public class PrintForm {
                        motherEmployerAddress,
                        parentsStatus,
                        parentsEconomicStatus;
-    public PrintForm(String studentPull){
+    public PrintForm(String studentPull, String selectedPrinter, int loop){
         
         try{
-            String SQL = "SELECT * FROM STUDENTS_TABLE WHERE STUDENT_NO = ?";
+            String SQL = "SELECT * FROM STUDENT_RECORDS.STUDENTS_TABLE WHERE STUDENT_NO = ?";
             PreparedStatement queryStatement = DBConnect.dbConnect().prepareStatement(SQL);
             queryStatement.setString(1, studentPull);
             ResultSet rs = queryStatement.executeQuery();
@@ -86,7 +93,8 @@ public class PrintForm {
                 studentCivilStatus = rs.getString("CIVIL_STATUS");
                 studentReligion = rs.getString("RELIGION");
                 studentNationality = rs.getString("NATIONALITY");
-                studentBirthday = rs.getString("BIRTHDAY");
+                studentAge = Integer.toString((int)getAge(new java.util.Date(), new java.util.Date(rs.getDate("BIRTHDAY").getTime())));
+                studentBirthday = rs.getDate("BIRTHDAY").toString();
                 studentBirthplace = rs.getString("BIRTHPLACE");
                 studentBirthRank = rs.getString("BIRTH_RANK");
                 studentSpouse = rs.getString("SPOUSE_NAME");
@@ -115,71 +123,157 @@ public class PrintForm {
                 parentsEconomicStatus = Integer.toString(rs.getInt("PARENTS_INCOME"));
             }
       
-            PDDocument document = PDDocument.load("/Temp/Hello World.pdf");
+            PDDocument document = PDDocument.load("/Temp/form.pdf");
             PDPage page = (PDPage) document.getDocumentCatalog().getAllPages().get(0);
             document.addPage(page);
 
             
-            PDFont font = PDType1Font.HELVETICA;
+            PDFont font = PDType1Font.COURIER_OBLIQUE;
 
             
             PDPageContentStream contentStream = new PDPageContentStream(document, page, true, true);
 
             contentStream.beginText();
-            contentStream.setFont(font, 12);
-            contentStream.moveTextPositionByAmount(50, 700);
-            contentStream.drawString("Student Number: " + studentNumber);
+            contentStream.setFont(font, 15);
+            contentStream.moveTextPositionByAmount(180, 520);
+            contentStream.drawString(studentLastName + ", " + studentFirstName + " " + studentMiddleName);
             contentStream.endText();
             contentStream.beginText();
-            contentStream.setFont( font, 12 );
-            contentStream.moveTextPositionByAmount(50, 680);
-            contentStream.drawString("Last Name: " + studentLastName);
+            contentStream.setFont(font, 15);
+            contentStream.moveTextPositionByAmount(200, 480);
+            contentStream.drawString(studentCourse);
             contentStream.endText();
             contentStream.beginText();
-            contentStream.setFont( font, 12 );
-            contentStream.moveTextPositionByAmount(50, 660);
-            contentStream.drawString("First Name: " + studentFirstName);
+            contentStream.setFont(font, 15);
+            contentStream.moveTextPositionByAmount(380, 480);
+            contentStream.drawString(studentSection);
             contentStream.endText();
             contentStream.beginText();
-            contentStream.setFont( font, 12 );
-            contentStream.moveTextPositionByAmount(50, 660);
-            contentStream.drawString("Middle Name: " + studentMiddleName);
+            contentStream.setFont(font, 11);
+            contentStream.moveTextPositionByAmount(470, 480);
+            contentStream.drawString(studentEmail);
             contentStream.endText();
             contentStream.beginText();
-            contentStream.setFont( font, 12 );
-            contentStream.moveTextPositionByAmount(50, 660);
-            contentStream.drawString("Course: " + studentCourse);
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(155, 390);
+            contentStream.drawString(studentNickname);
             contentStream.endText();
             contentStream.beginText();
-            contentStream.setFont( font, 12 );
-            contentStream.moveTextPositionByAmount(50, 660);
-            contentStream.drawString("Section: " + studentSection);
-            contentStream.endText();contentStream.beginText();
-            contentStream.setFont( font, 12 );
-            contentStream.moveTextPositionByAmount(50, 660);
-            contentStream.drawString("Email Address: " + studentEmail);
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(305, 390);
+            contentStream.drawString(studentCellNumber);
             contentStream.endText();
             contentStream.beginText();
-            contentStream.setFont( font, 12 );
-            contentStream.moveTextPositionByAmount(50, 660);
-            contentStream.drawString("Nickname: " + studentNickname);
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(480, 390);
+            contentStream.drawString(studentHomeNumber);
             contentStream.endText();
             contentStream.beginText();
-            contentStream.setFont( font, 12 );
-            contentStream.moveTextPositionByAmount(50, 660);
-            contentStream.drawString("Perm Address: " + studentPermAddress);
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(200, 377);
+            contentStream.drawString(studentPermAddress);
             contentStream.endText();
             contentStream.beginText();
-            contentStream.setFont( font, 12 );
-            contentStream.moveTextPositionByAmount(50, 660);
-            contentStream.drawString("Perm Address: " + studentPermAddress);
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(185, 363);
+            contentStream.drawString(studentPresentAddress);
+            contentStream.endText();
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(115, 349);
+            contentStream.drawString(studentGender);
+            contentStream.endText();
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(220, 349);
+            contentStream.drawString(studentCivilStatus);
+            contentStream.endText();
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(330, 349);
+            contentStream.drawString(studentReligion);
+            contentStream.endText();
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(463, 349);
+            contentStream.drawString(studentNationality);
+            contentStream.endText();
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(123, 335);
+            contentStream.drawString(studentAge);
+            contentStream.endText();
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(210, 335);
+            contentStream.drawString(studentBirthday);
+            contentStream.endText();
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(360, 335);
+            contentStream.drawString(studentBirthplace);
+            contentStream.endText();
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(510, 335);
+            contentStream.drawString(studentBirthRank);
+            contentStream.endText();
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(200, 305);
+            contentStream.drawString(studentSpouse);
+            contentStream.endText();
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(430, 305);
+            contentStream.drawString(studentSpouseOccupation);
+            contentStream.endText();
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(190, 290);
+            if(!studentSpouse.equals("Not Applicable")){
+                contentStream.drawString(studentSpouseMarriageDate);
+            }else{
+                contentStream.drawString("Not Applicable");
+            }
             contentStream.endText();
             
-
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(430, 305);
+            contentStream.drawString(studentSpouseMarriagePlace);
+            contentStream.endText();
+            
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(360, 290);
+            contentStream.drawString(studentSpouseEmployerAddress);
+            contentStream.endText();
+            
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(200, 490);
+            contentStream.drawString(fatherName);
+            contentStream.endText();
+            
+            contentStream.beginText();
+            contentStream.setFont(font, 10);
+            contentStream.moveTextPositionByAmount(180, 520);
+            contentStream.drawString(fatherAddress);
+            contentStream.endText();
+            
             contentStream.close();
-            //document.
-            document.save( "/Temp/Hello World.pdf");
+            
+            document.save( "/Temp/testForm.pdf");
             document.close();
+            for (PrintService p: PrintServiceLookup.lookupPrintServices(null, null)) {
+                if (p.getName().equals(selectedPrinter)) {
+                    for(int i = 0; i < loop; i++){
+                        printPDF("/Temp/testForm.pdf", p);
+                    }
+                    break;
+                }
+            }
         }catch(Exception e){
             e.printStackTrace();
         }
@@ -201,8 +295,36 @@ public class PrintForm {
         PDDocument doc = PDDocument.load(fileName);
         doc.silentPrint(job);
     }
-    public static void main(String[]args) throws IOException, PrinterException{
-        new PrintForm("11-00003");
-        printPDF("/Temp/Hello World.pdf", PrintServiceLookup.lookupDefaultPrintService());
+    
+    private static float getAge(java.util.Date birthdate) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
+    public static float getAge(final java.util.Date current, final java.util.Date birthdate) {
+
+        if (birthdate == null) {
+          return 0;
+        }
+        if (current == null) {
+          return getAge(birthdate);
+        } else {
+          final Calendar calend = new GregorianCalendar();
+          calend.set(Calendar.HOUR_OF_DAY, 0);
+          calend.set(Calendar.MINUTE, 0);
+          calend.set(Calendar.SECOND, 0);
+          calend.set(Calendar.MILLISECOND, 0);
+
+          calend.setTimeInMillis(current.getTime() - birthdate.getTime());
+
+          float result = 0;
+          result = calend.get(Calendar.YEAR) - 1970;
+          result += (float) calend.get(Calendar.MONTH) / (float) 12;
+          return result;
+        }
+
+    }
+    
+    
+    
+   
+    
 }

@@ -6,7 +6,7 @@ import java.sql.*;
 public class Logout {
     public Logout(String studentQuery){
         try{
-            String SQL = "UPDATE USERS_TABLE SET ONLINE = 'False' WHERE USERNAME = ?";
+            String SQL = "UPDATE SYSTEM_USERS.USERS_TABLE SET ONLINE = FALSE WHERE USERNAME = ?";
             Connection dbConnection = DBConnect.dbConnect();
             PreparedStatement queryStatement = dbConnection.prepareStatement(SQL);
             queryStatement.setString(1, studentQuery);

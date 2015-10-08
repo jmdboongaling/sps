@@ -29,18 +29,23 @@ import javax.swing.*;
 import com.quickbyte.fims.data.DisplayValues;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
 import net.java.dev.designgridlayout.DesignGridLayout;
 import net.java.dev.designgridlayout.LabelAlignment;
 
 
 public class DisplayPanel{
     
-    public static JPanel containerPanel = new JPanel(new BorderLayout(5, 5)),
+    public static JPanel containerPanel = new JPanel(new BorderLayout(10, 5)),
                          recordPanel = new JPanel(),
                          buttonPanel = new JPanel(new GridLayout(1, 3, 5, 0)),
                          orgPanel = new JPanel(new FlowLayout());
@@ -66,6 +71,7 @@ public class DisplayPanel{
                           studentReligion,
                           studentNationality,
                           studentBirthday,
+                          studentAge,
                           studentBirthplace,
                           studentBirthRank,
                           marriedLabel,
@@ -94,7 +100,18 @@ public class DisplayPanel{
                           motherOccupation,
                           motherEmployerAddress,
                           parentsStatus,
-                          parentsEconomicStatus;
+                          parentsEconomicStatus,
+                          guardianName,
+                          guardianRelation,
+                          guardianCell,
+                          guardianAddress,
+                          ifWorking,
+                          workPosition,
+                          workAddress,
+                          studentDescription,
+                          courseReason,
+                          entryYear,
+                          studentGPA;
                           
     public static JLabel studentImageLabel;
                           
@@ -115,6 +132,7 @@ public class DisplayPanel{
                              studentReligionField,
                              studentNationalityField,
                              studentBirthdayField,
+                             studentAgeField,
                              studentBirthplaceField,
                              studentBirthRankField,
                              studentSpouseField,
@@ -141,9 +159,19 @@ public class DisplayPanel{
                              motherOccupationField,
                              motherEmployerAddressField,
                              parentsStatusField,
-                             parentsEconomicStatusField;
+                             parentsEconomicStatusField,
+                             guardianNameField,
+                             guardianRelationField,
+                             guardianCellField,
+                             guardianAddressField,
+                             ifWorkingField,
+                             workPositionField,
+                             workAddressField,
+                             courseReasonField,
+                             entryYearField,
+                             studentGPAField;
 
-             
+   public static JTextArea studentDescriptionField;         
     
     
     private final JButton updateButton,
@@ -153,8 +181,9 @@ public class DisplayPanel{
     
     private final FrameComponents compGui = new FrameComponents();
      
-            
+    DesignGridLayout formLayout;        
     
+    public static JTable siblingsTable = null;
     public DisplayPanel() throws ClassNotFoundException{
         headerLabel = new JLabel("Student Record");
         headerLabel.setFont(compGui.headerFont);
@@ -199,6 +228,8 @@ public class DisplayPanel{
         compGui.LabelProperties(studentNationality);
         studentBirthday = new JLabel("Date of Birth: ");
         compGui.LabelProperties(studentBirthday);
+        studentAge = new JLabel("Age");
+        compGui.LabelProperties(studentAge);
         studentBirthplace = new JLabel("Place of Birth: ");
         compGui.LabelProperties(studentBirthplace);
         studentBirthRank = new JLabel("Birth Rank: ");
@@ -232,7 +263,7 @@ public class DisplayPanel{
         compGui.LabelProperties(fatherAge);
         fatherEducation = new JLabel("Education: ");
         compGui.LabelProperties(fatherEducation);
-        fatherCellNumber = new JLabel("Cellphone #: ");
+        fatherCellNumber = new JLabel("Cellphone Number: ");
         compGui.LabelProperties(fatherCellNumber);
         fatherOccupation = new JLabel("Occupation: ");
         compGui.LabelProperties(fatherOccupation);
@@ -248,7 +279,7 @@ public class DisplayPanel{
         compGui.LabelProperties(motherAge);
         motherEducation = new JLabel("Education: ");
         compGui.LabelProperties(motherEducation);
-        motherCellNumber = new JLabel("Cellphone #: ");
+        motherCellNumber = new JLabel("Cellphone Number: ");
         compGui.LabelProperties(motherCellNumber);
         motherOccupation = new JLabel("Occupation: ");
         compGui.LabelProperties(motherOccupation);
@@ -258,9 +289,29 @@ public class DisplayPanel{
         compGui.LabelProperties(parentsStatus);
         parentsEconomicStatus = new JLabel("Parent's Economic Status: ");
         compGui.LabelProperties(parentsEconomicStatus);
-        
-        
-        
+        guardianName = new JLabel("Guardian Name: ");
+        compGui.LabelProperties(guardianName);
+        guardianRelation = new JLabel("Relation: ");
+        compGui.LabelProperties(guardianRelation);
+        guardianCell = new JLabel("Cellphone Number: ");
+        compGui.LabelProperties(guardianCell);
+        guardianAddress = new JLabel("Present Address: ");
+        compGui.LabelProperties(guardianAddress);
+        ifWorking = new JLabel("If Working");
+        ifWorking.setFont(new Font("Verdana", Font.BOLD, 25));
+        workPosition = new JLabel("Position: ");
+        compGui.LabelProperties(workPosition);
+        workAddress = new JLabel("Address: ");
+        compGui.LabelProperties(workAddress);
+        studentDescription = new JLabel("Description: ");
+        compGui.LabelProperties(studentDescription);
+        courseReason = new JLabel("Reason for Choosing Course: ");
+        compGui.LabelProperties(courseReason);
+        entryYear = new JLabel("Entry Year: ");
+        compGui.LabelProperties(entryYear);
+        studentGPA = new JLabel("G.P.A. :");
+        compGui.LabelProperties(studentGPA);
+
         studentNumberField = new JTextField();
         compGui.TextFieldProperties(studentNumberField);
         studentCourseField = new JTextField(); 
@@ -295,6 +346,8 @@ public class DisplayPanel{
         compGui.TextFieldProperties(studentNationalityField);
         studentBirthdayField = new JTextField();
         compGui.TextFieldProperties(studentBirthdayField);
+        studentAgeField = new JTextField();
+        compGui.TextFieldProperties(studentAgeField);
         studentBirthplaceField = new JTextField();
         compGui.TextFieldProperties(studentBirthplaceField);
         studentBirthRankField = new JTextField();
@@ -351,6 +404,28 @@ public class DisplayPanel{
         compGui.TextFieldProperties(parentsStatusField);
         parentsEconomicStatusField = new JTextField();
         compGui.TextFieldProperties(parentsEconomicStatusField);
+        guardianNameField = new JTextField();
+        compGui.TextFieldProperties(guardianNameField);
+        guardianRelationField = new JTextField();
+        compGui.TextFieldProperties(guardianRelationField);
+        guardianCellField = new JTextField();
+        compGui.TextFieldProperties(guardianCellField);
+        guardianAddressField = new JTextField();
+        compGui.TextFieldProperties(guardianAddressField);
+        ifWorkingField = new JTextField();
+        compGui.TextFieldProperties(ifWorkingField);
+        workPositionField = new JTextField();
+        compGui.TextFieldProperties(workPositionField);
+        workAddressField = new JTextField();
+        compGui.TextFieldProperties(workAddressField);
+        studentDescriptionField = new JTextArea();
+        studentDescriptionField.setFont(compGui.componentFont);
+        courseReasonField = new JTextField();
+        compGui.TextFieldProperties(courseReasonField);
+        entryYearField = new JTextField();
+        compGui.TextFieldProperties(entryYearField);
+        studentGPAField = new JTextField();
+        compGui.TextFieldProperties(studentGPAField);
         
         studentFirstNameField.setEditable(false); 
         studentMiddleNameField.setEditable(false);
@@ -369,6 +444,7 @@ public class DisplayPanel{
         studentReligionField.setEditable(false);
         studentNationalityField.setEditable(false);
         studentBirthdayField.setEditable(false);
+        studentAgeField.setEditable(false);
         studentBirthplaceField.setEditable(false);
         studentBirthRankField.setEditable(false);
         studentSpouseField.setEditable(false);
@@ -396,13 +472,20 @@ public class DisplayPanel{
         motherEmployerAddressField.setEditable(false);
         parentsStatusField.setEditable(false);
         parentsEconomicStatusField.setEditable(false);
-        
-        
+        guardianNameField.setEditable(false);
+        guardianRelationField.setEditable(false);
+        guardianCellField.setEditable(false);
+        guardianAddressField.setEditable(false);
+        workPositionField.setEditable(false);
+        workAddressField.setEditable(false);
+        courseReasonField.setEditable(false);
+        entryYearField.setEditable(false);
+        studentGPAField.setEditable(false);
         
         recordPanel.setBackground(Color.WHITE);
         recordPanel.setOpaque(true);
         
-        DesignGridLayout formLayout = new DesignGridLayout(recordPanel);
+        formLayout = new DesignGridLayout(recordPanel);
         formLayout.disableSmartVerticalResize();
         formLayout.labelAlignment(LabelAlignment.LEFT);
         
@@ -410,10 +493,10 @@ public class DisplayPanel{
         
         formLayout.row().center().add(studentImageLabel);
         formLayout.row().center().add(personalLabel);
+        formLayout.row().grid(entryYear).add(entryYearField).grid(studentGPA).add(studentGPAField);
         formLayout.row().grid(studentNumber).add(studentNumberField);
         formLayout.row().grid(studentCourse).add(studentCourseField);
         formLayout.row().grid(studentSection).add(studentSectionField);
-        //;formLayout.row()
         formLayout.row().grid(studentLastName).add(studentLastNameField);
         formLayout.row().grid(studentFirstName).add(studentFirstNameField);
         formLayout.row().grid(studentMiddleName).add(studentMiddleNameField);
@@ -428,6 +511,7 @@ public class DisplayPanel{
         formLayout.row().grid(studentReligion).add(studentReligionField);
         formLayout.row().grid(studentNationality).add(studentNationalityField);
         formLayout.row().grid(studentBirthday).add(studentBirthdayField);
+        formLayout.row().grid(studentAge).add(studentAgeField);
         formLayout.row().grid(studentBirthplace).add(studentBirthplaceField);
         formLayout.row().grid(studentBirthRank).add(studentBirthRankField);
         formLayout.emptyRow();
@@ -456,10 +540,22 @@ public class DisplayPanel{
         formLayout.row().grid(motherAge).add(motherAgeField);
         formLayout.row().grid(motherEducation).add(motherEducationField);
         formLayout.row().grid(motherCellNumber).add(motherCellNumberField);
+        formLayout.row().grid(parentsStatus).add(parentsStatusField);
+        formLayout.row().grid().add(new JSeparator());
+        formLayout.row().grid(guardianName).add(guardianNameField);
+        formLayout.row().grid(guardianRelation).add(guardianRelationField);
+        formLayout.row().grid(guardianCell).add(guardianCellField);
+        formLayout.row().grid(guardianAddress).add(guardianAddressField);
+        formLayout.row().center().add(ifWorking);
+        formLayout.row().grid(workPosition).add(workPositionField);
+        formLayout.row().grid(workAddress).add(workAddressField);
+        //formLayout.row().grid(studentDescription).add(new JScrollPane(studentDescriptionField, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
+        //formLayout.row().grid(courseReason).add(courseReasonField);
         
         
-        
-        
+            
+       
+
         updateButton = new JButton("Update");
         updateButton.setIcon(compGui.updateIcon);
         compGui.ButtonProperties(updateButton);
@@ -506,8 +602,24 @@ public class DisplayPanel{
         recordPane.setBorder(new MatteBorder(5, 5, 5, 5, Color.WHITE));
         recordPane.setOpaque(false);
         recordPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        JButton showButton = new JButton(compGui.showIcon);
+        compGui.ButtonProperties(showButton);
+        //showButton.setBorder(new EmptyBorder(0, 0, 0, 0));
+        showButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                if(recordPane.isVisible()){
+                    recordPane.setVisible(false);
+                }else{
+                    recordPane.setVisible(true);
+                }
+            }
+        });
+        JPanel myPanel = new JPanel(new BorderLayout(5, 0));
+        myPanel.setOpaque(false);
+        myPanel.add(showButton, BorderLayout.EAST);
+        myPanel.add(headerLabel, BorderLayout.CENTER);
         
-        containerPanel.add(headerLabel, BorderLayout.NORTH);
+        containerPanel.add(myPanel, BorderLayout.NORTH);
         containerPanel.add(recordPane, BorderLayout.CENTER);
         //containerPanel.add(new JButton("Sessions"), BorderLayout.EAST);
         containerPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -564,8 +676,12 @@ public class DisplayPanel{
                     motherEmployerAddressField.setEditable(false);
                     parentsStatusField.setEditable(false);
                     parentsEconomicStatusField.setEditable(false);
+                    guardianNameField.setEditable(false);
+                    guardianRelationField.setEditable(false);
+                    guardianCellField.setEditable(false);
+                    guardianAddressField.setEditable(false);
                     try{
-                        String SQL = "UPDATE STUDENTS_TABLE SET " +
+                        String SQL = "UPDATE STUDENT_RECORDS.STUDENTS_TABLE SET " +
                                      "COURSE = ?, " + 
                                      "YEAR_SECTION = ?, " + 
                                      "EMAIL_ADDRESS = ?, " + 
@@ -598,7 +714,9 @@ public class DisplayPanel{
                                      "MOTHER_OCCUPATION = ?, " + 
                                      "MOTHER_EMPADDRESS = ?, " + 
                                      "PARENTS_STATUS = ?, " + 
-                                     "PARENTS_INCOME = ? " + 
+                                     "PARENTS_INCOME = ?, " +
+                                     "WORK_POSITION = ?, " +
+                                     "WORK_ADDRESS = ?" +
                                      " WHERE STUDENT_NO = ?";
                         Connection dbConnection = DBConnect.dbConnect();
                         PreparedStatement queryStatement = dbConnection.prepareStatement(SQL);
@@ -642,7 +760,9 @@ public class DisplayPanel{
                         queryStatement.setString(31, motherEmployerAddressField.getText());
                         queryStatement.setString(32, parentsStatusField.getText());
                         queryStatement.setInt(33, Integer.parseInt(parentsEconomicStatusField.getText()));
-                        queryStatement.setString(34, studentNumberField.getText());
+                        queryStatement.setString(34, workPositionField.getText());
+                        queryStatement.setString(35, workAddressField.getText());
+                        queryStatement.setString(36, studentNumberField.getText());
                         queryStatement.executeUpdate();
                         JOptionPane.showMessageDialog(null, "Record Updated!");
 
@@ -694,6 +814,12 @@ public class DisplayPanel{
                     motherEmployerAddressField.setEditable(false);
                     parentsStatusField.setEditable(false);
                     parentsEconomicStatusField.setEditable(false);
+                    guardianNameField.setEditable(false);
+                    guardianRelationField.setEditable(false);
+                    guardianCellField.setEditable(false);
+                    guardianAddressField.setEditable(false);
+                    workPositionField.setEditable(false);
+                    workAddressField.setEditable(false);
                 }
 
             }else{
@@ -731,7 +857,15 @@ public class DisplayPanel{
                 motherEmployerAddressField.setEditable(true);
                 parentsStatusField.setEditable(true);
                 parentsEconomicStatusField.setEditable(true);
+                guardianNameField.setEditable(true);
+                guardianRelationField.setEditable(true);
+                guardianCellField.setEditable(true);
+                guardianAddressField.setEditable(true);
+                workPositionField.setEditable(true);
+                workAddressField.setEditable(true);
             } 
+        }else{
+            JOptionPane.showMessageDialog(null, "No student selected!");
         }
         
     }
@@ -743,6 +877,7 @@ public class DisplayPanel{
     private void printButtonActionPerformed(ActionEvent e){
         new Print(studentNumberField.getText());
     }
+     
 
     
 }

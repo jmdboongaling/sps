@@ -1,5 +1,6 @@
 package com.quickbyte.fims.gui;
 
+import com.quickbyte.fims.data.PrintForm;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -24,11 +25,7 @@ public class Print extends JFrame{
     
     private final FrameComponents compGui = new FrameComponents();
 
-    public Print(String studentNumber){
-        
-        initComponents();
-        
-    }
+   
     
 
     private String[] getPrinterNames(){
@@ -46,7 +43,7 @@ public class Print extends JFrame{
         
     }
 
-    public void initComponents(){
+    public Print(String studentPull){
         printersLabel = new JLabel("Printers: ");
         compGui.LabelProperties(printersLabel);
         numberCopiesLabel = new JLabel("Copies: ");
@@ -69,7 +66,7 @@ public class Print extends JFrame{
         optionsPanel.add(numberCopiesLabel);
         optionsPanel.add(numberCopies);
 
-        printPreviewLabel = new JLabel("sda");//compGui.documentPreviewIcon);
+        printPreviewLabel = new JLabel();//compGui.documentPreviewIcon);
         compGui.LabelProperties(printPreviewLabel);
         printPreviewLabel.setHorizontalTextPosition(0);
         printPreviewLabel.setVerticalTextPosition(0);
@@ -78,15 +75,18 @@ public class Print extends JFrame{
 
         printButton = new JButton("Print");
         compGui.ButtonProperties(printButton);
-        printButton.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent e) {}
+        printButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                new PrintForm(studentPull, printerList.getSelectedItem().toString(), (int) numberCopies.getValue());
+            }
         });
         cancelButton = new JButton("Cancel");
         compGui.ButtonProperties(cancelButton);
         cancelButton.addActionListener(new ActionListener()
         {
-            public void actionPerformed(ActionEvent e) {}
+            public void actionPerformed(ActionEvent e) {
+            dispose();
+            }
         });
         footerPanel = new JPanel(new GridLayout(1, 2, 5, 5));
         footerPanel.setOpaque(false);

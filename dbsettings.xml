@@ -3,6 +3,6 @@
         <DB_URL>//192.168.1.10:5432/SPS_TESTDB</DB_URL>
         <DB_USERNAME>qbadmin</DB_USERNAME>
         <DB_PASSWORD>123</DB_PASSWORD>
-		<IMAGE_DIR>C:\Users\DELL-PC\Desktop\</IMAGE_DIR>
+		<IMAGE_DIR>\\192.168.1.9\Users\wilmerchua13\Desktop\images\</IMAGE_DIR>
 	</SYSTEM_CONFIG>
 </USER_SETTINGS>

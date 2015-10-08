@@ -29,6 +29,7 @@ import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import com.quickbyte.fims.data.LoginAuthentication;
+import java.security.NoSuchAlgorithmException;
 
 
 public class LoginPage{
@@ -128,7 +129,11 @@ public class LoginPage{
         passwordField.addActionListener(new ActionListener(){
  
             public void actionPerformed(ActionEvent e){
-               loginButtonActionPerformed(e);
+                try {
+                    loginButtonActionPerformed(e);
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             
         });
@@ -137,12 +142,21 @@ public class LoginPage{
         compGui.ButtonProperties(loginButton);
         loginButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){        
-                loginButtonActionPerformed(e);         
+                try {         
+                    loginButtonActionPerformed(e);
+                } catch (NoSuchAlgorithmException ex) {
+                    Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         
-        forgotButton = new JButton("Forgot Login?");
+        forgotButton = new JButton("QBAdmin");
         compGui.ButtonProperties(forgotButton);
+        forgotButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                new AddUser();
+            }
+        });
              
         loginFieldsPanel = new JPanel();
         loginFieldsPanel.setOpaque(false);
@@ -176,6 +190,7 @@ public class LoginPage{
         
         loginFrame.setTitle("QuickByte Software - Student Management System");
         loginFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        loginFrame.setIconImage(compGui.frameIcon.getImage());
         loginFrame.setResizable(false);
         loginFrame.setContentPane(compGui.loginPageBackground);
         loginFrame.setLayout(new GridBagLayout());
@@ -184,13 +199,10 @@ public class LoginPage{
         loginFrame.pack();
         loginFrame.setLocationRelativeTo(null);
         loginFrame.setVisible(true); 
-        //System.out.println(loginFrame.getSize());
         
-
-        System.out.println(loginFrame.getSize());
     }
     
-    private void loginButtonActionPerformed(ActionEvent e){
+    private void loginButtonActionPerformed(ActionEvent e) throws NoSuchAlgorithmException{
         String getUsername = usernameField.getText(),
                getPassword = passwordField.getText();
                 

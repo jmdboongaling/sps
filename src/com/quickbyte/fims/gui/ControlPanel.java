@@ -31,7 +31,7 @@ import javax.swing.*;
 
 public class ControlPanel {
     
-    public JPanel controlPanel = new JPanel(new GridLayout(4, 1 ,5, 5));
+    public JPanel controlPanel = new JPanel(new GridLayout(3, 1 ,5, 5));
     
     private final JButton logoutButton,
                           optionsButton,
@@ -57,7 +57,7 @@ public class ControlPanel {
         optionsButton = new JButton();
         optionsButton.setIcon(compGui.optionsIcon);
         compGui.ButtonProperties(optionsButton, "Options");
-        if(LoginAuthentication.userLevel.equals("Admin")){
+        if(LoginAuthentication.userLevel.equals("Administrator")){
             optionsButton.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     optionsButtonActionPerformed(e);
@@ -84,7 +84,7 @@ public class ControlPanel {
         qbAdminButton = new JButton();
         qbAdminButton.setIcon(compGui.qbAdminIcon);
         compGui.ButtonProperties(qbAdminButton, "QB Admin");
-        if(LoginAuthentication.userLevel.equals("Admin")){
+        if(LoginAuthentication.userLevel.equals("Administrator")){
             qbAdminButton.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     qbAdminButtonActionPerformed(e);
@@ -102,7 +102,7 @@ public class ControlPanel {
 
         controlPanel.add(logoutButton);
         controlPanel.add(optionsButton);
-        controlPanel.add(qbAdminButton);
+        //controlPanel.add(qbAdminButton);
         controlPanel.add(helpButton);
         
     }
@@ -119,7 +119,9 @@ public class ControlPanel {
         new Options();
     }
     private void helpButtonActionPerformed(ActionEvent e){
-        
+        String[] arg = null;
+        UserManual run = new UserManual();
+        run.main(arg);
     }
     private void qbAdminButtonActionPerformed(ActionEvent e){
         

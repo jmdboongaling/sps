@@ -7,6 +7,8 @@ package com.quickbyte.fims.data;
 
 import java.awt.BorderLayout;
 import java.awt.HeadlessException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,17 +26,17 @@ public class LoginAuthentication {
     
     private boolean loginSuccess;
    
-    public boolean LoginAuthentication(String getUsername, String getPassword) throws ClassNotFoundException{
+    public boolean LoginAuthentication(String getUsername, String getPassword) throws ClassNotFoundException, NoSuchAlgorithmException{
         
         Connection dbConnection = DBConnect.dbConnect();
         try{
-            String SQL = "SELECT * FROM USERS_TABLE WHERE USERNAME= ?";
+            String SQL = "SELECT * FROM SYSTEM_USERS.USERS_TABLE WHERE USERNAME= ?";
             PreparedStatement queryStatement  = dbConnection.prepareStatement(SQL);
             queryStatement.setString(1, getUsername);
             
             
             ResultSet rs = queryStatement.executeQuery();
-        
+            
          if(rs.next()){
                 
                 userName = rs.getString("USERNAME");
@@ -44,17 +46,22 @@ public class LoginAuthentication {
                 if(rs.getString("ONLINE").equals("True")){
                     JOptionPane.showMessageDialog(null, "The account that you are trying to access is currently online. There can only be 1 session per account.");
                 }else{
-                    if((userName.equals(getUsername.trim())) && (passWord.equals(getPassword))){
+                    if((userName.equals(getUsername.trim())) && (passWord.equals(encryptPassword(getPassword)))){
                     
-                    loginSuccess = true;
-                    try{
-                        String SQL2 = "UPDATE USERS_TABLE SET ONLINE = 'True' WHERE USERNAME = ?";
-                        PreparedStatement pst = dbConnection.prepareStatement(SQL2);
-                        pst.setString(1, userName);
-                        pst.executeUpdate();
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
+                        if(rs.getBoolean("ONLINE")){
+                            JOptionPane.showMessageDialog(null, "The account you are trying to access is currently logged in right now.");
+                        }else{
+                            loginSuccess = true;
+                            try{
+                                String SQL2 = "UPDATE SYSTEM_USERS.USERS_TABLE SET ONLINE = TRUE, LAST_LOGIN = ? WHERE USERNAME = ?";
+                                PreparedStatement pst = dbConnection.prepareStatement(SQL2);
+                                pst.setTimestamp(1, new Timestamp(new java.util.Date().getTime()));
+                                pst.setString(2, userName);
+                                pst.executeUpdate();
+                            }catch(Exception e){
+                                e.printStackTrace();
+                            }
+                        }
                     
                 
                     }else{
@@ -79,6 +86,19 @@ public class LoginAuthentication {
         
         
         return loginSuccess;
+    }
+    
+    private String encryptPassword(String password) throws NoSuchAlgorithmException{
+      
+		MessageDigest md = MessageDigest.getInstance("MD5");
+		md.update(password.getBytes());
+		byte[] digest = md.digest();
+		StringBuilder stringBuilder = new StringBuilder();
+		for (byte b : digest) {
+			stringBuilder.append(String.format("%02x", b & 0xff));
+		}
+
+		return stringBuilder.toString();
     }
     
 }

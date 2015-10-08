@@ -2,8 +2,18 @@
 package com.quickbyte.fims.data;
 
 import com.quickbyte.fims.gui.DisplayPanel;
+import static com.quickbyte.fims.gui.DisplayPanel.guardianAddressField;
+import static com.quickbyte.fims.gui.DisplayPanel.guardianCellField;
+import static com.quickbyte.fims.gui.DisplayPanel.guardianNameField;
+import static com.quickbyte.fims.gui.DisplayPanel.guardianRelationField;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Vector;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import net.java.dev.designgridlayout.DesignGridLayout;
 
 
 
@@ -51,12 +61,20 @@ public class DisplayValues{
                    motherOccupation,
                    motherEmployerAddress,
                    parentsStatus,
-                   parentsEconomicStatus;
+                   parentsEconomicStatus,
+                   guardianName,
+                   guardianRelation,
+                   guardianCell,
+                   guardianAddress,
+                   workPosition,
+                   workAddress,
+                   entryYear,
+                   studentGPA;
     
     public DisplayValues(String studentPull) throws ClassNotFoundException,  NullPointerException{
         Connection dbConnection = DBConnect.dbConnect();
         try{
-            String SQL = "SELECT * FROM STUDENTS_TABLE WHERE STUDENT_NO = ?";
+            String SQL = "SELECT * FROM STUDENT_RECORDS.STUDENTS_TABLE WHERE STUDENT_NO = ?";
             PreparedStatement queryStatement  = dbConnection.prepareStatement(SQL);
             queryStatement.setString(1, studentPull);
             ResultSet rs = queryStatement.executeQuery();
@@ -106,16 +124,22 @@ public class DisplayValues{
             motherEmployerAddress = rs.getString("MOTHER_EMPADDRESS");
             parentsStatus = rs.getString("PARENTS_STATUS");
             parentsEconomicStatus = Integer.toString(rs.getInt("PARENTS_INCOME"));
-
-             
+            guardianName = rs.getString("GUARDIAN_NAME");
+            guardianRelation = rs.getString("GUARDIAN_RELATION");
+            guardianCell = rs.getString("GUARDIAN_CELL");
+            guardianAddress = rs.getString("GUARDIAN_ADDRESS");
+            workPosition = rs.getString("WORK_POSITION");
+            workAddress = rs.getString("WORK_ADDRESS");
+            entryYear = rs.getString("ENTRY_YEAR");
+            studentGPA = Float.toString(rs.getFloat("STUDENT_GPA"));
              //JOptionPane.showMessageDialog(null, new JScrollPane(table));
          }
          
             String imageDir = DBConnect.imageDir.replace("\"", "\\\"");
             
-            if(!DisplayPanel.studentNumberField.equals("")){
+            if(!DisplayPanel.studentNumberField.getText().equals("")){
                 DisplayPanel.studentImageLabel.setIcon(new ImageIcon(imageDir + studentNumber + ".jpg"));
-                //DisplayPanel.studentImageLabel.setText("");
+                DisplayPanel.studentImageLabel.setText("");
             }else{
                 
                 DisplayPanel.studentImageLabel.setText("No Image Available!");
@@ -138,12 +162,18 @@ public class DisplayValues{
             DisplayPanel.studentReligionField.setText(studentReligion);
             DisplayPanel.studentNationalityField.setText(studentNationality);
             DisplayPanel.studentBirthdayField.setText(studentBirthday);
+            DisplayPanel.studentAgeField.setText(Integer.toString((int)getAge(new java.util.Date(), new java.util.Date(rs.getDate("BIRTHDAY").getTime()))));
             DisplayPanel.studentBirthplaceField.setText(studentBirthplace);
             DisplayPanel.studentBirthRankField.setText(studentBirthRank);
             
             DisplayPanel.studentSpouseField.setText(studentSpouse);
             DisplayPanel.studentSpouseOccupationField.setText(studentSpouseOccupation);
-            DisplayPanel.studentSpouseMarriageDateField.setText(studentSpouseMarriageDate);
+            if(studentSpouse.equals("Not Applicable")){
+                DisplayPanel.studentSpouseMarriageDateField.setText("Not Applicable");
+            }else{
+                DisplayPanel.studentSpouseMarriageDateField.setText(studentSpouseMarriageDate);
+            }
+            
             DisplayPanel.studentSpouseMarriagePlaceField.setText(studentSpouseMarriagePlace);
             DisplayPanel.studentSpouseAgeField.setText(studentSpouseAge);
             DisplayPanel.studentSpouseEmployerAddressField.setText(studentSpouseEmployerAddress);
@@ -166,20 +196,81 @@ public class DisplayValues{
             DisplayPanel.motherEmployerAddressField.setText(motherEmployerAddress);
             DisplayPanel.parentsStatusField.setText(parentsStatus);
             DisplayPanel.parentsEconomicStatusField.setText(parentsEconomicStatus);
-         
+            DisplayPanel.guardianNameField.setText(guardianName);
+            DisplayPanel.guardianRelationField.setText(guardianRelation);
+            DisplayPanel.guardianCellField.setText(guardianCell);
+            DisplayPanel.guardianAddressField.setText(guardianAddress);
+            DisplayPanel.workPositionField.setText(workPosition);
+            DisplayPanel.workPositionField.setText(workAddress);
+            DisplayPanel.entryYearField.setText(entryYear);
+            DisplayPanel.studentGPAField.setText(studentGPA);
         }catch(Exception e){
             String errorMessage = e.getMessage();
             JOptionPane.showMessageDialog(null, errorMessage);
-            e.printStackTrace();
-            //System.out.println(errorMessage);
-            
+            e.printStackTrace();   
         }
         
         
     }
 
     
+private static float getAge(java.util.Date birthdate) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    public static float getAge(final java.util.Date current, final java.util.Date birthdate) {
 
+        if (birthdate == null) {
+          return 0;
+        }
+        if (current == null) {
+          return getAge(birthdate);
+        } else {
+          final Calendar calend = new GregorianCalendar();
+          calend.set(Calendar.HOUR_OF_DAY, 0);
+          calend.set(Calendar.MINUTE, 0);
+          calend.set(Calendar.SECOND, 0);
+          calend.set(Calendar.MILLISECOND, 0);
+
+          calend.setTimeInMillis(current.getTime() - birthdate.getTime());
+
+          float result = 0;
+          result = calend.get(Calendar.YEAR) - 1970;
+          result += (float) calend.get(Calendar.MONTH) / (float) 12;
+          return result;
+        }
+
+    }
+
+    /*private DisplayValues() {
+    }
+
+    
+    
+   public ArrayList<Object> siblingsTable(String studentPull){
+       try{
+            JPanel x = new JPanel();
+            DesignGridLayout y = new DesignGridLayout(x);
+            ArrayList<Object> list = new ArrayList<>();
+            PreparedStatement queryStatement = DBConnect.dbConnect().prepareStatement("SELECT * FROM STUDENT_RECORDS.STUDENT_COLLECTIONS WHERE STUDENT_NO = ? ORDER BY SIBLINGS_BIRTHRANK ASC");
+            queryStatement.setString(1, studentPull);
+            ResultSet rs = queryStatement.executeQuery();
+            while(rs.next()){
+                JLabel fieldLabel = new JLabel(rs.getString(motherName));
+                y.row().grid(new JLabel("Name")).add(new JTextField(rs.getString("SIBLING_NAME")));
+            }
+            
+            JOptionPane.showMessageDialog(null, x);
+            return list;
+       }catch(Exception err){
+           err.printStackTrace();
+           return null;
+       }
+        
+    }
+    
+    public static void main(String[]args){
+        new DisplayValues().siblingsTable("14-10001");
+    }*/
     
 
 }

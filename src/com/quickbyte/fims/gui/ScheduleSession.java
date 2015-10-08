@@ -19,7 +19,10 @@ public class ScheduleSession extends JFrame{
                    studentNumberLabel,
                    studentNameLabel,
                    dateLabel,
-                   timeLabel;
+                   timeLabel,
+                   sessionReason;
+    
+    private JTextField sessionReasonField;
     
     private JButton submitButton,
                     cancelButton;
@@ -66,6 +69,10 @@ public class ScheduleSession extends JFrame{
             compGui.LabelProperties(studentNumberLabel);
             studentNameLabel = new JLabel("Name: " + studentName);
             compGui.LabelProperties(studentNameLabel);
+            sessionReason = new JLabel("Reason: ");
+            compGui.LabelProperties(sessionReason);
+            sessionReasonField = new JTextField();
+            compGui.TextFieldProperties(sessionReasonField);
             dateLabel = new JLabel("Date");
             dateLabel.setFont(compGui.headerFont);
             dateLabel.setHorizontalAlignment(0);
@@ -113,12 +120,14 @@ public class ScheduleSession extends JFrame{
             timePicker.setMinimumSize(timePicker.getMaximumSize());
             timePicker.setPreferredSize(new Dimension(450, 30));
 
-            schedulePanel = new JPanel(new GridLayout(6, 1));
+            schedulePanel = new JPanel(new GridLayout(8, 1));
             schedulePanel.setOpaque(false);
             schedulePanel.setBorder(new EmptyBorder(5, 5, 5, 5));
             schedulePanel.add(headerLabel);
             schedulePanel.add(studentNumberLabel);
             schedulePanel.add(studentNameLabel);
+            schedulePanel.add(sessionReason);
+            schedulePanel.add(sessionReasonField);
             schedulePanel.add(dateLabel);
             schedulePanel.add(datePanel);
             schedulePanel.add(timeLabel);
@@ -206,7 +215,7 @@ public class ScheduleSession extends JFrame{
         selectedSchedule[2] = Integer.parseInt((String) dayList.getSelectedItem());
         selectedSchedule[3] = timePicker.getValue();
         
-        new Schedule(studentNumberSelected, sessionScheduler, selectedSchedule);
+        new Schedule(studentNumberSelected, sessionScheduler, selectedSchedule, sessionReasonField.getText());
         new SearchPanel().refreshButtonActionPerformed(e);
         dispose();
     }

@@ -214,7 +214,7 @@ public class SearchPanel{
         DefaultListModel<String> listModel = new DefaultListModel<>();
         JList<String> sessionList = new JList<>(listModel);
         sessionList.setFont(compGui.componentFont);
-        String SQL = "SELECT * FROM SESSIONS_TABLE ORDER BY SESSION_TIME DESC";
+        String SQL = "SELECT * FROM STUDENT_RECORDS.SESSIONS_TABLE WHERE SESSION_ONGOING = TRUE ORDER BY SESSION_TIME DESC";
         
         try{
             Connection dbConnect = DBConnect.dbConnect();
@@ -229,7 +229,7 @@ public class SearchPanel{
                   scheduleAccomplished = "OPEN";
               }
                 
-                listModel.addElement(rs.getString("STUDENT_NO") + "   " + new SimpleDateFormat("MMM dd, yyyy 'at' hh aa").format((rs.getTimestamp("SESSION_TIME"))) + "   Status: "+scheduleAccomplished+"");
+                listModel.addElement(rs.getString("SESSION_ID") + "   " + rs.getString("STUDENT_NO") + "   " + new SimpleDateFormat("MMM dd, yyyy 'at' hh aa").format((rs.getTimestamp("SESSION_TIME"))) + "   "+scheduleAccomplished+"");
             }
             
             sessionList.addListSelectionListener(new ListSelectionListener() {
@@ -268,19 +268,8 @@ public class SearchPanel{
     }
     
     private void accomplishButtonActionPerformed(ActionEvent e){
-        String SQL = "DELETE FROM SESSIONS_TABLE WHERE STUDENT_NO = ?";
-        try{
-            Connection dbConnect = DBConnect.dbConnect();
-            PreparedStatement queryStatement = dbConnect.prepareStatement(SQL);
-            queryStatement.setString(1, listSelectedValue.substring(0, 8));
-            queryStatement.executeUpdate();
-            
-            JOptionPane.showMessageDialog(null, "Session removed from database!");
-        }catch(Exception err){
-            JOptionPane.showMessageDialog(null, err);
-            err.printStackTrace();
-        }
-        
+        new SessionNotes(listSelectedValue.substring(10, 18));
+
     }
     
   
